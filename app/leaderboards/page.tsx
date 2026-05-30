@@ -1,22 +1,67 @@
-import Image from "next/image";
+import Link from "next/link";
 import { PageShell } from "../components/PageShell";
+import { GAME_TYPES } from "@/lib/db/game-types";
+import { getLeaderboard } from "@/lib/db/scores";
+import { LeaderboardTabs, type LeaderboardBoard } from "./LeaderboardTabs";
 
-export default function LeaderboardsPage() {
+export const dynamic = "force-dynamic";
+
+async function loadLeaderboards(): Promise<{
+  boards: LeaderboardBoard[];
+  loadError: boolean;
+}> {
+  try {
+    const boards = await Promise.all(
+      GAME_TYPES.map(async (gameType) => {
+        const entries = await getLeaderboard(gameType);
+        return {
+          gameType,
+          entries: entries.map((row) => ({
+            ...row,
+            createdAt: row.createdAt.toISOString(),
+          })),
+        };
+      }),
+    );
+    return { boards, loadError: false };
+  } catch (error) {
+    console.error("Leaderboard load failed:", error);
+    return {
+      boards: GAME_TYPES.map((gameType) => ({ gameType, entries: [] })),
+      loadError: true,
+    };
+  }
+}
+
+export default async function LeaderboardsPage() {
+  const { boards, loadError } = await loadLeaderboards();
+
   return (
     <PageShell>
-      <h1 className="font-serif text-4xl font-semibold text-white sm:text-5xl">
-        Global Leaderboard
-      </h1>
-      <div className="relative mt-8 aspect-video w-full max-w-3xl overflow-hidden rounded-2xl border border-white/10">
-        <Image
-          src="/Sahur2.webp"
-          alt="Global leaderboard"
-          fill
-          className="object-contain"
-          sizes="(max-width: 768px) 100vw, 768px"
-          priority
-        />
-      </div>
+      <header className="max-w-3xl">
+        <p className="font-mono text-xs font-medium uppercase tracking-widest text-white/90">
+          Rankings
+        </p>
+        <h1 className="mt-2 font-serif text-4xl font-semibold text-white sm:text-5xl">
+          Global Leaderboard
+        </h1>
+        <p className="mt-4 text-base text-white/85 sm:text-lg">
+          Top single-player scores across Speed Arithmetic, Integrals, and
+          Olympiad. Switch tabs to view each game mode.
+        </p>
+      </header>
+
+      <LeaderboardTabs boards={boards} loadError={loadError} />
+
+      <p className="mt-8 text-sm text-white/60">
+        Want to climb the board?{" "}
+        <Link
+          href="/games"
+          className="font-medium text-violet-300 underline-offset-2 hover:underline"
+        >
+          Play Maths Games
+        </Link>
+      </p>
     </PageShell>
   );
 }

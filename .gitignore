@@ -47,5 +47,9 @@ Desktop.ini
 *.swo
 *~
 
+# Prisma / local databases
+/prisma/*.db
+/prisma/*.db-journal
+
 # Optional: uncomment if you do not want to share Cursor-only local state
 # .cursor/

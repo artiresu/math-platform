@@ -1,0 +1,66 @@
+// Prisma schema — users (credentials + Google OAuth) and single-player scores
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Registered player — email/password and/or linked Google account
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  emailVerified DateTime?
+  image         String?
+  /// bcrypt hash; null when the user signs in only via Google
+  passwordHash  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  scores   Score[]
+
+  @@map("users")
+}
+
+/// OAuth provider linkage (Google and future providers)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+/// Single-player game result for leaderboards
+model Score {
+  id        String   @id @default(cuid())
+  userId    String
+  /// One of: speed-arithmetic | integrals | olympiad
+  gameType  String
+  score     Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([gameType, score])
+  @@index([userId, createdAt])
+  @@map("scores")
+}
