@@ -194,7 +194,7 @@ export function AlevelPracticeSection() {
             onTabChange={setActiveStudyTab}
             videoCaption="Watch standard A-Level walkthrough for this module"
             solutionIdPrefix="alevel"
-            visibleTabs={["notes", "video"]}
+            tabLabels={{ practice: "Practice Questions" }}
           />
         ) : (
           <div className="flex flex-1 items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-12 text-white">

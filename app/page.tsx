@@ -195,7 +195,7 @@ export default function Home() {
             </Link>
             ,{" "}
             <Link href="/games" className="font-medium text-white underline-offset-2 hover:underline">
-              Math Games
+              Maths Games
             </Link>
             , and{" "}
             <Link href="/leaderboards" className="font-medium text-white underline-offset-2 hover:underline">

@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Exam Prep", href: "/exam-prep" },
   { label: "Interview Prep", href: "/interview-prep" },
-  { label: "Math Games", href: "/games" },
+  { label: "Maths Games", href: "/games" },
   { label: "Leaderboards", href: "/leaderboards" },
 ] as const;
 

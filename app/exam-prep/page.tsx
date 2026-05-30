@@ -18,7 +18,7 @@ type Track = {
 const TRACKS: Track[] = [
   {
     id: "alevel",
-    title: "A-Level & Further Mathematics",
+    title: "A level Maths & Further Maths",
     subtext:
       "Master pure mathematics, calculus, matrices, complex numbers, and advanced mechanics.",
   },
@@ -961,7 +961,7 @@ function PracticeRoom({
           {track === "step"
             ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."
             : track === "alevel"
-              ? "Set your exam board, course, and year — then explore subtopics with revision notes and video walkthroughs."
+              ? "Set your exam board, course, and year — then explore subtopics with revision notes, video walkthroughs, and practice questions."
               : "Work through the question below. Use hints or solutions when you need a nudge — then return to the hub to switch tracks."}
         </p>
       </header>

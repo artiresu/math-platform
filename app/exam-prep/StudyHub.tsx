@@ -153,6 +153,7 @@ export function StudyHub({
   videoCaption,
   solutionIdPrefix = "study",
   visibleTabs,
+  tabLabels,
 }: {
   subtopic: StudySubtopic;
   activeStudyTab: StudyTabId;
@@ -161,10 +162,14 @@ export function StudyHub({
   solutionIdPrefix?: string;
   /** Defaults to all study tabs (notes, video, practice). */
   visibleTabs?: StudyTabId[];
+  tabLabels?: Partial<Record<StudyTabId, string>>;
 }) {
   const tabs = visibleTabs
     ? STUDY_TABS.filter((tab) => visibleTabs.includes(tab.id))
     : STUDY_TABS;
+
+  const labelFor = (tab: (typeof STUDY_TABS)[number]) =>
+    tabLabels?.[tab.id] ?? tab.label;
 
   return (
     <section
@@ -203,7 +208,7 @@ export function StudyHub({
                 }`}
               >
                 <span aria-hidden>{tab.icon} </span>
-                {tab.label}
+                {labelFor(tab)}
               </button>
             );
           })}
