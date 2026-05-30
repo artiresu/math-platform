@@ -12,7 +12,7 @@ export function PageShell({ children }: PageShellProps) {
         aria-hidden
       />
       <NavBar />
-      <main className="relative mx-auto max-w-6xl px-4 py-16 text-white sm:px-8 sm:py-20">
+      <main className="relative mx-auto max-w-7xl px-4 py-16 text-white sm:px-8 sm:py-20">
         {children}
       </main>
     </div>

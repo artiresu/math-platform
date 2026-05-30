@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Math Hub Platform
 
-## Getting Started
+The Ultimate University Maths Admissions Hub — a Next.js app for A-Level practice and UK university admissions prep (TMUA, STEP, and more).
 
-First, run the development server:
+## Features
+
+- Dark, responsive UI built with Tailwind CSS
+- KaTeX-rendered maths questions with step-by-step hints
+- Multi-page navigation:
+  - **Home** (`/`) — hero, sample TMUA-style logic question
+  - **Exam Prep** (`/exam-prep`) — admissions test practice (starter page)
+  - **Math Games** (`/games`) — quick puzzles (starter page)
+  - **Leaderboards** (`/leaderboards`) — global rankings (starter page)
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) 20+ (LTS recommended)
+- [Git](https://git-scm.com/)
+- npm (included with Node.js)
+
+## Getting started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/math-platform.git
+cd math-platform
+```
+
+Replace `YOUR_USERNAME` with the real GitHub org or username.
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment variables (optional)
+
+```bash
+copy .env.example .env.local
+```
+
+Edit `.env.local` if you add secrets later. Do **not** commit `.env.local`.
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The dev script is pinned to **port 3000**. If the page is blank, check that nothing else is using that port, or stop old `node` processes and restart.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 5. Production build (optional)
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+math-platform/
+├── app/
+│   ├── components/     # Shared UI (NavBar, SafeLatex, PageShell)
+│   ├── exam-prep/      # Exam prep route
+│   ├── games/          # Math games route
+│   ├── leaderboards/   # Leaderboards route
+│   ├── layout.tsx      # Root layout & fonts
+│   ├── page.tsx        # Homepage
+│   └── globals.css
+├── public/
+├── .vscode/            # Workspace settings (optional)
+└── package.json
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+| Command        | Description                    |
+|----------------|--------------------------------|
+| `npm run dev`  | Start dev server on port 3000  |
+| `npm run build`| Create production build        |
+| `npm start`    | Run production server          |
+| `npm run lint` | Run ESLint                     |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js 16](https://nextjs.org/) (App Router)
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- [KaTeX](https://katex.org/) for LaTeX rendering
+
+## Collaborating
+
+1. Ask the repo owner to add you as a **collaborator** on GitHub.
+2. Clone the repo and create a branch for your work:
+
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. Commit and push:
+
+   ```bash
+   git add .
+   git commit -m "Describe your change"
+   git push -u origin feature/your-feature-name
+   ```
+
+4. Open a **Pull Request** on GitHub for review before merging to `main`.
+
+### Tips
+
+- Never commit `node_modules/`, `.next/`, or `.env.local` (they are in `.gitignore`).
+- Pull latest `main` before starting new work: `git pull origin main`
+- On Windows, this repo includes `.vscode/settings.json` to default the terminal to **Command Prompt** if PowerShell causes npm issues.
+
+## Roadmap
+
+- [ ] Full Exam Prep content (TMUA, STEP)
+- [ ] Math Games mini-challenges
+- [ ] Global leaderboards
+
+## License
+
+Private / educational project — confirm licensing with the repository owner before public distribution.
