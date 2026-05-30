@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SafeLatex } from "../components/SafeLatex";
+import { CollapsibleReveal } from "../components/CollapsibleReveal";
+import { LatexPanel } from "../components/LatexPanel";
 import { STUDY_TABS, type StudySubtopic, type StudyTabId } from "./study-types";
 
 function SolutionPanel({
@@ -14,14 +15,11 @@ function SolutionPanel({
   panelId: string;
 }) {
   return (
-    <div
-      id={panelId}
-      className={`overflow-hidden transition-all duration-300 ease-out ${
-        open ? "max-h-[900px] opacity-100" : "max-h-0 opacity-0"
-      }`}
-      aria-hidden={!open}
-    >
-      <div className="space-y-4 rounded-xl border border-violet-400/25 bg-violet-500/10 p-5">
+    <CollapsibleReveal open={open} className={open ? "" : "!mt-0"}>
+      <div
+        id={panelId}
+        className="space-y-4 rounded-xl border border-violet-400/25 bg-violet-500/10 p-5"
+      >
         {steps.map((step, index) => (
           <div
             key={index}
@@ -29,16 +27,12 @@ function SolutionPanel({
           >
             <h3 className="text-sm font-semibold text-white">{step.title}</h3>
             <div className="mt-2 text-white">
-              <SafeLatex
-                tex={step.tex}
-                displayMode
-                className="block [&_.katex]:text-white"
-              />
+              <LatexPanel tex={step.tex} displayMode />
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </CollapsibleReveal>
   );
 }
 
@@ -62,12 +56,8 @@ function StudyHubNotes({ subtopic }: { subtopic: StudySubtopic }) {
             </p>
           ))}
           {section.formulaTex && (
-            <div className="mt-4 overflow-x-auto rounded-lg border border-violet-400/20 bg-violet-500/10 px-4 py-4">
-              <SafeLatex
-                tex={section.formulaTex}
-                displayMode
-                className="block text-white [&_.katex]:text-white"
-              />
+            <div className="mt-4 rounded-lg border border-violet-400/20 bg-violet-500/10 px-4 py-4">
+              <LatexPanel tex={section.formulaTex} displayMode />
             </div>
           )}
         </article>
@@ -124,13 +114,13 @@ function StudyHubPractice({
       <p className="text-sm font-medium text-white">
         {subtopic.practice.paperLabel}
       </p>
-      <div className="mt-6 space-y-5 text-base sm:text-lg">
+      <div className="mt-6 space-y-6 text-base sm:text-lg">
         {subtopic.practice.parts.map((tex, index) => (
-          <SafeLatex
+          <LatexPanel
             key={index}
             tex={tex}
             displayMode
-            className="block [&_.katex]:text-white"
+            boxed
           />
         ))}
       </div>

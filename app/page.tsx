@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { CollapsibleReveal } from "./components/CollapsibleReveal";
+import { LatexPanel } from "./components/LatexPanel";
 import { NavBar } from "./components/NavBar";
-import { SafeLatex } from "./components/SafeLatex";
 
 const EXAM_BADGES = ["TMUA", "STEP", "A-Level"] as const;
 const UNIVERSITIES = [
@@ -130,23 +131,15 @@ export default function Home() {
               </div>
 
               <div className="space-y-5 text-base text-white sm:space-y-6 sm:text-lg">
-                <p className="text-white [&_.katex]:text-white">
-                  <SafeLatex tex={QUESTION_LABEL} displayMode />
-                </p>
-                <div className="relative overflow-x-auto rounded-xl border border-white/10 bg-black/60 px-4 py-5 sm:px-6 sm:py-6">
-                  <SafeLatex
-                    tex={QUESTION_MATH}
-                    displayMode
-                    className="block text-center text-lg text-white sm:text-2xl [&_.katex]:text-white"
-                  />
-                </div>
-                <p className="text-white">
-                  <SafeLatex
-                    tex={QUESTION_PROMPT}
-                    displayMode
-                    className="block [&_.katex]:text-white"
-                  />
-                </p>
+                <LatexPanel tex={QUESTION_LABEL} displayMode />
+                <LatexPanel
+                  tex={QUESTION_MATH}
+                  displayMode
+                  centered
+                  boxed
+                  className="text-lg sm:text-xl"
+                />
+                <LatexPanel tex={QUESTION_PROMPT} displayMode />
               </div>
 
               <div className="mt-8 flex flex-col gap-4 border-t border-white/10 pt-8 sm:mt-10 sm:flex-row sm:items-center">
@@ -166,18 +159,13 @@ export default function Home() {
                 </p>
               </div>
 
-              <div
-                id="question-hint"
-                role="region"
-                aria-live="polite"
-                className={`overflow-hidden transition-all duration-300 ease-out ${
-                  hintVisible
-                    ? "mt-6 max-h-[720px] opacity-100"
-                    : "max-h-0 opacity-0"
-                }`}
-                aria-hidden={!hintVisible}
-              >
-                <div className="rounded-xl border border-amber-400/25 bg-amber-500/10 p-5 sm:p-6">
+              <CollapsibleReveal open={hintVisible} className={hintVisible ? "" : "!mt-0"}>
+                <div
+                  id="question-hint"
+                  role="region"
+                  aria-live="polite"
+                  className="rounded-xl border border-amber-400/25 bg-amber-500/10 p-5 sm:p-6"
+                >
                   <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-white">
                     Hint
                   </h3>
@@ -187,16 +175,14 @@ export default function Home() {
                         <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-bold text-white">
                           {index + 1}
                         </span>
-                        <SafeLatex
-                          tex={step}
-                          displayMode
-                          className="min-w-0 flex-1 pt-0.5 text-white [&_.katex]:text-white"
-                        />
+                        <div className="min-w-0 flex-1 pt-0.5">
+                          <LatexPanel tex={step} displayMode />
+                        </div>
                       </li>
                     ))}
                   </ol>
                 </div>
-              </div>
+              </CollapsibleReveal>
             </article>
           </div>
         </section>

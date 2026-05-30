@@ -695,7 +695,7 @@ function StepMainTopicNav({
 }) {
   return (
     <nav
-      className="flex gap-2 overflow-x-auto border-b border-white/10 pb-4"
+      className="flex flex-wrap gap-2 border-b border-white/10 pb-4"
       aria-label="STEP main topics"
     >
       {STEP_TOPICS.map((topic) => {
@@ -891,10 +891,12 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
                   className={optionClass}
                 >
                   <span className="font-semibold text-white">{opt.id}.</span>{" "}
-                  <SafeLatex
-                    tex={opt.label}
-                    className="[&_.katex]:text-white"
-                  />
+                  <span className="latex-panel min-w-0 flex-1">
+                    <SafeLatex
+                      tex={opt.label}
+                      className="[&_.katex]:text-white"
+                    />
+                  </span>
                 </button>
               );
             })}

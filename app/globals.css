@@ -31,3 +31,50 @@ body {
 .font-mono {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
+
+/* Math / text panels: grow vertically; avoid horizontal scrollbars in content boxes */
+.latex-panel {
+  overflow: visible;
+}
+
+.latex-panel .katex-display {
+  display: block;
+  margin: 0.5rem 0;
+  overflow: visible;
+  width: 100%;
+  max-width: 100%;
+  text-align: inherit;
+}
+
+.latex-panel .katex-display > .katex {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(0.8rem, 2.2vw, 1.05rem);
+  line-height: 1.65;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-align: inherit;
+}
+
+.latex-panel--center .katex-display > .katex {
+  text-align: center;
+}
+
+.latex-panel .katex {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.latex-panel--compact .katex-display > .katex {
+  font-size: clamp(0.65rem, 2.8vw, 0.9rem);
+}
+
+/* Inline math inside interview paragraphs */
+.interview-paragraph .katex {
+  font-size: 1em;
+  white-space: normal;
+}

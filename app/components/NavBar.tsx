@@ -74,7 +74,7 @@ export function NavBar() {
       </div>
 
       <nav
-        className="flex gap-1 overflow-x-auto border-t border-white/10 px-3 py-2 lg:hidden"
+        className="flex flex-wrap gap-1 border-t border-white/10 px-3 py-2 lg:hidden"
         aria-label="Main navigation mobile"
       >
         {NAV_LINKS.map((link) => (

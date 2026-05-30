@@ -1,59 +1,222 @@
 "use client";
 
 import { useState } from "react";
+import { CollapsibleReveal } from "../components/CollapsibleReveal";
+import type { InterviewBlock } from "../components/InterviewContent";
+import { InterviewContent } from "../components/InterviewContent";
 import { PageShell } from "../components/PageShell";
-import { SafeLatex } from "../components/SafeLatex";
 
-const INTERVIEW_QUESTIONS = [
+const INTERVIEW_QUESTIONS: {
+  id: number;
+  title: string;
+  question: InterviewBlock[];
+  hint: InterviewBlock[];
+  approach: InterviewBlock[];
+}[] = [
   {
     id: 1,
     title: "The Graph Sketching Challenge",
-    questionTex:
-      "\\text{Sketch the graph of } y = x^x \\text{ for } x > 0. \\text{ How does it behave as } x \\to 0?",
-    hintTex:
-      "\\text{Try taking the natural logarithm of both sides } (\\ln y) \\text{ and find the stationary points using differentiation.}",
-    approachTex:
-      "\\text{The interviewer wants to see your thought process. Start by checking easy values (like } x=1\\text{). Then, use calculus to find the minimum point. For the limit as } x \\to 0\\text{, consider how fast powers drop compared to logs.}",
+    question: [
+      {
+        type: "paragraph",
+        parts: [
+          { kind: "text", value: "Sketch the graph of " },
+          { kind: "math", value: "y = x^x" },
+          { kind: "text", value: " for " },
+          { kind: "math", value: "x > 0" },
+          { kind: "text", value: "." },
+        ],
+      },
+      {
+        type: "paragraph",
+        parts: [
+          { kind: "text", value: "How does it behave as " },
+          { kind: "math", value: "x \\to 0" },
+          { kind: "text", value: "?" },
+        ],
+      },
+    ],
+    hint: [
+      {
+        type: "paragraph",
+        parts: [
+          { kind: "text", value: "Try taking the natural logarithm of both sides (" },
+          { kind: "math", value: "\\ln y" },
+          {
+            kind: "text",
+            value: ") and find the stationary points using differentiation.",
+          },
+        ],
+      },
+    ],
+    approach: [
+      {
+        type: "paragraph",
+        parts: [
+          {
+            kind: "text",
+            value:
+              "The interviewer wants to see your thought process. Start by checking easy values (like ",
+          },
+          { kind: "math", value: "x = 1" },
+          { kind: "text", value: ")." },
+        ],
+      },
+      {
+        type: "paragraph",
+        parts: [
+          { kind: "text", value: "Then, use calculus to find the minimum point. For the limit as " },
+          { kind: "math", value: "x \\to 0" },
+          {
+            kind: "text",
+            value: ", consider how fast powers drop compared to logs.",
+          },
+        ],
+      },
+    ],
   },
   {
     id: 2,
     title: "The Infinite Tower of Powers",
-    questionTex:
-      "\\text{If } x^{x^{x^{\\cdot^{\\cdot^{\\cdot}}}}} = 2\\text{, find the value of } x. \\text{ Is there a solution if the tower equals 4?}",
-    hintTex:
-      "\\text{Notice that the infinite tower in the exponent is identical to the whole expression itself.}",
-    approachTex:
-      "\\text{Substitute the value of the infinite part back into the equation to get } x^2 = 2. \\text{ However, when exploring if it can equal 4, look closely at the convergence limits of the function } f(y) = y^{1/y}.",
+    question: [
+      {
+        type: "latex",
+        compact: true,
+        displayMode: true,
+        tex: "x^{x^{x^{\\cdot^{\\cdot^{\\cdot}}}}}",
+      },
+      {
+        type: "paragraph",
+        parts: [
+          { kind: "text", value: "If the infinite power tower above equals " },
+          { kind: "math", value: "2" },
+          { kind: "text", value: ", find the value of " },
+          { kind: "math", value: "x" },
+          { kind: "text", value: "." },
+        ],
+      },
+      {
+        type: "paragraph",
+        parts: [
+          { kind: "text", value: "Is there a solution if the tower equals " },
+          { kind: "math", value: "4" },
+          { kind: "text", value: "?" },
+        ],
+      },
+    ],
+    hint: [
+      {
+        type: "text",
+        text: "Notice that the infinite tower in the exponent is identical to the whole expression itself.",
+      },
+    ],
+    approach: [
+      {
+        type: "paragraph",
+        parts: [
+          {
+            kind: "text",
+            value:
+              "Substitute the value of the infinite part back into the equation to get ",
+          },
+          { kind: "math", value: "x^2 = 2" },
+          { kind: "text", value: "." },
+        ],
+      },
+      {
+        type: "paragraph",
+        parts: [
+          { kind: "text", value: "When exploring if it can equal " },
+          { kind: "math", value: "4" },
+          { kind: "text", value: ", look closely at the convergence limits of " },
+          { kind: "math", value: "f(y) = y^{1/y}" },
+          { kind: "text", value: "." },
+        ],
+      },
+    ],
   },
   {
     id: 3,
     title: "Logic & Hats",
-    questionTex:
-      "\\text{100 logicians are standing in a line, each wearing a red or blue hat. They can only see the hats of the people in front of them. Starting from the back, each must guess their own hat color. If they guess wrong, they are eliminated. They can agree on a strategy beforehand. What is the maximum number of logicians that can be guaranteed to survive?}",
-    hintTex:
-      "\\text{The person at the very back can see 99 hats. Can they use parity (odd/even counting) to pass information?}",
-    approachTex:
-      "\\text{The first person sacrifices themselves to give information about whether the number of red hats in front is odd or even. Everyone else can then deduce their own hat color based on what they see and what they've heard.}",
+    question: [
+      {
+        type: "text",
+        text: "100 logicians are standing in a line, each wearing a red or blue hat. They can only see the hats of the people in front of them.",
+      },
+      {
+        type: "text",
+        text: "Starting from the back, each must guess their own hat color. If they guess wrong, they are eliminated. They can agree on a strategy beforehand.",
+      },
+      {
+        type: "text",
+        text: "What is the maximum number of logicians that can be guaranteed to survive?",
+      },
+    ],
+    hint: [
+      {
+        type: "text",
+        text: "The person at the very back can see 99 hats. Can they use parity (odd/even counting) to pass information?",
+      },
+    ],
+    approach: [
+      {
+        type: "text",
+        text: "The first person sacrifices themselves to give information about whether the number of red hats in front is odd or even.",
+      },
+      {
+        type: "text",
+        text: "Everyone else can then deduce their own hat color based on what they see and what they've heard.",
+      },
+    ],
   },
-] as const;
+];
 
-const INTERVIEW_TIPS = [
+const INTERVIEW_TIPS: { title: string; body: InterviewBlock[] }[] = [
   {
     title: "Think Out Loud",
-    bodyTex:
-      "\\text{Interviewers don't care about just the final answer; they want to hear your logic stream. If you stay silent for 2 minutes, they cannot grade your mathematical capabilities.}",
+    body: [
+      {
+        type: "text",
+        text: "Interviewers don't care about just the final answer; they want to hear your logic stream.",
+      },
+      {
+        type: "text",
+        text: "If you stay silent for 2 minutes, they cannot grade your mathematical capabilities.",
+      },
+    ],
   },
   {
     title: "Sanity Check Simple Cases",
-    bodyTex:
-      "\\text{If handed a highly complex function or structure, plug in numbers like } 0, 1\\text{, or look for symmetries before running straight into brute-force algebra.}",
+    body: [
+      {
+        type: "paragraph",
+        parts: [
+          {
+            kind: "text",
+            value:
+              "If handed a highly complex function or structure, plug in numbers like ",
+          },
+          { kind: "math", value: "0" },
+          { kind: "text", value: ", " },
+          { kind: "math", value: "1" },
+          {
+            kind: "text",
+            value: ", or look for symmetries before running straight into brute-force algebra.",
+          },
+        ],
+      },
+    ],
   },
   {
     title: "Welcome Hints",
-    bodyTex:
-      "\\text{If an interviewer gives you a hint, use it! They intentionally push you until you get stuck to see how you respond to new data and guidance.}",
+    body: [
+      {
+        type: "text",
+        text: "If an interviewer gives you a hint, use it! They intentionally push you until you get stuck to see how you respond to new data and guidance.",
+      },
+    ],
   },
-] as const;
+];
 
 type TabId = "questions" | "tips";
 
@@ -132,14 +295,14 @@ export default function InterviewPrepPage() {
       </nav>
 
       {activeTab === "questions" ? (
-        <div className="mt-8 max-w-4xl space-y-6">
+        <div className="mt-8 w-full min-w-0 max-w-4xl space-y-6">
           <p className="font-mono text-[10px] font-medium uppercase tracking-widest text-white">
             Sample prompts
           </p>
           {INTERVIEW_QUESTIONS.map((q) => (
             <article
               key={q.id}
-              className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/90 to-black/80 p-6 backdrop-blur-md sm:p-8"
+              className="relative w-full min-w-0 overflow-x-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/90 to-black/80 p-6 backdrop-blur-md sm:p-8"
             >
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -148,12 +311,8 @@ export default function InterviewPrepPage() {
               <h2 className="font-serif text-xl font-semibold text-white sm:text-2xl">
                 {q.title}
               </h2>
-              <div className="mt-5 overflow-x-auto rounded-xl border border-white/10 bg-black/60 px-4 py-5 sm:px-6 sm:py-6">
-                <SafeLatex
-                  tex={q.questionTex}
-                  displayMode
-                  className="block text-base text-white sm:text-lg [&_.katex]:text-white"
-                />
+              <div className="mt-5 min-w-0">
+                <InterviewContent blocks={q.question} boxed />
               </div>
 
               <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:flex-wrap sm:items-center">
@@ -177,55 +336,33 @@ export default function InterviewPrepPage() {
                 </button>
               </div>
 
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-out ${
-                  revealedHints[q.id]
-                    ? "mt-6 max-h-[480px] opacity-100"
-                    : "max-h-0 opacity-0"
-                }`}
-                aria-hidden={!revealedHints[q.id]}
-              >
-                <div className="rounded-xl border border-amber-400/25 bg-amber-500/10 p-5 sm:p-6">
+              <CollapsibleReveal open={!!revealedHints[q.id]}>
+                <div className="min-w-0 overflow-x-hidden rounded-xl border border-amber-400/25 bg-amber-500/10 p-5 sm:p-6">
                   <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-white">
                     Hint
                   </h3>
-                  <div className="mt-3 text-sm text-white sm:text-[15px]">
-                    <SafeLatex
-                      tex={q.hintTex}
-                      displayMode
-                      className="block [&_.katex]:text-white"
-                    />
+                  <div className="mt-3 min-w-0">
+                    <InterviewContent blocks={q.hint} />
                   </div>
                 </div>
-              </div>
+              </CollapsibleReveal>
 
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-out ${
-                  revealedApproaches[q.id]
-                    ? "mt-6 max-h-[560px] opacity-100"
-                    : "max-h-0 opacity-0"
-                }`}
-                aria-hidden={!revealedApproaches[q.id]}
-              >
-                <div className="rounded-xl border border-violet-400/25 bg-violet-500/10 p-5 sm:p-6">
+              <CollapsibleReveal open={!!revealedApproaches[q.id]}>
+                <div className="min-w-0 overflow-x-hidden rounded-xl border border-violet-400/25 bg-violet-500/10 p-5 sm:p-6">
                   <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-white">
                     Interviewer perspective
                   </h3>
-                  <div className="mt-3 text-sm text-white sm:text-[15px]">
-                    <SafeLatex
-                      tex={q.approachTex}
-                      displayMode
-                      className="block [&_.katex]:text-white"
-                    />
+                  <div className="mt-3 min-w-0">
+                    <InterviewContent blocks={q.approach} />
                   </div>
                 </div>
-              </div>
+              </CollapsibleReveal>
             </article>
           ))}
         </div>
       ) : (
         <section
-          className="mt-8 max-w-4xl rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/80 to-black/60 p-6 sm:p-8"
+          className="mt-8 w-full min-w-0 max-w-4xl overflow-x-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/80 to-black/60 p-6 sm:p-8"
           aria-labelledby="interview-tips-title"
         >
           <h2
@@ -236,17 +373,14 @@ export default function InterviewPrepPage() {
           </h2>
           <ul className="mt-8 space-y-6">
             {INTERVIEW_TIPS.map((tip, index) => (
-              <li key={tip.title} className="flex gap-4">
+              <li key={tip.title} className="flex min-w-0 gap-4">
                 <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs font-bold text-white">
                   {index + 1}
                 </span>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-semibold text-white">{tip.title}</h3>
-                  <div className="mt-2 text-sm leading-relaxed text-white sm:text-base">
-                    <SafeLatex
-                      tex={tip.bodyTex}
-                      className="[&_.katex]:text-white"
-                    />
+                  <div className="mt-2 min-w-0">
+                    <InterviewContent blocks={tip.body} />
                   </div>
                 </div>
               </li>
