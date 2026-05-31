@@ -266,15 +266,15 @@ export function getSubtopicDescriptionForBoard(
     "Graphs and Transformations": "Cubic, quartic, and reciprocal graphs; sketching curves with f(x) transformations.",
     "Coordinate Geometry": "Straight line equations, parallel/perpendicular lines, and the coordinate geometry of circles.",
     "Binomial Expansion": year === "year1"
-      ? "Expanding (1 + x)^n for positive integer n, notations, and calculating coefficients."
-      : "Expanding (1 + x)^n for negative or fractional n, including structural convergence domains.",
-    "Trigonometry": "Sine/cosine rules, trigonometric identities (sin^2 + cos^2 = 1, tan = sin/cos), and solving equations.",
+      ? "Expanding (1 + x)ⁿ for positive integer n, notations, and calculating coefficients."
+      : "Expanding (1 + x)ⁿ for negative or fractional n, including structural convergence domains.",
+    "Trigonometry": "Sine/cosine rules, trigonometric identities (sin² + cos² = 1, tan = sin/cos), and solving equations.",
     "Exponentials and Logarithms": "Laws of logarithms, solving exponential equations, and modeling growth/decay.",
     "Differentiation": year === "year1"
-      ? "First principles, differentiating x^n, gradients, tangents, normals, and turning points."
+      ? "First principles, differentiating xⁿ, gradients, tangents, normals, and turning points."
       : "Chain rule, product rule, quotient rule, differentiating exponentials, logs, trig, and implicit curves.",
     "Integration": year === "year1"
-      ? "Fundamental Theorem of Calculus, indefinite/definite integration of x^n, and area under a curve."
+      ? "Fundamental Theorem of Calculus, indefinite/definite integration of xⁿ, and area under a curve."
       : "Integration by substitution, integration by parts, partial fractions integration, and differential equations.",
     "2D Vectors": "Working with column vectors, i and j notation, magnitudes, unit vectors, and displacement.",
 
@@ -282,7 +282,7 @@ export function getSubtopicDescriptionForBoard(
     "Partial Fractions": "Decomposing rational expressions with linear and repeated algebraic denominators.",
     "Functions": "Domain and range, composite functions, inverse functions, and modulus graphs |y| = f(|x|).",
     "Sequences and Series": "Arithmetic and geometric progressions, sigma notation, and infinite convergent series.",
-    "Radians": "Arc length, sector areas, and small-angle approximations (sin x ≈ x, cos x ≈ 1 - x^2/2).",
+    "Radians": "Arc length, sector areas, and small-angle approximations (sin x ≈ x, cos x ≈ 1 - x²/2).",
     "Trigonometric Functions": "Secant, cosecant, and cotangent functions, inverse trig, and compound/double-angle formulae.",
     "Parametric Equations": "Converting parametric curves into cartesian form, curve sketching, and coordinate modeling.",
     "Numerical Methods": "Locating roots by sign changes, cobweb/staircase iterations, and the Newton-Raphson method.",
