@@ -35,9 +35,18 @@ export function parsePastPapers(): PastPaper[] {
         yearIdx = 1;
       } else if (rawBoard === "ocr") {
         const ocrType = parts[1].toLowerCase();
-        if (ocrType === "a") board = "ocra";
-        else board = "ocrb";
-        yearIdx = 2;
+        if (ocrType === "a") {
+          board = "ocra";
+          yearIdx = 2;
+        } else {
+          board = "ocrb";
+          // If it is OCR_B_MEI_Year_...
+          if (parts[2] && parts[2].toLowerCase() === "mei") {
+            yearIdx = 3;
+          } else {
+            yearIdx = 2;
+          }
+        }
       }
 
       // 2. Parse Year
