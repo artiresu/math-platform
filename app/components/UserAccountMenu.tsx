@@ -210,12 +210,16 @@ export function UserAccountMenu() {
             </button>
           </div>
 
-          {/* 1. Profile Picture Selector (Aesthetic Math Glyphs) */}
+          {/* 1. Customise Profile (Avatar & Image Upload) */}
           <div className="mt-4 border-t border-slate-200/60 dark:border-white/10 pt-4">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-white/40">
-              Select Math Avatar
+            <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+              Customise Profile
+            </h4>
+            <p className="mt-0.5 text-[10px] text-slate-500 dark:text-white/40">
+              Select a mathematical archetype or upload your own picture
             </p>
-            <div className="mt-2.5 grid grid-cols-4 gap-2">
+
+            <div className="mt-3 grid grid-cols-4 gap-2">
               {MATH_AVATARS.map((avatar) => {
                 const isSelected = profile.avatarId === avatar.id;
                 return (
@@ -249,7 +253,7 @@ export function UserAccountMenu() {
 
             {/* Custom Image Upload Trigger */}
             <div className="mt-3.5 flex items-center justify-between gap-3 border-t border-dashed border-slate-200/60 dark:border-white/10 pt-3">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-white/40">
+              <span className="text-[10px] font-semibold text-slate-500 dark:text-white/40">
                 Or Upload Picture
               </span>
               <label className="relative flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-250 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/15 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10 shadow-sm">
