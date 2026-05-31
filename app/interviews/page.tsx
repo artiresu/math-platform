@@ -33,8 +33,8 @@ export default function InterviewsPage() {
     }
 
     if (!isUnlocked) {
-      // Locked state overlay styling (gradient still visible, but dimmed and disabled)
-      return `${baseClass} opacity-30 dark:opacity-40 cursor-not-allowed border-dashed`;
+      // Locked state overlay styling (gradient still visible, but slightly dimmed and disabled)
+      return `${baseClass} opacity-65 dark:opacity-75 cursor-not-allowed border-dashed`;
     }
 
     if (isCompleted) {
@@ -114,8 +114,8 @@ export default function InterviewsPage() {
                     title="Locked - Complete the previous level to unlock!"
                   >
                     <span className="relative z-10 text-[10px] flex flex-col items-center gap-0.5">
-                      <span className="text-slate-400 dark:text-slate-750 opacity-40">{level}</span>
-                      <span className="text-xs opacity-50">🔒</span>
+                      <span className="text-slate-700 dark:text-slate-300 font-extrabold opacity-100">{level}</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400 opacity-100">🔒</span>
                     </span>
                   </div>
                 );
