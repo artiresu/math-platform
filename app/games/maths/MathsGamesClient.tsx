@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -471,15 +471,15 @@ export default function MathsGamesClient() {
       <div className="mx-auto max-w-4xl">
         <Link
           href="/games"
-          className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50/50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-100"
+          className="inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
         >
           ← All games
         </Link>
         <header className="mt-6">
-          <h1 className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
+          <h1 className="font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
             Maths Games
           </h1>
-          <p className="mt-3 max-w-2xl text-base text-slate-650 sm:text-lg">
+          <p className="mt-3 max-w-2xl text-base text-slate-600 dark:text-slate-400 sm:text-lg">
             Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
             3-question races — solo for time, multiplayer first to 2 points.
           </p>
@@ -488,7 +488,7 @@ export default function MathsGamesClient() {
         <section className="mt-10" aria-labelledby="mode-heading">
           <h2
             id="mode-heading"
-            className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900"
+            className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900 dark:text-slate-400"
           >
             Game mode
           </h2>
@@ -517,8 +517,8 @@ export default function MathsGamesClient() {
                   }}
                   className={`rounded-xl border px-5 py-2.5 text-sm font-semibold transition ${
                     active
-                      ? "border-violet-500/30 bg-violet-500/5 text-violet-700 shadow-sm"
-                      : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100"
+                      ? "border-violet-500/30 dark:border-violet-500/50 bg-violet-500/5 dark:bg-violet-500/20 text-violet-750 dark:text-violet-300 shadow-sm"
+                      : "border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-slate-750 dark:text-slate-300 hover:border-slate-350 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
                   } disabled:opacity-50`}
                 >
                   {m.label}
@@ -539,13 +539,13 @@ export default function MathsGamesClient() {
 
         {matchmaking && (
           <section
-            className="mt-10 rounded-2xl border border-slate-200/80 bg-white/80 p-10 text-center shadow-md backdrop-blur-md"
+            className="mt-10 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 p-10 text-center shadow-md backdrop-blur-md"
           >
             <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" />
-            <p className="mt-4 font-serif text-xl font-semibold text-slate-950">
-              Finding a matchÔÇª
+            <p className="mt-4 font-serif text-xl font-semibold text-slate-950 dark:text-white">
+              Finding a match…
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
               Pairing you with an opponent in your skill band.
             </p>
           </section>
@@ -558,7 +558,7 @@ export default function MathsGamesClient() {
           >
             <h2
               id="topic-heading"
-              className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900"
+              className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900 dark:text-slate-400"
             >
               Choose a topic
             </h2>
@@ -570,14 +570,14 @@ export default function MathsGamesClient() {
                   onClick={() => startSinglePlayer(t.id)}
                   className={`group rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition hover:scale-[1.02] hover:border-violet-500/20 shadow-sm ${t.accent}`}
                 >
-                  <h3 className="font-serif text-xl font-bold text-slate-900">
+                  <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-slate-100">
                     {t.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                  <p className="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                     {t.description}
                   </p>
-                  <span className="mt-4 inline-block text-xs font-semibold uppercase tracking-wider text-violet-750">
-                    Play ÔåÆ
+                  <span className="mt-4 inline-block text-xs font-semibold uppercase tracking-wider text-violet-750 dark:text-violet-300">
+                    Play →
                   </span>
                 </button>
               ))}
@@ -587,17 +587,17 @@ export default function MathsGamesClient() {
 
         {phase === "playing" && question && topic && (
           <section
-            className="mt-10 rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-md backdrop-blur-md sm:p-8"
+            className="mt-10 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/85 p-6 shadow-md backdrop-blur-md sm:p-8"
             aria-live="polite"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+                <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
                   {TOPICS.find((t) => t.id === topic)?.title}
                   {mode === "multiplayer" && " · Live match"}
                   {isRace && ` · Question ${roundIndex + 1} of ${RACE_QUESTION_COUNT}`}
                 </p>
-                <p className="mt-1 text-2xl font-extrabold tabular-nums text-slate-950">
+                <p className="mt-1 text-2xl font-extrabold tabular-nums text-slate-950 dark:text-white">
                   {isRace && mode === "multiplayer"
                     ? `You ${playerPoints} — ${opponentName} ${opponentPoints}`
                     : isRace
@@ -605,21 +605,21 @@ export default function MathsGamesClient() {
                       : `Score: ${score}`}
                 </p>
                 {isRace && mode === "single" && (
-                  <p className="mt-1 text-sm text-slate-500">
+                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                     Completed: {roundIndex} / {RACE_QUESTION_COUNT}
                   </p>
                 )}
               </div>
               <div className="flex items-start gap-3">
                 <div className="min-w-[140px] text-right">
-                  <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     {isSprint ? "Time left" : "Elapsed"}
                   </p>
                   <p
                     className={`mt-1 text-3xl font-extrabold tabular-nums ${
                       isSprint && timeLeft <= 10
-                        ? "text-red-650"
-                        : "text-slate-900"
+                        ? "text-red-650 dark:text-red-400"
+                        : "text-slate-900 dark:text-slate-100"
                      }`}
                   >
                     {isSprint ? `${timeLeft}s` : formatElapsed(elapsedMs)}
@@ -628,7 +628,7 @@ export default function MathsGamesClient() {
                 <button
                   type="button"
                   onClick={exitGame}
-                  className="rounded-xl border border-red-200 bg-red-50/50 px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:border-red-300 hover:bg-red-100"
+                  className="rounded-xl border border-red-200 dark:border-red-900 bg-red-50/50 dark:bg-red-950/20 px-4 py-2.5 text-sm font-semibold text-red-600 dark:text-red-400 transition hover:border-red-300 dark:hover:border-red-800 hover:bg-red-100 dark:hover:bg-red-950/40"
                 >
                   Exit
                 </button>
@@ -636,26 +636,26 @@ export default function MathsGamesClient() {
             </div>
 
             {mode === "multiplayer" && (
-              <div className="mt-4 grid grid-cols-2 gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+              <div className="mt-4 grid grid-cols-2 gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-4">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-violet-700">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-violet-700 dark:text-violet-400">
                     You
                   </p>
-                  <p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">
+                  <p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900 dark:text-slate-100">
                     {isRace ? `${playerPoints} / ${RACE_WIN_POINTS}` : score}
                   </p>
                   {isRace && (
-                    <p className="text-[10px] text-slate-400">points to win</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500">points to win</p>
                   )}
                 </div>
                 <div className="text-right">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-cyan-700">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-400">
                     {opponentName}
                     {opponentConnected && (
                       <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                     )}
                   </p>
-                  <p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">
+                  <p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900 dark:text-slate-100">
                     {isRace ? `${opponentPoints} / ${RACE_WIN_POINTS}` : opponentScore}
                   </p>
                 </div>
@@ -664,7 +664,7 @@ export default function MathsGamesClient() {
 
             {isSprint && (
               <div
-                className="mt-4 h-1.5 overflow-hidden rounded-full bg-slate-100"
+                className="mt-4 h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"
                 role="progressbar"
                 aria-valuenow={timeLeft}
                 aria-valuemin={0}
@@ -682,31 +682,31 @@ export default function MathsGamesClient() {
             )}
 
             {isRace && mode === "multiplayer" && (
-              <p className="mt-4 text-center text-xs text-slate-500">
+              <p className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
                 First correct answer wins the round · First to {RACE_WIN_POINTS}{" "}
                 points wins the match
               </p>
             )}
 
             {roundMessage && (
-              <p className="mt-4 rounded-lg border border-violet-500/20 bg-violet-500/5 px-4 py-3 text-center text-sm font-semibold text-violet-750">
+              <p className="mt-4 rounded-lg border border-violet-500/20 dark:border-violet-500/40 bg-violet-500/5 dark:bg-violet-500/20 px-4 py-3 text-center text-sm font-semibold text-violet-750 dark:text-violet-300">
                 {roundMessage}
               </p>
             )}
 
-            <div className="mt-10 rounded-xl border border-slate-200 bg-slate-50/50 p-6 sm:p-8">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+            <div className="mt-10 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-6 sm:p-8">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
                 {isRace ? `Question ${roundIndex + 1}` : "Question"}
               </p>
               <div className="mt-4 flex min-h-[4rem] items-center justify-center overflow-x-auto">
                 <SafeLatex
                   tex={question.promptTex}
                   displayMode
-                  className="text-lg sm:text-xl [&_.katex]:text-slate-900"
+                  className="text-lg sm:text-xl [&_.katex]:text-slate-900 dark:[&_.katex]:text-slate-100"
                 />
               </div>
               {question.hint && (
-                <p className="mt-3 text-center text-xs text-slate-500">
+                <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
                   {question.hint}
                 </p>
               )}
@@ -721,11 +721,11 @@ export default function MathsGamesClient() {
             >
               <label
                 htmlFor="challenge-answer"
-                className="block text-sm font-semibold text-slate-900"
+                className="block text-sm font-semibold text-slate-900 dark:text-slate-300"
               >
                 Your answer
                 {topic === "arithmetic" && isSprint && (
-                  <span className="ml-2 text-xs font-normal text-slate-550">
+                  <span className="ml-2 text-xs font-normal text-slate-550 dark:text-slate-400">
                     (auto-submits when correct)
                   </span>
                 )}
@@ -744,12 +744,12 @@ export default function MathsGamesClient() {
                       ? "e.g. x - arctan(x) + C"
                       : "Enter your answer"
                   }
-                  className={`flex-1 rounded-xl border bg-slate-50 px-4 py-3 text-slate-950 placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 ${
+                  className={`flex-1 rounded-xl border bg-slate-50 px-4 py-3 text-slate-950 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 ${
                     feedback === "correct"
-                      ? "border-emerald-400/60"
+                      ? "border-emerald-400/60 dark:border-emerald-500/60"
                       : feedback === "wrong"
-                        ? "border-red-400/60"
-                        : "border-slate-200"
+                        ? "border-red-400/60 dark:border-red-500/60"
+                        : "border-slate-200 dark:border-slate-800"
                   }`}
                 />
                 {!(topic === "arithmetic" && isSprint) && (
@@ -766,8 +766,8 @@ export default function MathsGamesClient() {
                 <p
                   className={`mt-3 text-sm font-bold ${
                     feedback === "correct"
-                      ? "text-emerald-700"
-                      : "text-red-700"
+                      ? "text-emerald-700 dark:text-emerald-400"
+                      : "text-red-700 dark:text-red-400"
                   }`}
                 >
                   {feedback === "correct"
@@ -776,14 +776,14 @@ export default function MathsGamesClient() {
                 </p>
               )}
               {feedback && isRace && mode === "single" && feedback === "wrong" && (
-                <p className="mt-3 text-sm font-bold text-red-650">
+                <p className="mt-3 text-sm font-bold text-red-650 dark:text-red-400">
                   Not quite — try again
                 </p>
               )}
             </form>
 
             {isSprint && (
-              <p className="mt-4 text-center text-xs text-slate-500">
+              <p className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
                 +{CORRECT_POINTS} correct · −{WRONG_POINTS} incorrect ·{" "}
                 {questionsAnswered} answered
               </p>
@@ -861,14 +861,14 @@ function GameOverPanel({
 
   return (
     <section
-      className="mt-10 rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-md backdrop-blur-md sm:p-12"
+      className="mt-10 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 p-8 text-center shadow-md backdrop-blur-md sm:p-12"
       aria-labelledby="gameover-title"
     >
       <p
         className={`font-mono text-xs uppercase tracking-widest ${
           gameOverReason === "opponent_left" || gameOverReason === "race_win"
-            ? "text-emerald-700 font-bold"
-            : "text-violet-700 font-bold"
+            ? "text-emerald-700 dark:text-emerald-400 font-bold"
+            : "text-violet-750 dark:text-violet-300 font-bold"
         }`}
       >
         {gameOverReason === "opponent_left"
@@ -879,51 +879,51 @@ function GameOverPanel({
       </p>
       <h2
         id="gameover-title"
-        className="mt-3 font-serif text-3xl font-semibold text-slate-950 sm:text-4xl"
+        className="mt-3 font-serif text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl"
       >
         {title}
       </h2>
       {gameOverReason === "opponent_left" && opponentName && (
-        <p className="mt-3 text-sm text-slate-600">
+        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
           {opponentName} disconnected from the match.
         </p>
       )}
       {isRace && mode === "single" && gameOverReason === "race_complete" && (
         <>
-          <p className="mt-8 text-5xl font-extrabold tabular-nums text-slate-950">
+          <p className="mt-8 text-5xl font-extrabold tabular-nums text-slate-950 dark:text-white">
             {formatElapsed(elapsedMs)}
           </p>
-          <p className="mt-1 text-sm text-slate-500">Total time (3 questions)</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Total time (3 questions)</p>
         </>
       )}
       {isRace && mode === "multiplayer" && (
-        <p className="mt-8 text-4xl font-extrabold tabular-nums text-slate-900">
+        <p className="mt-8 text-4xl font-extrabold tabular-nums text-slate-900 dark:text-slate-100">
           {playerPoints} — {opponentPoints}
         </p>
       )}
       {!isRace && (
-        <p className="mt-8 text-5xl font-extrabold tabular-nums text-slate-950">{score}</p>
+        <p className="mt-8 text-5xl font-extrabold tabular-nums text-slate-950 dark:text-white">{score}</p>
       )}
-      {!isRace && <p className="mt-1 text-sm text-slate-500">Your score</p>}
+      {!isRace && <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Your score</p>}
       {mode === "multiplayer" && !isRace && (
-        <p className="mt-4 text-lg text-slate-700">
-          {opponentName}: <span className="font-bold text-slate-900">{opponentPoints}</span>
+        <p className="mt-4 text-lg text-slate-700 dark:text-slate-350">
+          {opponentName}: <span className="font-bold text-slate-900 dark:text-slate-100">{opponentPoints}</span>
         </p>
       )}
       {isRace && mode === "single" && (
-        <p className="mt-6 text-lg text-slate-700">
+        <p className="mt-6 text-lg text-slate-700 dark:text-slate-300">
           All <span className="font-semibold">{RACE_QUESTION_COUNT}</span> answered
           correctly in a row
         </p>
       )}
       {!isRace && (
-        <p className="mt-6 text-lg text-slate-700">
+        <p className="mt-6 text-lg text-slate-700 dark:text-slate-300">
           Questions answered:{" "}
           <span className="font-semibold">{questionsAnswered}</span>
         </p>
       )}
       {topic && (
-        <p className="mt-2 text-sm text-slate-500">
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
           Topic: {TOPICS.find((t) => t.id === topic)?.title}
         </p>
       )}
@@ -940,7 +940,7 @@ function GameOverPanel({
         <button
           type="button"
           onClick={onMenu}
-          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-8 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 sm:w-auto"
+          className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-8 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-slate-100 dark:hover:bg-slate-800 sm:w-auto"
         >
           {gameOverReason === "opponent_left" ? "Back to menu" : "Change topic"}
         </button>
@@ -956,36 +956,36 @@ function MultiplayerLobby({
 }) {
   return (
     <section
-      className="mt-10 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 p-6 shadow-md backdrop-blur-xl sm:p-8"
+      className="mt-10 overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 p-6 shadow-md backdrop-blur-xl sm:p-8"
       aria-labelledby="lobby-heading"
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-700">
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-750 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-450">
             <span className="relative flex h-2 w-2 rounded-full bg-emerald-500" />
             Live preview
           </span>
           <h2
             id="lobby-heading"
-            className="mt-4 font-serif text-2xl font-semibold text-slate-950 sm:text-3xl"
+            className="mt-4 font-serif text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl"
           >
             Matchmaking lobby
           </h2>
-          <p className="mt-2 max-w-md text-sm text-slate-650">
+          <p className="mt-2 max-w-md text-sm text-slate-650 dark:text-slate-400">
             Integrals &amp; Olympiad: 3 questions, first correct answer wins each
             round, first to 2 points wins. Arithmetic uses a 60s sprint.
           </p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-right">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 px-4 py-3 text-right">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
             Region
           </p>
-          <p className="text-sm font-semibold text-slate-900">EU-West</p>
+          <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">EU-West</p>
         </div>
       </div>
 
       <div className="mt-8">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+        <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
           Choose topic &amp; find match
         </p>
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -996,12 +996,12 @@ function MultiplayerLobby({
               onClick={() => onStartMatch(t.id)}
               className={`rounded-xl border bg-gradient-to-br p-5 text-left transition hover:border-violet-500/20 shadow-sm ${t.accent}`}
             >
-              <h3 className="font-serif text-lg font-bold text-slate-900">
+              <h3 className="font-serif text-lg font-bold text-slate-900 dark:text-slate-100">
                 {t.title}
               </h3>
-              <p className="mt-1 text-xs text-slate-700">{t.description}</p>
-              <span className="mt-3 inline-block text-xs font-semibold uppercase tracking-wider text-violet-750">
-                Find match ÔåÆ
+              <p className="mt-1 text-xs text-slate-700 dark:text-slate-350">{t.description}</p>
+              <span className="mt-3 inline-block text-xs font-semibold uppercase tracking-wider text-violet-750 dark:text-violet-300">
+                Find match →
               </span>
             </button>
           ))}
