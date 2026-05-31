@@ -150,7 +150,7 @@ export function AlevelPracticeSection() {
             {activeSubtopic.title}
           </h1>
           <p className="mt-3 text-base text-slate-600 dark:text-slate-400 sm:text-lg">
-            {getSubtopicDescription(activeSubtopic.title)}
+            {activeSubtopic.description || getSubtopicDescription(activeSubtopic.title)}
           </p>
         </header>
 
@@ -233,7 +233,7 @@ export function AlevelPracticeSection() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {subtopics.map((sub) => {
             const active = activeSubtopicId === sub.id;
-            const desc = getSubtopicDescription(sub.title);
+            const desc = sub.description || getSubtopicDescription(sub.title);
             return (
               <div
                 key={sub.id}

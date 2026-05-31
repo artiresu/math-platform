@@ -9,6 +9,7 @@ export type NoteSection = {
 export type StudySubtopic = {
   id: string;
   title: string;
+  description?: string;
   notes: NoteSection[];
   practice: {
     paperLabel: string;
