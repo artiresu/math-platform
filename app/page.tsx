@@ -62,12 +62,12 @@ export default function Home() {
             </div>
             
             <h1 className="font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl">
-              Master the Precision of Technical Reasoning.
+              Master Elite Mathematics & Ace University Admissions.
             </h1>
             
             <p className="max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
-              A sophisticated workspace for students and educators to tackle complex
-              mathematics and logic without the cognitive noise of traditional platforms.
+              A sophisticated workspace engineered for ambitious students to conquer the
+              STEP, TMUA, and MAT, securing places at world-class institutions like Cambridge, Oxford, and Imperial.
             </p>
             
             <div className="flex flex-wrap items-center gap-4 pt-2">
