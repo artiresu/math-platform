@@ -17,7 +17,7 @@ export function LatexPanel({
   className = "",
 }: LatexPanelProps) {
   const katexClass = [
-    "block w-full [&_.katex]:text-slate-950",
+    "block w-full [&_.katex]:text-slate-950 dark:[&_.katex]:text-slate-100",
     centered ? "[&_.katex-display]:text-center" : "[&_.katex-display]:text-left",
   ].join(" ");
 
@@ -27,7 +27,7 @@ export function LatexPanel({
         "latex-panel w-full min-w-0",
         centered ? "latex-panel--center" : "",
         boxed
-          ? "rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-6 sm:px-6 sm:py-8 shadow-sm"
+          ? "rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/40 px-4 py-6 sm:px-6 sm:py-8 shadow-sm"
           : "",
         className,
       ]
