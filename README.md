@@ -35,13 +35,25 @@ Replace `YOUR_USERNAME` with the real GitHub org or username.
 npm install
 ```
 
-### 3. Environment variables (optional)
+This runs **`prisma generate`** automatically (`postinstall`) and creates `node_modules/@prisma/client`. Without that step, `npm run build` fails with **Can't resolve '@prisma/client'**.
+
+Do **not** use `npm install --ignore-scripts` unless you know you need to — it skips Prisma client generation.
+
+### 3. Environment variables
 
 ```bash
-copy .env.example .env.local
+copy .env.example .env
 ```
 
-Edit `.env.local` if you add secrets later. Do **not** commit `.env.local`.
+On macOS/Linux: `cp .env.example .env`
+
+Use **`.env`** (not only `.env.local`): both Next.js and the Prisma CLI read it. The default `DATABASE_URL` points at a local SQLite file (`prisma/dev.db` after migrate). Auth and leaderboards need this for local testing. Do **not** commit `.env`.
+
+Optional — apply the database schema once:
+
+```bash
+npm run db:push
+```
 
 ### 4. Run the development server
 
@@ -79,12 +91,15 @@ math-platform/
 
 ## Scripts
 
-| Command        | Description                    |
-|----------------|--------------------------------|
-| `npm run dev`  | Start dev server on port 3000  |
-| `npm run build`| Create production build        |
-| `npm start`    | Run production server          |
-| `npm run lint` | Run ESLint                     |
+| Command              | Description                                      |
+|----------------------|--------------------------------------------------|
+| `npm run dev`        | Start dev server on port 3000 (runs `prisma generate` first) |
+| `npm run build`      | Create production build (runs `prisma generate` first)       |
+| `npm start`          | Run production server                            |
+| `npm run lint`       | Run ESLint                                       |
+| `npm run db:generate`| Regenerate Prisma client after schema changes      |
+| `npm run db:push`    | Push schema to local database                    |
+| `npm run db:studio`  | Open Prisma Studio                               |
 
 ## Tech stack
 
@@ -93,6 +108,7 @@ math-platform/
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS v4](https://tailwindcss.com/)
 - [KaTeX](https://katex.org/) for LaTeX rendering
+- [Prisma](https://www.prisma.io/) + SQLite/PostgreSQL for users and scores
 
 ## Collaborating
 
@@ -115,9 +131,18 @@ math-platform/
 
 ### Tips
 
-- Never commit `node_modules/`, `.next/`, or `.env.local` (they are in `.gitignore`).
+- Never commit `node_modules/`, `.next/`, or `.env` (they are in `.gitignore`).
 - Pull latest `main` before starting new work: `git pull origin main`
+- After `git pull`, if you see Prisma errors, run `npm install` (or `npm run db:generate`).
 - On Windows, this repo includes `.vscode/settings.json` to default the terminal to **Command Prompt** if PowerShell causes npm issues.
+
+### Build fails with `@prisma/client` not found?
+
+1. Run `npm install` from the repo root (not inside a subfolder).
+2. Then `npm run db:generate` if needed.
+3. Retry `npm run dev` or `npm run build`.
+
+The generated client is **not** committed to git; everyone generates it locally after install.
 
 ## Roadmap
 
