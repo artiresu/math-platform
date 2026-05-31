@@ -402,3 +402,10 @@ html:not([data-theme="dark"]) .page-shell button.bg-white:hover {
 html:not([data-theme="dark"]) .page-shell .text-violet-300 {
   color: #6d28d9 !important; /* Standout deep violet for usernames */
 }
+
+/* Ensure any bg-slate-950 dark button text remains high contrast white in Light Mode */
+html:not([data-theme="dark"]) .page-shell .bg-slate-950,
+html:not([data-theme="dark"]) .page-shell .bg-slate-950 * {
+  color: #ffffff !important;
+}
+
