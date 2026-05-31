@@ -29,7 +29,7 @@ function SelectorGroup<T extends string>({
 }) {
   return (
     <div>
-      <p className="mb-2 text-xs font-medium uppercase tracking-wider text-white">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-800">
         {label}
       </p>
       <div className="flex flex-wrap gap-2">
@@ -43,8 +43,8 @@ function SelectorGroup<T extends string>({
               aria-pressed={active}
               className={`rounded-lg border px-3 py-2 text-sm font-medium transition ${
                 active
-                  ? "border-cyan-400/60 bg-cyan-500/15 text-white"
-                  : "border-white/10 bg-white/5 text-white hover:border-white/25"
+                  ? "border-cyan-500/30 bg-cyan-500/5 text-cyan-700 shadow-sm font-semibold"
+                  : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100"
               }`}
             >
               {opt.label}
@@ -80,8 +80,8 @@ function SubtopicSidebar({
             aria-current={active ? "true" : undefined}
             className={`rounded-xl border px-4 py-3 text-left text-sm transition ${
               active
-                ? "border-cyan-400 bg-cyan-500/15 text-white ring-1 ring-cyan-400/30"
-                : "border-white/10 bg-white/5 text-white hover:border-white/20"
+                ? "border-cyan-500/35 bg-cyan-500/5 text-cyan-700 font-semibold shadow-sm"
+                : "border-slate-200 bg-slate-50/50 text-slate-750 hover:border-slate-350 hover:bg-slate-100"
             }`}
           >
             {sub.title}
@@ -132,8 +132,8 @@ export function AlevelPracticeSection() {
 
   return (
     <div className="space-y-8">
-      <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-        <p className="font-mono text-[10px] font-medium uppercase tracking-widest text-white">
+      <section className="rounded-2xl border border-slate-200/80 bg-white/80 p-5 sm:p-6 shadow-sm">
+        <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-cyan-600">
           Your profile
         </p>
         <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -159,7 +159,7 @@ export function AlevelPracticeSection() {
       </section>
 
       <nav
-        className="flex flex-wrap gap-2 border-b border-white/10 pb-4"
+        className="flex flex-wrap gap-2 border-b border-slate-200 pb-4"
         aria-label="Module components"
       >
         {ALEVEL_MODULES.map((mod) => {
@@ -172,8 +172,8 @@ export function AlevelPracticeSection() {
               aria-current={active ? "true" : undefined}
               className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
                 active
-                  ? "border-violet-400 bg-violet-500/20 text-white"
-                  : "border-white/10 bg-white/5 text-white hover:border-white/25"
+                  ? "border-violet-500/30 bg-violet-500/5 text-violet-700 shadow-sm font-semibold"
+                  : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100"
               }`}
             >
               {mod.label}
@@ -184,7 +184,7 @@ export function AlevelPracticeSection() {
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <aside className="lg:w-72 lg:shrink-0">
-          <p className="mb-3 font-mono text-[10px] font-medium uppercase tracking-widest text-white">
+          <p className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900">
             Subtopics · {subtopics.length} modules
           </p>
           <SubtopicSidebar
@@ -196,6 +196,7 @@ export function AlevelPracticeSection() {
 
         {activeSubtopic ? (
           <StudyHub
+            key={activeSubtopicId}
             subtopic={activeSubtopic}
             activeStudyTab={activeStudyTab}
             onTabChange={setActiveStudyTab}
@@ -204,7 +205,7 @@ export function AlevelPracticeSection() {
             tabLabels={{ practice: "Practice Questions" }}
           />
         ) : (
-          <div className="flex flex-1 items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-12 text-white">
+          <div className="flex flex-1 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50/50 p-12 text-slate-650">
             Select a subtopic to open the study hub.
           </div>
         )}

@@ -18,15 +18,15 @@ function SolutionPanel({
     <CollapsibleReveal open={open} className={open ? "" : "!mt-0"}>
       <div
         id={panelId}
-        className="space-y-4 rounded-xl border border-violet-400/25 bg-violet-500/10 p-5"
+        className="space-y-4 rounded-xl border border-violet-500/20 bg-violet-500/5 p-5"
       >
         {steps.map((step, index) => (
           <div
             key={index}
-            className="rounded-lg border border-white/10 bg-black/30 p-4"
+            className="rounded-lg border border-slate-200/80 bg-white p-4"
           >
-            <h3 className="text-sm font-semibold text-white">{step.title}</h3>
-            <div className="mt-2 text-white">
+            <h3 className="text-sm font-bold text-slate-900">{step.title}</h3>
+            <div className="mt-2 text-slate-800">
               <LatexPanel tex={step.tex} displayMode />
             </div>
           </div>
@@ -38,25 +38,25 @@ function SolutionPanel({
 
 function StudyHubNotes({ subtopic }: { subtopic: StudySubtopic }) {
   return (
-    <div className="space-y-6 text-white">
+    <div className="space-y-6 text-slate-800">
       {subtopic.notes.map((section, index) => (
         <article
           key={index}
-          className="rounded-xl border border-white/10 bg-black/30 p-5"
+          className="rounded-xl border border-slate-200/60 bg-slate-50/50 p-5"
         >
-          <h3 className="font-serif text-lg font-semibold text-white">
+          <h3 className="font-serif text-lg font-semibold text-slate-950">
             {section.heading}
           </h3>
           {section.paragraphs.map((para, i) => (
             <p
               key={i}
-              className="mt-3 text-sm leading-relaxed text-white sm:text-base"
+              className="mt-3 text-sm leading-relaxed text-slate-700 sm:text-base"
             >
               {para}
             </p>
           ))}
           {section.formulaTex && (
-            <div className="mt-4 rounded-lg border border-violet-400/20 bg-violet-500/10 px-4 py-4">
+            <div className="mt-4 rounded-lg border border-slate-200/60 bg-slate-50/80 px-4 py-4">
               <LatexPanel tex={section.formulaTex} displayMode />
             </div>
           )}
@@ -72,25 +72,25 @@ function StudyHubVideo({
 }: {
   subtopicTitle: string;
   caption: string;
-}) {
+ }) {
   return (
-    <div className="flex aspect-video flex-col items-center justify-center rounded-xl border border-white/10 bg-gradient-to-b from-slate-900 to-black px-6">
+    <div className="flex aspect-video flex-col items-center justify-center rounded-xl border border-slate-200 bg-slate-100 px-6">
       <div
-        className="flex h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-lg"
+        className="flex h-20 w-20 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm"
         aria-hidden
       >
         <svg
-          className="ml-1 h-8 w-8 text-white"
+          className="ml-1 h-8 w-8 text-slate-700"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
           <path d="M8 5v14l11-7z" />
         </svg>
       </div>
-      <p className="mt-6 max-w-md text-center text-base font-medium text-white sm:text-lg">
+      <p className="mt-6 max-w-md text-center text-base font-semibold text-slate-800 sm:text-lg">
         {caption}
       </p>
-      <p className="mt-2 text-center text-sm text-white">{subtopicTitle}</p>
+      <p className="mt-2 text-center text-sm text-slate-650">{subtopicTitle}</p>
     </div>
   );
 }
@@ -112,8 +112,8 @@ function StudyHubPractice({
   }
 
   return (
-    <div className="text-white">
-      <p className="text-sm font-medium text-white">
+    <div className="text-slate-800">
+      <p className="text-sm font-semibold text-slate-900">
         {subtopic.practice.paperLabel}
       </p>
       <div className="mt-6 space-y-6 text-base sm:text-lg">
@@ -123,6 +123,7 @@ function StudyHubPractice({
             tex={tex}
             displayMode
             boxed
+            className="border-slate-200 bg-slate-50/50 text-slate-900"
           />
         ))}
       </div>
@@ -175,16 +176,16 @@ export function StudyHub({
 
   return (
     <section
-      className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/90 to-black/70"
+      className="animate-box-glide min-w-0 flex-1 rounded-2xl border border-slate-200/80 bg-white/80 shadow-md"
       aria-labelledby="study-hub-title"
     >
-      <div className="border-b border-white/10 px-5 py-5 sm:px-6">
-        <p className="font-mono text-[10px] font-medium uppercase tracking-widest text-white">
+      <div className="border-b border-slate-200/60 px-5 py-5 sm:px-6">
+        <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-cyan-600">
           Study hub
         </p>
         <h2
           id="study-hub-title"
-          className="mt-1 font-serif text-xl font-semibold text-white sm:text-2xl"
+          className="mt-1 font-serif text-xl font-semibold text-slate-950 sm:text-2xl"
         >
           {subtopic.title}
         </h2>
@@ -205,8 +206,8 @@ export function StudyHub({
                 onClick={() => onTabChange(tab.id)}
                 className={`rounded-lg border px-3 py-2 text-sm font-medium transition sm:px-4 ${
                   isActive
-                    ? "border-violet-400 bg-violet-500/20 text-white"
-                    : "border-white/10 bg-white/5 text-white hover:border-white/20"
+                    ? "border-violet-500/30 bg-violet-500/5 text-violet-750 font-semibold shadow-sm"
+                    : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100"
                 }`}
               >
                 <span aria-hidden>{tab.icon} </span>

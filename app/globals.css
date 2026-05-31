@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020617;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #0f172a;
 }
 
 @theme inline {
@@ -78,3 +78,131 @@ body {
   font-size: 1em;
   white-space: normal;
 }
+
+/* Ultimate Awwwards-grade flowing neon drifting keyframes */
+@keyframes neon-drift-1 {
+  0% {
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(160px, -80px) scale(1.15) rotate(45deg);
+  }
+  50% {
+    transform: translate(80px, 140px) scale(0.9) rotate(90deg);
+  }
+  75% {
+    transform: translate(-120px, 60px) scale(1.05) rotate(135deg);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1) rotate(360deg);
+  }
+}
+
+@keyframes neon-drift-2 {
+  0% {
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(-140px, 100px) scale(1.1) rotate(-60deg);
+  }
+  66% {
+    transform: translate(120px, -120px) scale(0.95) rotate(120deg);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1) rotate(360deg);
+  }
+}
+
+@keyframes neon-drift-3 {
+  0% {
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(100px, -160px) scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1) rotate(360deg);
+  }
+}
+
+.animate-neon-drift-1 {
+  animation: neon-drift-1 28s infinite ease-in-out;
+}
+
+.animate-neon-drift-2 {
+  animation: neon-drift-2 32s infinite ease-in-out;
+}
+
+.animate-neon-drift-3 {
+  animation: neon-drift-3 24s infinite ease-in-out;
+}
+
+/* Backward compatibility for previous classes */
+.animate-drift {
+  animation: neon-drift-1 25s infinite ease-in-out;
+}
+
+.animate-drift-reverse {
+  animation: neon-drift-2 30s infinite ease-in-out;
+}
+
+/* Premium selection styling */
+::selection {
+  background-color: rgba(139, 92, 246, 0.25);
+  color: #ffffff;
+}
+
+/* Slim scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Premium Awwwards-grade Decelerating Animations */
+@keyframes premium-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes premium-letter-glide {
+  0% {
+    opacity: 0;
+    transform: translateY(0.55em);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-box-glide {
+  opacity: 0;
+  animation: premium-slide-up 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-letter-glide {
+  display: inline-block;
+  opacity: 0;
+  white-space: pre;
+  animation: premium-letter-glide 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

@@ -23,7 +23,7 @@ type InterviewContentProps = {
 };
 
 const paragraphClass =
-  "text-base leading-relaxed text-white break-words sm:text-lg [&:not(:first-child)]:mt-3";
+  "text-base leading-relaxed text-slate-800 break-words sm:text-lg [&:not(:first-child)]:mt-3";
 
 function InterviewParagraph({ parts }: { parts: readonly InterviewPart[] }) {
   return (
@@ -35,7 +35,7 @@ function InterviewParagraph({ parts }: { parts: readonly InterviewPart[] }) {
           <SafeLatex
             key={index}
             tex={part.value}
-            className="mx-0.5 inline [&_.katex]:text-white"
+            className="mx-0.5 inline [&_.katex]:text-slate-950"
           />
         ),
       )}
@@ -53,7 +53,7 @@ export function InterviewContent({
       className={[
         "w-full min-w-0 max-w-full space-y-3",
         boxed
-          ? "rounded-xl border border-white/10 bg-black/60 px-4 py-6 sm:px-6 sm:py-8"
+          ? "rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-6 sm:px-6 sm:py-8 shadow-sm"
           : "",
         className,
       ]

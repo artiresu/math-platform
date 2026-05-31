@@ -6,6 +6,7 @@ import {
 } from "next/font/google";
 import "katex/dist/katex.min.css";
 import "./globals.css";
+import { AuthProvider } from "@/app/components/AuthContext";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -40,8 +41,8 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakarta.variable} ${sourceSerif.variable} ${geistMono.variable} h-full`}
     >
-      <body className="min-h-screen bg-slate-950 font-sans text-white antialiased">
-        {children}
+      <body className="min-h-screen bg-white font-sans text-slate-900 antialiased">
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

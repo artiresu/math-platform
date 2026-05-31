@@ -6,6 +6,7 @@ import { StudyHub } from "./StudyHub";
 import type { StudySubtopic, StudyTabId } from "./study-types";
 import { PageShell } from "../components/PageShell";
 import { SafeLatex } from "../components/SafeLatex";
+import { GlidingText } from "../components/GlidingText";
 
 type TrackId = "alevel" | "tmua" | "step";
 
@@ -571,15 +572,15 @@ function TrackCards({ onSelect }: { onSelect: (id: TrackId) => void }) {
           key={track.id}
           type="button"
           onClick={() => onSelect(track.id)}
-          className="group rounded-2xl border border-white/10 bg-white/5 p-5 text-left transition-all duration-200 hover:border-violet-400/50 hover:bg-violet-500/10 hover:shadow-lg hover:shadow-violet-900/20 sm:p-6"
+          className="group rounded-2xl border border-slate-200 bg-white/70 p-5 text-left transition-all duration-200 hover:border-violet-500/30 hover:bg-violet-500/[0.03] hover:shadow-lg hover:shadow-violet-200/50 sm:p-6"
         >
-          <span className="inline-block rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white group-hover:bg-violet-500/30">
+          <span className="inline-block rounded-full bg-violet-500/5 border border-violet-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-violet-700 group-hover:bg-violet-500/10">
             Enter practice room
           </span>
-          <h2 className="mt-3 font-serif text-lg font-semibold text-white sm:text-xl">
+          <h2 className="mt-3 font-serif text-lg font-semibold text-slate-950 sm:text-xl">
             {track.title}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-white">
+          <p className="mt-2 text-sm leading-relaxed text-slate-600">
             {track.subtext}
           </p>
         </button>
@@ -591,67 +592,67 @@ function TrackCards({ onSelect }: { onSelect: (id: TrackId) => void }) {
 function AdmissionsGuide() {
   return (
     <section
-      className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/80 to-black/60 p-6 sm:mt-14 sm:p-8"
+      className="mt-12 rounded-2xl border border-slate-200/80 bg-white/80 p-6 sm:mt-14 sm:p-8 shadow-md"
       aria-labelledby="admissions-guide-title"
     >
       <h2
         id="admissions-guide-title"
-        className="font-mono text-xs font-medium uppercase tracking-widest text-white"
+        className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600"
       >
         Admissions insight
       </h2>
 
       <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-        <article className="rounded-xl border border-white/10 bg-white/5 p-6">
-          <h3 className="font-serif text-xl font-semibold text-white">
+        <article className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-6">
+          <h3 className="font-serif text-xl font-semibold text-slate-950">
             Why Admissions Tests Matter
           </h3>
-          <p className="mt-4 text-sm leading-relaxed text-white sm:text-base">
+          <p className="mt-4 text-sm leading-relaxed text-slate-650 sm:text-base">
             Top universities — including{" "}
-            <span className="font-medium text-white">Cambridge</span>,{" "}
-            <span className="font-medium text-white">Oxford</span>,{" "}
-            <span className="font-medium text-white">Imperial</span>, and{" "}
-            <span className="font-medium text-white">Warwick</span> — use tests
-            such as the <span className="font-medium text-white">TMUA</span> and{" "}
-            <span className="font-medium text-white">STEP</span> to look beyond
+            <span className="font-semibold text-slate-900">Cambridge</span>,{" "}
+            <span className="font-semibold text-slate-900">Oxford</span>,{" "}
+            <span className="font-semibold text-slate-900">Imperial</span>, and{" "}
+            <span className="font-semibold text-slate-900">Warwick</span> — use tests
+            such as the <span className="font-semibold text-slate-900">TMUA</span> and{" "}
+            <span className="font-semibold text-slate-900">STEP</span> to look beyond
             flawless A-Level grades. They want evidence you can tackle{" "}
-            <span className="font-medium text-white">
+            <span className="font-semibold text-slate-900">
               pure, unstructured mathematics
             </span>{" "}
             when the method is not given to you on a formula sheet.
           </p>
-          <p className="mt-4 text-sm leading-relaxed text-white sm:text-base">
+          <p className="mt-4 text-sm leading-relaxed text-slate-650 sm:text-base">
             Strong module scores show you can learn a syllabus; admissions tests
             show whether you can think like a mathematician under pressure.
           </p>
         </article>
 
-        <article className="rounded-xl border border-white/10 bg-white/5 p-6">
-          <h3 className="font-serif text-xl font-semibold text-white">
+        <article className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-6">
+          <h3 className="font-serif text-xl font-semibold text-slate-950">
             How to Prepare Effectively
           </h3>
-          <ul className="mt-4 space-y-4 text-sm leading-relaxed text-white sm:text-base">
+          <ul className="mt-4 space-y-4 text-sm leading-relaxed text-slate-650 sm:text-base">
             <li className="flex gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-400" />
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />
               <span>
-                <span className="font-medium text-white">A-Levels</span> train
+                <span className="font-semibold text-slate-900">A-Levels</span> train
                 speed within a defined specification — master techniques until
                 they are automatic, then push into harder unstructured problems.
               </span>
             </li>
             <li className="flex gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-500" />
               <span>
-                <span className="font-medium text-white">TMUA</span> rewards
+                <span className="font-semibold text-slate-900">TMUA</span> rewards
                 crisp logic and fast pattern recognition; practise formal
                 implications, contrapositives, and careful reading of
                 quantifiers.
               </span>
             </li>
             <li className="flex gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" />
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-500" />
               <span>
-                <span className="font-medium text-white">STEP</span> is an
+                <span className="font-semibold text-slate-900">STEP</span> is an
                 endurance test of depth — attempt long, multi-part questions,
                 embrace dead ends, and build resilience rather than chasing
                 quick tricks.
@@ -666,12 +667,14 @@ function AdmissionsGuide() {
 
 function HubView({ onSelectTrack }: { onSelectTrack: (id: TrackId) => void }) {
   return (
-    <>
+    <div key="hub" className="animate-box-glide space-y-12">
       <header className="max-w-4xl">
-        <h1 className="font-serif text-4xl font-semibold text-white sm:text-5xl">
-          Exam Preparation Hub
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-white">
+        <GlidingText
+          text="Exam Preparation Hub"
+          className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl"
+          element="h1"
+        />
+        <p className="mt-4 max-w-2xl text-lg text-slate-600">
           Select a track to enter its practice room, or read the guide below to
           understand how UK admissions tests fit alongside A-Level study.
         </p>
@@ -682,7 +685,7 @@ function HubView({ onSelectTrack }: { onSelectTrack: (id: TrackId) => void }) {
       </div>
 
       <AdmissionsGuide />
-    </>
+    </div>
   );
 }
 
@@ -695,7 +698,7 @@ function StepMainTopicNav({
 }) {
   return (
     <nav
-      className="flex flex-wrap gap-2 border-b border-white/10 pb-4"
+      className="flex flex-wrap gap-2 border-b border-slate-200 pb-4"
       aria-label="STEP main topics"
     >
       {STEP_TOPICS.map((topic) => {
@@ -708,8 +711,8 @@ function StepMainTopicNav({
             aria-current={isActive ? "true" : undefined}
             className={`shrink-0 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
               isActive
-                ? "border-violet-400 bg-violet-500/20 text-white"
-                : "border-white/10 bg-white/5 text-white hover:border-white/25"
+                ? "border-violet-500/30 bg-violet-500/5 text-violet-700 shadow-sm font-semibold"
+                : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100"
             }`}
           >
             {topic.label}
@@ -746,8 +749,8 @@ function StepSubtopicList({
             aria-current={isActive ? "true" : undefined}
             className={`rounded-xl border px-4 py-3 text-left text-sm transition ${
               isActive
-                ? "border-violet-400 bg-violet-500/15 text-white ring-1 ring-violet-400/30"
-                : "border-white/10 bg-white/5 text-white hover:border-white/20 hover:bg-white/[0.07]"
+                ? "border-violet-500/35 bg-violet-500/5 text-violet-700 font-semibold shadow-sm"
+                : "border-slate-200 bg-slate-50/50 text-slate-750 hover:border-slate-350 hover:bg-slate-100"
             }`}
           >
             {sub.title}
@@ -793,7 +796,7 @@ function StepPracticeSection() {
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <aside className="lg:w-72 lg:shrink-0">
-          <p className="mb-3 font-mono text-[10px] font-medium uppercase tracking-widest text-white">
+          <p className="mb-3 font-mono text-[10px] font-medium uppercase tracking-widest text-slate-900">
             Subtopics
           </p>
           <StepSubtopicList
@@ -805,6 +808,7 @@ function StepPracticeSection() {
 
         {subtopic ? (
           <StudyHub
+            key={activeSubtopicId}
             subtopic={subtopic}
             activeStudyTab={activeStudyTab}
             onTabChange={setActiveStudyTab}
@@ -812,7 +816,7 @@ function StepPracticeSection() {
             solutionIdPrefix="step"
           />
         ) : (
-          <div className="flex flex-1 items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-12 text-white">
+          <div className="flex flex-1 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50/50 p-12 text-slate-600">
             Select a subtopic to open the study hub.
           </div>
         )}
@@ -834,28 +838,28 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
 
   return (
     <section
-      className="rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/90 to-black/70 p-6 sm:p-8"
+      className="rounded-2xl border border-slate-200/80 bg-white/80 p-6 sm:p-8 shadow-md"
       aria-labelledby="practice-question-title"
     >
       <h2
         id="practice-question-title"
-        className="font-mono text-xs font-medium uppercase tracking-widest text-white"
+        className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600"
       >
         Practice question
       </h2>
 
       {track === "tmua" && (
-        <div className="mt-6 space-y-6 text-white">
-          <p className="text-sm font-medium text-white">
+        <div className="mt-6 space-y-6 text-slate-800">
+          <p className="text-sm font-semibold text-slate-900">
             TMUA Paper 2 · Logical reasoning
           </p>
-          <p className="text-base leading-relaxed text-white sm:text-lg">
+          <p className="text-base leading-relaxed text-slate-700 sm:text-lg">
             Let <em>n</em> be an integer. Consider the statement:{" "}
-            <strong className="font-semibold text-white">
+            <strong className="font-bold text-slate-900">
               &ldquo;If n² is divisible by 4, then n is even.&rdquo;
             </strong>{" "}
             Which option is{" "}
-            <strong className="font-semibold text-white">
+            <strong className="font-bold text-slate-900">
               logically equivalent
             </strong>{" "}
             to this statement?
@@ -876,16 +880,16 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
 
               if (!tmuaChecked) {
                 optionClass += isSelected
-                  ? "border-violet-400 bg-violet-500/20 text-white"
-                  : "border-white/15 bg-white/5 text-white hover:border-white/30";
+                  ? "border-violet-500/30 bg-violet-500/5 text-violet-750 font-semibold"
+                  : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100";
               } else if (isCorrectOption) {
                 optionClass +=
-                  "border-emerald-400 bg-emerald-500/20 text-white ring-1 ring-emerald-400/50";
+                  "border-emerald-400 bg-emerald-500/10 text-emerald-800 ring-1 ring-emerald-400/30 font-semibold";
               } else if (isWrongPick) {
                 optionClass +=
-                  "border-red-400 bg-red-500/20 text-white ring-1 ring-red-400/50";
+                  "border-red-400 bg-red-500/10 text-red-800 ring-1 ring-red-400/30 font-semibold";
               } else {
-                optionClass += "border-white/10 bg-white/5 text-white/60";
+                optionClass += "border-slate-100 bg-slate-50/20 text-slate-400";
               }
 
               return (
@@ -898,11 +902,10 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
                   onClick={() => setTmuaSelection(opt.id)}
                   className={optionClass}
                 >
-                  <span className="font-semibold text-white">{opt.id}.</span>{" "}
+                  <span className="font-bold text-slate-900">{opt.id}.</span>{" "}
                   <span className="latex-panel min-w-0 flex-1">
                     <SafeLatex
                       tex={opt.label}
-                      className="[&_.katex]:text-white"
                     />
                   </span>
                 </button>
@@ -915,16 +918,16 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
               type="button"
               disabled={!tmuaSelection || tmuaChecked}
               onClick={() => setTmuaChecked(true)}
-              className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition enabled:hover:bg-violet-100 disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition enabled:hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Check answer
             </button>
             {tmuaChecked && (
               <p
-                className={`text-sm font-medium ${
+                className={`text-sm font-semibold ${
                   TMUA_OPTIONS.find((o) => o.id === tmuaSelection)?.correct
-                    ? "text-emerald-300"
-                    : "text-red-300"
+                    ? "text-emerald-700"
+                    : "text-red-650"
                 }`}
               >
                 {TMUA_OPTIONS.find((o) => o.id === tmuaSelection)?.correct
@@ -948,24 +951,26 @@ function PracticeRoom({
   onBack: () => void;
 }) {
   return (
-    <div className="animate-in fade-in duration-200">
+    <div key={track} className="animate-box-glide">
       <button
         type="button"
         onClick={onBack}
-        className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+        className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50/50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-350 hover:bg-slate-100 focus:outline-none"
       >
         <span aria-hidden>←</span>
         Back to Exam Hub
       </button>
 
       <header className="mt-8 max-w-3xl">
-        <p className="font-mono text-xs font-medium uppercase tracking-widest text-white">
+        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600">
           Practice room
         </p>
-        <h1 className="mt-2 font-serif text-3xl font-semibold text-white sm:text-4xl">
-          {getTrackTitle(track)}
-        </h1>
-        <p className="mt-3 text-base text-white sm:text-lg">
+        <GlidingText
+          text={getTrackTitle(track)}
+          className="mt-2 font-serif text-3xl font-semibold text-slate-950 sm:text-4xl"
+          element="h1"
+        />
+        <p className="mt-3 text-base text-slate-650 sm:text-lg">
           {track === "step"
             ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."
             : track === "alevel"

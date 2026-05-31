@@ -469,10 +469,10 @@ export default function GamesPage() {
     <PageShell>
       <div className="mx-auto max-w-4xl">
         <header>
-          <h1 className="font-serif text-4xl font-semibold text-white sm:text-5xl">
+          <h1 className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
             Maths Games
           </h1>
-          <p className="mt-3 max-w-2xl text-base text-white/90 sm:text-lg">
+          <p className="mt-3 max-w-2xl text-base text-slate-650 sm:text-lg">
             Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
             3-question races — solo for time, multiplayer first to 2 points.
           </p>
@@ -481,7 +481,7 @@ export default function GamesPage() {
         <section className="mt-10" aria-labelledby="mode-heading">
           <h2
             id="mode-heading"
-            className="font-mono text-[10px] font-medium uppercase tracking-widest text-white"
+            className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900"
           >
             Game mode
           </h2>
@@ -510,8 +510,8 @@ export default function GamesPage() {
                   }}
                   className={`rounded-xl border px-5 py-2.5 text-sm font-semibold transition ${
                     active
-                      ? "border-violet-400 bg-violet-500/20 text-white shadow-lg shadow-violet-950/40"
-                      : "border-white/10 bg-white/5 text-white hover:border-white/25"
+                      ? "border-violet-500/30 bg-violet-500/5 text-violet-700 shadow-sm"
+                      : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100"
                   } disabled:opacity-50`}
                 >
                   {m.label}
@@ -529,12 +529,12 @@ export default function GamesPage() {
           )}
 
         {matchmaking && (
-          <section className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-10 text-center backdrop-blur-md">
-            <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-violet-400 border-t-transparent" />
-            <p className="mt-4 font-serif text-xl font-semibold text-white">
+          <section className="mt-10 rounded-2xl border border-slate-200/80 bg-white/80 p-10 text-center shadow-md backdrop-blur-md">
+            <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" />
+            <p className="mt-4 font-serif text-xl font-semibold text-slate-950">
               Finding a match…
             </p>
-            <p className="mt-2 text-sm text-white/70">
+            <p className="mt-2 text-sm text-slate-600">
               Pairing you with an opponent in your skill band.
             </p>
           </section>
@@ -544,7 +544,7 @@ export default function GamesPage() {
           <section className="mt-10" aria-labelledby="topic-heading">
             <h2
               id="topic-heading"
-              className="font-mono text-[10px] font-medium uppercase tracking-widest text-white"
+              className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900"
             >
               Choose a topic
             </h2>
@@ -554,15 +554,15 @@ export default function GamesPage() {
                   key={t.id}
                   type="button"
                   onClick={() => startSinglePlayer(t.id)}
-                  className={`group rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition hover:scale-[1.02] hover:border-white/25 ${t.accent}`}
+                  className={`group rounded-2xl border bg-gradient-to-br p-6 text-left backdrop-blur-md transition hover:scale-[1.02] hover:border-violet-500/20 shadow-sm ${t.accent}`}
                 >
-                  <h3 className="font-serif text-xl font-semibold text-white">
+                  <h3 className="font-serif text-xl font-bold text-slate-900">
                     {t.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/85">
+                  <p className="mt-2 text-sm leading-relaxed text-slate-700">
                     {t.description}
                   </p>
-                  <span className="mt-4 inline-block text-xs font-semibold uppercase tracking-wider text-violet-200">
+                  <span className="mt-4 inline-block text-xs font-semibold uppercase tracking-wider text-violet-750">
                     Play →
                   </span>
                 </button>
@@ -573,17 +573,17 @@ export default function GamesPage() {
 
         {phase === "playing" && question && topic && (
           <section
-            className="mt-10 rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/90 to-black/70 p-6 backdrop-blur-md sm:p-8"
+            className="mt-10 rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-md backdrop-blur-md sm:p-8"
             aria-live="polite"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-white/80">
+                <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
                   {TOPICS.find((t) => t.id === topic)?.title}
                   {mode === "multiplayer" && " · Live match"}
                   {isRace && ` · Question ${roundIndex + 1} of ${RACE_QUESTION_COUNT}`}
                 </p>
-                <p className="mt-1 text-2xl font-bold tabular-nums text-white">
+                <p className="mt-1 text-2xl font-extrabold tabular-nums text-slate-950">
                   {isRace && mode === "multiplayer"
                     ? `You ${playerPoints} — ${opponentName} ${opponentPoints}`
                     : isRace
@@ -591,21 +591,21 @@ export default function GamesPage() {
                       : `Score: ${score}`}
                 </p>
                 {isRace && mode === "single" && (
-                  <p className="mt-1 text-sm text-white/70">
+                  <p className="mt-1 text-sm text-slate-500">
                     Completed: {roundIndex} / {RACE_QUESTION_COUNT}
                   </p>
                 )}
               </div>
               <div className="flex items-start gap-3">
                 <div className="min-w-[140px] text-right">
-                  <p className="font-mono text-[10px] uppercase tracking-widest text-white/80">
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
                     {isSprint ? "Time left" : "Elapsed"}
                   </p>
                   <p
-                    className={`mt-1 text-3xl font-bold tabular-nums ${
+                    className={`mt-1 text-3xl font-extrabold tabular-nums ${
                       isSprint && timeLeft <= 10
-                        ? "text-amber-300"
-                        : "text-white"
+                        ? "text-red-650"
+                        : "text-slate-900"
                     }`}
                   >
                     {isSprint ? `${timeLeft}s` : formatElapsed(elapsedMs)}
@@ -614,7 +614,7 @@ export default function GamesPage() {
                 <button
                   type="button"
                   onClick={exitGame}
-                  className="rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-2.5 text-sm font-semibold text-red-200 transition hover:border-red-400/50 hover:bg-red-500/20"
+                  className="rounded-xl border border-red-200 bg-red-50/50 px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:border-red-300 hover:bg-red-100"
                 >
                   Exit
                 </button>
@@ -622,26 +622,26 @@ export default function GamesPage() {
             </div>
 
             {mode === "multiplayer" && (
-              <div className="mt-4 grid grid-cols-2 gap-3 rounded-xl border border-white/10 bg-black/30 p-4">
+              <div className="mt-4 grid grid-cols-2 gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-violet-300">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-violet-700">
                     You
                   </p>
-                  <p className="mt-1 text-xl font-bold tabular-nums text-white">
+                  <p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">
                     {isRace ? `${playerPoints} / ${RACE_WIN_POINTS}` : score}
                   </p>
                   {isRace && (
-                    <p className="text-[10px] text-white/50">points to win</p>
+                    <p className="text-[10px] text-slate-400">points to win</p>
                   )}
                 </div>
                 <div className="text-right">
-                  <p className="text-xs font-medium uppercase tracking-wider text-cyan-300">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-cyan-700">
                     {opponentName}
                     {opponentConnected && (
-                      <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                      <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                     )}
                   </p>
-                  <p className="mt-1 text-xl font-bold tabular-nums text-white">
+                  <p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">
                     {isRace ? `${opponentPoints} / ${RACE_WIN_POINTS}` : opponentScore}
                   </p>
                 </div>
@@ -650,7 +650,7 @@ export default function GamesPage() {
 
             {isSprint && (
               <div
-                className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10"
+                className="mt-4 h-1.5 overflow-hidden rounded-full bg-slate-100"
                 role="progressbar"
                 aria-valuenow={timeLeft}
                 aria-valuemin={0}
@@ -668,31 +668,31 @@ export default function GamesPage() {
             )}
 
             {isRace && mode === "multiplayer" && (
-              <p className="mt-4 text-center text-xs text-white/60">
+              <p className="mt-4 text-center text-xs text-slate-500">
                 First correct answer wins the round · First to {RACE_WIN_POINTS}{" "}
                 points wins the match
               </p>
             )}
 
             {roundMessage && (
-              <p className="mt-4 rounded-lg border border-violet-400/30 bg-violet-500/10 px-4 py-3 text-center text-sm font-medium text-violet-100">
+              <p className="mt-4 rounded-lg border border-violet-500/20 bg-violet-500/5 px-4 py-3 text-center text-sm font-semibold text-violet-750">
                 {roundMessage}
               </p>
             )}
 
-            <div className="mt-10 rounded-xl border border-white/10 bg-black/40 p-6 sm:p-8">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-white/70">
+            <div className="mt-10 rounded-xl border border-slate-200 bg-slate-50/50 p-6 sm:p-8">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
                 {isRace ? `Question ${roundIndex + 1}` : "Question"}
               </p>
               <div className="mt-4 flex min-h-[4rem] items-center justify-center overflow-x-auto">
                 <SafeLatex
                   tex={question.promptTex}
                   displayMode
-                  className="text-lg sm:text-xl [&_.katex]:text-white"
+                  className="text-lg sm:text-xl [&_.katex]:text-slate-900"
                 />
               </div>
               {question.hint && (
-                <p className="mt-3 text-center text-xs text-white/60">
+                <p className="mt-3 text-center text-xs text-slate-500">
                   {question.hint}
                 </p>
               )}
@@ -707,11 +707,11 @@ export default function GamesPage() {
             >
               <label
                 htmlFor="challenge-answer"
-                className="block text-sm font-medium text-white"
+                className="block text-sm font-semibold text-slate-900"
               >
                 Your answer
                 {topic === "arithmetic" && isSprint && (
-                  <span className="ml-2 text-xs font-normal text-white/50">
+                  <span className="ml-2 text-xs font-normal text-slate-550">
                     (auto-submits when correct)
                   </span>
                 )}
@@ -730,12 +730,12 @@ export default function GamesPage() {
                       ? "e.g. x - arctan(x) + C"
                       : "Enter your answer"
                   }
-                  className={`flex-1 rounded-xl border bg-white/5 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 ${
+                  className={`flex-1 rounded-xl border bg-slate-50 px-4 py-3 text-slate-950 placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 ${
                     feedback === "correct"
                       ? "border-emerald-400/60"
                       : feedback === "wrong"
                         ? "border-red-400/60"
-                        : "border-white/15"
+                        : "border-slate-200"
                   }`}
                 />
                 {!(topic === "arithmetic" && isSprint) && (
@@ -750,10 +750,10 @@ export default function GamesPage() {
               </div>
               {feedback && isSprint && (
                 <p
-                  className={`mt-3 text-sm font-medium ${
+                  className={`mt-3 text-sm font-bold ${
                     feedback === "correct"
-                      ? "text-emerald-300"
-                      : "text-red-300"
+                      ? "text-emerald-700"
+                      : "text-red-700"
                   }`}
                 >
                   {feedback === "correct"
@@ -762,14 +762,14 @@ export default function GamesPage() {
                 </p>
               )}
               {feedback && isRace && mode === "single" && feedback === "wrong" && (
-                <p className="mt-3 text-sm font-medium text-red-300">
+                <p className="mt-3 text-sm font-bold text-red-650">
                   Not quite — try again
                 </p>
               )}
             </form>
 
             {isSprint && (
-              <p className="mt-4 text-center text-xs text-white/50">
+              <p className="mt-4 text-center text-xs text-slate-500">
                 +{CORRECT_POINTS} correct · −{WRONG_POINTS} incorrect ·{" "}
                 {questionsAnswered} answered
               </p>
@@ -845,14 +845,14 @@ function GameOverPanel({
 
   return (
     <section
-      className="mt-10 rounded-2xl border border-white/10 bg-gradient-to-b from-slate-900/95 to-black/80 p-8 text-center backdrop-blur-md sm:p-12"
+      className="mt-10 rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-md backdrop-blur-md sm:p-12"
       aria-labelledby="gameover-title"
     >
       <p
         className={`font-mono text-xs uppercase tracking-widest ${
           gameOverReason === "opponent_left" || gameOverReason === "race_win"
-            ? "text-emerald-300"
-            : "text-violet-300"
+            ? "text-emerald-700 font-bold"
+            : "text-violet-700 font-bold"
         }`}
       >
         {gameOverReason === "opponent_left"
@@ -863,51 +863,51 @@ function GameOverPanel({
       </p>
       <h2
         id="gameover-title"
-        className="mt-3 font-serif text-3xl font-semibold text-white sm:text-4xl"
+        className="mt-3 font-serif text-3xl font-semibold text-slate-950 sm:text-4xl"
       >
         {title}
       </h2>
       {gameOverReason === "opponent_left" && opponentName && (
-        <p className="mt-3 text-sm text-white/70">
+        <p className="mt-3 text-sm text-slate-600">
           {opponentName} disconnected from the match.
         </p>
       )}
       {isRace && mode === "single" && gameOverReason === "race_complete" && (
         <>
-          <p className="mt-8 text-5xl font-bold tabular-nums text-white">
+          <p className="mt-8 text-5xl font-extrabold tabular-nums text-slate-950">
             {formatElapsed(elapsedMs)}
           </p>
-          <p className="mt-1 text-sm text-white/70">Total time (3 questions)</p>
+          <p className="mt-1 text-sm text-slate-500">Total time (3 questions)</p>
         </>
       )}
       {isRace && mode === "multiplayer" && (
-        <p className="mt-8 text-4xl font-bold tabular-nums text-white">
+        <p className="mt-8 text-4xl font-extrabold tabular-nums text-slate-900">
           {playerPoints} — {opponentPoints}
         </p>
       )}
       {!isRace && (
-        <p className="mt-8 text-5xl font-bold tabular-nums text-white">{score}</p>
+        <p className="mt-8 text-5xl font-extrabold tabular-nums text-slate-950">{score}</p>
       )}
-      {!isRace && <p className="mt-1 text-sm text-white/70">Your score</p>}
+      {!isRace && <p className="mt-1 text-sm text-slate-500">Your score</p>}
       {mode === "multiplayer" && !isRace && (
-        <p className="mt-4 text-lg text-white">
-          {opponentName}: <span className="font-semibold">{opponentPoints}</span>
+        <p className="mt-4 text-lg text-slate-700">
+          {opponentName}: <span className="font-bold text-slate-900">{opponentPoints}</span>
         </p>
       )}
       {isRace && mode === "single" && (
-        <p className="mt-6 text-lg text-white">
+        <p className="mt-6 text-lg text-slate-700">
           All <span className="font-semibold">{RACE_QUESTION_COUNT}</span> answered
           correctly in a row
         </p>
       )}
       {!isRace && (
-        <p className="mt-6 text-lg text-white">
+        <p className="mt-6 text-lg text-slate-700">
           Questions answered:{" "}
           <span className="font-semibold">{questionsAnswered}</span>
         </p>
       )}
       {topic && (
-        <p className="mt-2 text-sm text-white/60">
+        <p className="mt-2 text-sm text-slate-500">
           Topic: {TOPICS.find((t) => t.id === topic)?.title}
         </p>
       )}
@@ -924,7 +924,7 @@ function GameOverPanel({
         <button
           type="button"
           onClick={onMenu}
-          className="w-full rounded-xl border border-white/15 bg-white/5 px-8 py-3 text-sm font-semibold text-white transition hover:bg-white/10 sm:w-auto"
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-8 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 sm:w-auto"
         >
           {gameOverReason === "opponent_left" ? "Back to menu" : "Change topic"}
         </button>
@@ -940,36 +940,36 @@ function MultiplayerLobby({
 }) {
   return (
     <section
-      className="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/90 via-indigo-950/40 to-black/80 p-6 backdrop-blur-xl sm:p-8"
+      className="mt-10 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 p-6 shadow-md backdrop-blur-xl sm:p-8"
       aria-labelledby="lobby-heading"
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-200">
-            <span className="relative flex h-2 w-2 rounded-full bg-emerald-400" />
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-xs font-semibold text-emerald-700">
+            <span className="relative flex h-2 w-2 rounded-full bg-emerald-500" />
             Live preview
           </span>
           <h2
             id="lobby-heading"
-            className="mt-4 font-serif text-2xl font-semibold text-white sm:text-3xl"
+            className="mt-4 font-serif text-2xl font-semibold text-slate-950 sm:text-3xl"
           >
             Matchmaking lobby
           </h2>
-          <p className="mt-2 max-w-md text-sm text-white/80">
+          <p className="mt-2 max-w-md text-sm text-slate-650">
             Integrals &amp; Olympiad: 3 questions, first correct answer wins each
             round, first to 2 points wins. Arithmetic uses a 60s sprint.
           </p>
         </div>
-        <div className="rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-right">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-white/60">
+        <div className="rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-right">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
             Region
           </p>
-          <p className="text-sm font-medium text-white">EU-West</p>
+          <p className="text-sm font-semibold text-slate-900">EU-West</p>
         </div>
       </div>
 
       <div className="mt-8">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-white/70">
+        <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
           Choose topic &amp; find match
         </p>
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -978,13 +978,13 @@ function MultiplayerLobby({
               key={t.id}
               type="button"
               onClick={() => onStartMatch(t.id)}
-              className={`rounded-xl border bg-gradient-to-br p-5 text-left transition hover:border-white/25 ${t.accent}`}
+              className={`rounded-xl border bg-gradient-to-br p-5 text-left transition hover:border-violet-500/20 shadow-sm ${t.accent}`}
             >
-              <h3 className="font-serif text-lg font-semibold text-white">
+              <h3 className="font-serif text-lg font-bold text-slate-900">
                 {t.title}
               </h3>
-              <p className="mt-1 text-xs text-white/75">{t.description}</p>
-              <span className="mt-3 inline-block text-xs font-semibold uppercase tracking-wider text-violet-200">
+              <p className="mt-1 text-xs text-slate-700">{t.description}</p>
+              <span className="mt-3 inline-block text-xs font-semibold uppercase tracking-wider text-violet-750">
                 Find match →
               </span>
             </button>
