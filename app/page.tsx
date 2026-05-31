@@ -105,10 +105,10 @@ export default function Home() {
               {/* Animated Abstract Vector SVG */}
               <svg
                 viewBox="0 0 400 300"
-                className="w-full h-full max-w-[360px] drop-shadow-2xl select-none"
+                className="w-full h-full max-w-[380px] drop-shadow-xl select-none"
               >
                 <defs>
-                  {/* Linear & Radial Gradients for Abstract Color Shading */}
+                  {/* Linear & Radial Gradients for 2D Abstract Color Shading */}
                   <linearGradient id="violetPinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#c084fc" />
                     <stop offset="50%" stopColor="#8b5cf6" />
@@ -128,162 +128,250 @@ export default function Home() {
                   </linearGradient>
 
                   <radialGradient id="neonGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.4" />
-                    <stop offset="60%" stopColor="#8b5cf6" stopOpacity="0.1" />
+                    <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.3" />
+                    <stop offset="70%" stopColor="#8b5cf6" stopOpacity="0.05" />
                     <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
                   </radialGradient>
 
                   <radialGradient id="meshGlow" cx="40%" cy="40%" r="60%">
-                    <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.3" />
+                    <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.25" />
                     <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
                   </radialGradient>
-
-                  {/* Soft Drop Shadow Filter for 3D depth */}
-                  <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="2" dy="8" stdDeviation="6" floodOpacity="0.15" />
-                  </filter>
-                  <filter id="neonBlur" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur stdDeviation="8" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
                 </defs>
 
-                {/* SVG Internal Premium Animations stylesheet */}
+                {/* SVG Internal Premium 2D Animations stylesheet */}
                 <style>{`
-                  @keyframes float-donut {
-                    0% { transform: translate(0px, 0px) rotate(0deg); }
-                    50% { transform: translate(12px, -18px) rotate(5deg); }
-                    100% { transform: translate(0px, 0px) rotate(0deg); }
+                  @keyframes rotate-2d {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
                   }
-                  @keyframes float-sphere {
-                    0% { transform: translate(0px, 0px) scale(1); }
-                    50% { transform: translate(-10px, 12px) scale(1.04); }
-                    100% { transform: translate(0px, 0px) scale(1); }
+                  @keyframes float-2d-y {
+                    0% { transform: translateY(0px); }
+                    50% { transform: translateY(-10px); }
+                    100% { transform: translateY(0px); }
                   }
-                  @keyframes float-mesh {
-                    0% { transform: rotate(0deg) translate(0px, 0px); }
-                    50% { transform: rotate(1.5deg) translate(-5px, -5px); }
-                    100% { transform: rotate(0deg) translate(0px, 0px); }
+                  @keyframes float-2d-x {
+                    0% { transform: translateX(0px); }
+                    50% { transform: translateX(12px); }
+                    100% { transform: translateX(0px); }
+                  }
+                  @keyframes scale-2d {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                    100% { transform: scale(1); }
                   }
                   @keyframes dash {
                     to { stroke-dashoffset: -40; }
                   }
-                  .anim-donut {
-                    animation: float-donut 9s infinite ease-in-out;
-                    transform-origin: 180px 140px;
-                  }
-                  .anim-sphere {
-                    animation: float-sphere 7s infinite ease-in-out;
-                    transform-origin: 270px 180px;
-                  }
-                  .anim-mesh {
-                    animation: float-mesh 15s infinite ease-in-out;
+                  .anim-rotate {
+                    animation: rotate-2d 28s infinite linear;
                     transform-origin: 200px 150px;
+                  }
+                  .anim-float-y {
+                    animation: float-2d-y 7s infinite ease-in-out;
+                    transform-origin: 220px 130px;
+                  }
+                  .anim-float-x {
+                    animation: float-2d-x 9s infinite ease-in-out;
+                    transform-origin: 180px 145px;
+                  }
+                  .anim-scale {
+                    animation: scale-2d 8s infinite ease-in-out;
+                    transform-origin: 150px 190px;
                   }
                   .pulse-wave {
                     stroke-dasharray: 8 4;
-                    animation: dash 5s infinite linear;
+                    animation: dash 6s infinite linear;
                   }
                 `}</style>
 
-                {/* Background Ambient Color Mesh Glows */}
-                <circle cx="180" cy="140" r="130" fill="url(#neonGlow)" />
-                <circle cx="270" cy="180" r="100" fill="url(#meshGlow)" />
+                {/* Background Ambient Color Glows */}
+                <circle cx="200" cy="150" r="150" fill="url(#neonGlow)" />
+                <circle cx="150" cy="180" r="120" fill="url(#meshGlow)" />
 
-                {/* Left Background Area: Animated Isometric Mathematical Mesh Grid */}
-                <g className="anim-mesh text-slate-350 dark:text-slate-700" opacity="0.3" stroke="currentColor" strokeWidth="0.75">
-                  <path d="M 50 120 L 220 50 L 350 120 L 220 190 Z" fill="none" />
-                  <path d="M 50 120 L 220 120 L 350 120" fill="none" />
-                  <path d="M 220 50 L 220 190" fill="none" />
-                  {/* Grid lines inside isometric layout */}
-                  <path d="M 92.5 102.5 L 262.5 172.5" fill="none" />
-                  <path d="M 135 85 L 305 155" fill="none" />
-                  <path d="M 177.5 67.5 L 347.5 137.5" fill="none" />
-                  
-                  <path d="M 92.5 137.5 L 262.5 67.5" fill="none" />
-                  <path d="M 135 155 L 305 85" fill="none" />
-                  <path d="M 177.5 172.5 L 347.5 67.5" fill="none" />
+                {/* 1. Large 2D Math Coordinate Grid (Fills the entire box) */}
+                <g stroke="currentColor" strokeWidth="0.5" className="text-slate-200 dark:text-slate-800" opacity="0.6">
+                  {/* Grid Lines */}
+                  <line x1="50" y1="20" x2="50" y2="280" />
+                  <line x1="100" y1="20" x2="100" y2="280" />
+                  <line x1="150" y1="20" x2="150" y2="280" strokeWidth="0.75" />
+                  <line x1="200" y1="20" x2="200" y2="280" />
+                  <line x1="250" y1="20" x2="250" y2="280" />
+                  <line x1="300" y1="20" x2="300" y2="280" strokeWidth="0.75" />
+                  <line x1="350" y1="20" x2="350" y2="280" />
+
+                  <line x1="20" y1="50" x2="380" y2="50" />
+                  <line x1="20" y1="100" x2="380" y2="100" />
+                  <line x1="20" y1="150" x2="380" y2="150" strokeWidth="0.75" />
+                  <line x1="20" y1="200" x2="380" y2="200" />
+                  <line x1="20" y1="250" x2="380" y2="250" />
                 </g>
 
-                {/* Mathematical Vector Waves */}
+                {/* Concentric Polar Coordinate Circles (Background Details) */}
+                <g stroke="currentColor" strokeWidth="0.75" fill="none" className="text-slate-300 dark:text-slate-700" opacity="0.3">
+                  <circle cx="150" cy="150" r="70" strokeDasharray="3 3" />
+                  <circle cx="150" cy="150" r="120" strokeDasharray="4 6" />
+                  <circle cx="150" cy="150" r="170" strokeDasharray="2 4" />
+                </g>
+
+                {/* 2. Primary 2D Axis Lines with Arrows */}
+                <g stroke="currentColor" strokeWidth="1.25" className="text-slate-400 dark:text-slate-600" opacity="0.8">
+                  {/* X-Axis */}
+                  <line x1="20" y1="150" x2="375" y2="150" />
+                  <polygon points="380,150 372,146 372,154" fill="currentColor" />
+                  {/* Y-Axis */}
+                  <line x1="150" y1="280" x2="150" y2="25" />
+                  <polygon points="150,20 146,28 154,28" fill="currentColor" />
+                </g>
+
+                {/* 3. Mathematical Wave Functions (Smooth Curves) */}
+                {/* Dotted Fuchsia Wave */}
                 <path
-                  d="M 40,150 C 90,80 120,220 180,150 C 240,80 270,220 360,150"
+                  d="M 20,150 Q 85,30 150,150 T 280,150 T 380,150"
                   fill="none"
-                  stroke="url(#cyanGreenGrad)"
+                  stroke="url(#violetPinkGrad)"
                   strokeWidth="2.5"
                   className="pulse-wave"
-                  opacity="0.8"
+                  opacity="0.85"
+                />
+                {/* Solid/Dashed Cyan Wave */}
+                <path
+                  d="M 20,150 Q 85,270 150,150 T 280,150 T 380,150"
+                  fill="none"
+                  stroke="url(#cyanGreenGrad)"
+                  strokeWidth="2"
+                  strokeDasharray="6 3"
+                  className="pulse-wave"
+                  style={{ animationDelay: "-3s", animationDuration: "8s" }}
+                  opacity="0.75"
                 />
 
-                {/* Left Abstract Shape: Floating Neon Orange Prism/Cone */}
-                <g className="anim-donut" style={{ animationDelay: "-2s" }} filter="url(#softShadow)">
-                  <path
-                    d="M 90,190 L 130,80 L 150,210 Z"
-                    fill="url(#orangeGoldGrad)"
-                    opacity="0.9"
-                  />
-                  {/* Facet separator for 3D dimensional depth */}
-                  <path
-                    d="M 130,80 L 130,220 L 150,210"
-                    fill="rgba(0,0,0,0.06)"
-                  />
-                </g>
-
-                {/* Center Abstract Shape: Large Floating Glassmorphic Torus/Donut */}
-                <g className="anim-donut" filter="url(#softShadow)">
-                  {/* Torus shadow */}
-                  <circle
-                    cx="180"
-                    cy="140"
-                    r="45"
-                    fill="none"
-                    stroke="url(#violetPinkGrad)"
-                    strokeWidth="18"
-                    opacity="0.9"
-                  />
-                  {/* Shading overlay for torus */}
-                  <circle
-                    cx="180"
-                    cy="140"
-                    r="45"
-                    fill="none"
-                    stroke="rgba(255,255,255,0.2)"
-                    strokeWidth="4"
-                    transform="translate(-3, -3)"
-                  />
-                </g>
-
-                {/* Right Abstract Shape: Floating Cyan Translucent Sphere */}
-                <g className="anim-sphere" filter="url(#softShadow)">
-                  <circle
-                    cx="270"
-                    cy="180"
-                    r="32"
-                    fill="url(#cyanGreenGrad)"
-                    opacity="0.85"
-                  />
-                  {/* Specular highlighting overlay */}
-                  <circle
-                    cx="258"
-                    cy="168"
-                    r="8"
-                    fill="#ffffff"
-                    opacity="0.4"
-                    filter="url(#neonBlur)"
-                  />
-                </g>
-
-                {/* Additional Floating micro particles for vector dynamic feel */}
-                <circle cx="70" cy="80" r="3" fill="#ec4899" className="anim-sphere" style={{ animationDelay: "-1s" }} />
-                <circle cx="320" cy="90" r="4.5" fill="#22d3ee" className="anim-donut" style={{ animationDelay: "-4s" }} />
-                <circle cx="160" cy="240" r="2.5" fill="#eab308" className="anim-sphere" style={{ animationDelay: "-3s" }} />
+                {/* 4. Large Overlapping 2D Geometric Shapes (Filled and Stroked) */}
                 
-                {/* Floating mathematical vector indicators */}
-                <line x1="280" y1="60" x2="310" y2="60" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="2 2" className="anim-donut" />
-                <polygon points="310,60 305,57 305,63" fill="#06b6d4" className="anim-donut" />
+                {/* Shape A: Large Rotated Glassmorphic Square (Slow Rotation Background) */}
+                <g className="anim-rotate" opacity="0.25">
+                  <rect
+                    x="135"
+                    y="85"
+                    width="130"
+                    height="130"
+                    rx="20"
+                    fill="url(#violetPinkGrad)"
+                    stroke="url(#violetPinkGrad)"
+                    strokeWidth="1.5"
+                  />
+                  <rect
+                    x="145"
+                    y="95"
+                    width="110"
+                    height="110"
+                    rx="12"
+                    fill="none"
+                    stroke="#ffffff"
+                    strokeWidth="1"
+                    opacity="0.5"
+                  />
+                </g>
+
+                {/* Shape B: Huge Translucent Circle (Vertical Float) */}
+                <g className="anim-float-y">
+                  <circle
+                    cx="230"
+                    cy="130"
+                    r="75"
+                    fill="url(#violetPinkGrad)"
+                    opacity="0.45"
+                  />
+                  {/* Subtle 2D inner concentric outline for a complex blueprint style */}
+                  <circle
+                    cx="230"
+                    cy="130"
+                    r="55"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.3)"
+                    strokeWidth="1.5"
+                    strokeDasharray="4 2"
+                  />
+                </g>
+
+                {/* Shape C: Large Minimalist 2D Triangle (Horizontal Float) */}
+                <g className="anim-float-x">
+                  <polygon
+                    points="110,60 270,210 90,230"
+                    fill="url(#orangeGoldGrad)"
+                    opacity="0.65"
+                  />
+                  {/* Geometric bisector line */}
+                  <line
+                    x1="110"
+                    y1="60"
+                    x2="180"
+                    y2="220"
+                    stroke="rgba(255,255,255,0.4)"
+                    strokeWidth="1.5"
+                    strokeDasharray="4 4"
+                  />
+                </g>
+
+                {/* Shape D: Massive 2D Cyan Ring (Pulsing Scale) */}
+                <g className="anim-scale">
+                  {/* Outlined thick ring */}
+                  <circle
+                    cx="150"
+                    cy="190"
+                    r="60"
+                    fill="none"
+                    stroke="url(#cyanGreenGrad)"
+                    strokeWidth="8"
+                    opacity="0.8"
+                  />
+                  {/* Translucent solid core */}
+                  <circle
+                    cx="150"
+                    cy="190"
+                    r="40"
+                    fill="url(#cyanGreenGrad)"
+                    opacity="0.25"
+                  />
+                </g>
+
+                {/* 5. Mathematical Vector Elements (Lines, Angle Indicators, Arrows) */}
+                <g strokeWidth="2" opacity="0.95">
+                  {/* Orange Primary Vector Arrow */}
+                  <line x1="150" y1="150" x2="245" y2="85" stroke="#f97316" />
+                  <polygon points="250,82 240,84 244,91" fill="#f97316" />
+
+                  {/* Cyan Dotted Secondary Vector Arrow */}
+                  <line x1="150" y1="150" x2="75" y2="85" stroke="#22d3ee" strokeDasharray="3 2" />
+                  <polygon points="70,80 75,89 80,84" fill="#22d3ee" />
+                </g>
+
+                {/* Geometric Angle Arc Indicator */}
+                <path
+                  d="M 180,150 A 30,30 0 0,0 206,130"
+                  fill="none"
+                  stroke="#f97316"
+                  strokeWidth="1.5"
+                  strokeDasharray="3 3"
+                  opacity="0.9"
+                />
+                
+                {/* 6. Dynamic High-Tech Labelling & Typography */}
+                <text x="210" y="145" fill="#f97316" className="font-mono text-[10px] font-semibold opacity-90 select-none">θ</text>
+                
+                {/* Coordinates annotations */}
+                <text x="255" y="80" fill="#f97316" className="font-mono text-[9px] font-medium opacity-85 select-none">(x₁, y₁)</text>
+                <text x="40" y="75" fill="#22d3ee" className="font-mono text-[9px] font-medium opacity-85 select-none">(x₂, y₂)</text>
+                
+                {/* Sine Function indicators */}
+                <text x="340" y="125" fill="#c084fc" className="font-mono text-[9px] font-semibold opacity-80 select-none">f(x)</text>
+                <text x="340" y="185" fill="#22d3ee" className="font-mono text-[9px] font-semibold opacity-80 select-none">g(x)</text>
+
+                {/* Minimalist Floating Math Points */}
+                <circle cx="250" cy="82" r="3.5" fill="#ffffff" stroke="#f97316" strokeWidth="1.5" />
+                <circle cx="70" cy="80" r="3.5" fill="#ffffff" stroke="#22d3ee" strokeWidth="1.5" />
+                <circle cx="200" cy="240" r="2.5" fill="#ec4899" />
+                <circle cx="310" cy="100" r="3" fill="#22d3ee" />
 
               </svg>
 
