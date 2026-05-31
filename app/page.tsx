@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { CollapsibleReveal } from "./components/CollapsibleReveal";
 import { LatexPanel } from "./components/LatexPanel";
 import { NavBar } from "./components/NavBar";
@@ -76,9 +77,17 @@ export default function Home() {
             Admissions Hub · UK Mathematics
           </p>
 
-          <h1 className="mt-6 font-sans text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl md:text-6xl">
+          <motion.h1
+            initial={{ "--title-size-factor": 0.6, letterSpacing: "-0.08em" } as any}
+            animate={{ "--title-size-factor": 1.0, letterSpacing: "0.025em" } as any}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            style={{
+              fontSize: "calc(var(--title-size-factor) * clamp(2.25rem, 6vw, 3.75rem))",
+            }}
+            className="mt-6 font-sans font-extrabold leading-[1.08] text-slate-950"
+          >
             The Ultimate University Maths Admissions Hub
-          </h1>
+          </motion.h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
             Master advanced problem-solving depth to ace competitive admission tests including the{" "}
