@@ -61,6 +61,16 @@ function SelectorGroup<T extends string>({
  */
 function getSubtopicDescription(title: string): string {
   const t = title.toLowerCase();
+
+  // Specific exact matches first
+  if (title === "2D Vectors") return "Working with vector columns, i and j notation, magnitude, and velocity models.";
+  if (title === "Numerical methods") return "Explore key exam insights, detailed revision notes.";
+  if (title === "Friction and Inclined Planes") return "Resolving forces on slopes, friction coefficients, and connected pulley systems.";
+  if (title === "Statistical distributions") return "Discrete random variables and mastering the Binomial distribution framework.";
+  if (title === "Binomial Hypothesis Testing") return "Formulating null and alternative hypotheses, finding critical regions, and conducting one-tailed and two-tailed tests.";
+  if (title === "Normal Hypothesis Testing") return "Conducting hypothesis tests for the mean of a Normal distribution using sample data.";
+  if (title === "The Large Data Set") return "Investigating data fields, cleaning missing entries, and selecting samples from the official Edexcel weather dataset.";
+
   if (t.includes("proof")) return "Mastering induction and exhaustion techniques for A2.";
   if (t.includes("vector")) return "Understanding 3D geometry and scalar products.";
   if (t.includes("logarithm") || t.includes("exponential")) return "Laws of logs and exponential modeling.";

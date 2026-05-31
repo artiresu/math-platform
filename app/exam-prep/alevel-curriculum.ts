@@ -55,6 +55,7 @@ const Y1_STATISTICS_SHARED = [
   "Correlation",
   "Probability",
   "Statistical distributions",
+  "Binomial Hypothesis Testing",
 ];
 
 const Y2_PURE_MATHS = [
@@ -75,7 +76,7 @@ const Y2_PURE_MATHS = [
 const Y2_MECHANICS = [
   "Quantities and units in mechanics",
   "Kinematics",
-  "Forces and Newton's laws",
+  "Friction and Inclined Planes",
   "Moments",
   "Projectiles",
   "Applications of forces",
@@ -85,8 +86,8 @@ const Y2_STATISTICS = [
   "Regression",
   "Conditional probability",
   "The normal distribution",
-  "Hypothesis testing",
-  "Chi-squared tests",
+  "Normal Hypothesis Testing",
+  "The Large Data Set",
 ];
 
 const Y1_FURTHER_PURE = [
