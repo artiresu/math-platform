@@ -26,7 +26,7 @@ export function NavBar() {
   const { user, loading, logout } = useAuth();
 
   return (
-    <header className="border-b border-slate-200/50 bg-white/70 backdrop-blur-2xl text-slate-800">
+    <header className="site-navbar border-b border-slate-200/50 bg-white/70 backdrop-blur-2xl text-slate-800">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-8">
         <Link
           href="/"
