@@ -6,6 +6,7 @@ import { useAuth } from "@/app/components/AuthContext";
 import { MessagesPanel } from "./MessagesPanel";
 import { SiteSearch } from "./SiteSearch";
 import { UserAccountMenu } from "./UserAccountMenu";
+import { SettingsMenu } from "./SettingsMenu";
 
 const NAV_LINKS = [
   { label: "Exam Hub", href: "/exam-prep" },
@@ -65,7 +66,10 @@ export function NavBar() {
           {loading ? (
             <div className="h-9 w-9 animate-pulse rounded-full bg-slate-100" />
           ) : user ? (
-            <UserAccountMenu />
+            <div className="flex items-center gap-3">
+              <SettingsMenu />
+              <UserAccountMenu />
+            </div>
           ) : (
             <div className="flex items-center gap-4">
               <Link
