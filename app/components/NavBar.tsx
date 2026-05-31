@@ -65,37 +65,7 @@ export function NavBar() {
           {loading ? (
             <div className="h-9 w-9 animate-pulse rounded-full bg-slate-100" />
           ) : user ? (
-            <>
-              <div className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-slate-50/50 py-1.5 pl-2.5 pr-3 text-sm font-medium sm:flex">
-                {user.image ? (
-                  <img
-                    src={user.image}
-                    alt={user.name}
-                    className="h-5 w-5 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 text-[10px] font-bold text-white">
-                    {user.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .slice(0, 2)
-                      .join("")
-                      .toUpperCase()}
-                  </div>
-                )}
-                <span className="max-w-[100px] truncate text-slate-700">
-                  {user.name}
-                </span>
-              </div>
-              <UserAccountMenu />
-              <button
-                type="button"
-                onClick={logout}
-                className="hidden rounded-xl border border-red-200 bg-red-50/50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:border-red-300 hover:bg-red-100 md:inline-flex"
-              >
-                Log out
-              </button>
-            </>
+            <UserAccountMenu />
           ) : (
             <Link
               href="/auth"
