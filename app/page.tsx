@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { CollapsibleReveal } from "./components/CollapsibleReveal";
-import { LatexPanel } from "./components/LatexPanel";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { NavBar } from "./components/NavBar";
 import { CinematicIntro } from "./components/CinematicIntro";
 
@@ -15,22 +14,30 @@ const UNIVERSITIES = [
   "Oxford",
 ] as const;
 
-const QUESTION_LABEL =
-  "\\text{A TMUA Paper 2 style logic question. Let } n \\text{ be a positive integer. Define}";
-const QUESTION_MATH =
-  "P(n):\\; n \\text{ is divisible by } 6 \\qquad Q(n):\\; n \\text{ is divisible by } 2 \\text{ and by } 3";
-const QUESTION_PROMPT =
-  "\\text{Is } (\\forall n \\in \\mathbb{Z}^+)\\,\\bigl(P(n) \\Leftrightarrow Q(n)\\bigr) \\text{ true? Prove or disprove.}";
-
-const HINT_STEPS = [
-  "\\text{A biconditional } P \\Leftrightarrow Q \\text{ requires both } P \\Rightarrow Q \\text{ and } Q \\Rightarrow P.",
-  "P(n) \\Rightarrow Q(n): \\text{ if } 6 \\mid n \\text{ then } 2 \\mid n \\text{ and } 3 \\mid n \\text{ (true).}",
-  "Q(n) \\Rightarrow P(n): \\text{ if } 2 \\mid n \\text{ and } 3 \\mid n \\text{ then } 6 \\mid n \\text{ since } \\operatorname{lcm}(2,3)=6.",
-  "\\text{Hence the statement is true for every positive integer } n.",
-];
+const ACTIVITY_FEED = [
+  {
+    text: "User_842 just unlocked the 'STEP Integration' masterclass",
+    time: "2m ago",
+  },
+  {
+    text: "a_noether completed 5 consecutive logic puzzles",
+    time: "5m ago",
+  },
+  {
+    text: "r_ramanujan achieved a 9.0 simulated score on TMUA Paper 1",
+    time: "12m ago",
+  },
+] as const;
 
 export default function Home() {
-  const [hintVisible, setHintVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % ACTIVITY_FEED.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans">
@@ -116,110 +123,99 @@ export default function Home() {
         {/* structural horizontal rule */}
         <div className="my-16 h-px w-full bg-slate-200/50" aria-hidden />
 
-        {/* Sample Question Section */}
+        {/* Live Global Activity Section */}
         <section
-          className="mx-auto max-w-2xl"
-          id="question"
-          aria-labelledby="question-heading"
+          className="mx-auto max-w-2xl w-full"
+          id="activity-feed"
+          aria-labelledby="activity-heading"
         >
           {/* Pristine, Flat Glass Card Container */}
           <article
             className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-md backdrop-blur-2xl sm:p-10 transition duration-300 hover:border-violet-500/20 hover:shadow-lg"
           >
-            <div className="mb-6 flex flex-wrap items-start justify-between gap-4 sm:mb-8">
-              <div className="text-left">
-                <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-cyan-600">
-                  Sample question
-                </p>
-                <h2
-                  id="question-heading"
-                  className="mt-1 font-serif text-xl font-semibold text-slate-950 sm:text-2xl"
-                >
-                  Logic · TMUA preparation
-                </h2>
+            <div className="mb-6 flex items-center justify-between gap-4 sm:mb-8">
+              <div className="text-left flex items-center gap-3">
+                <div className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </div>
+                <div>
+                  <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-cyan-600">
+                    Real-time updates
+                  </p>
+                  <h2
+                    id="activity-heading"
+                    className="mt-0.5 font-serif text-xl font-semibold text-slate-950 sm:text-2xl"
+                  >
+                    Live Global Activity
+                  </h2>
+                </div>
               </div>
-              <span className="rounded-xl border border-violet-500/20 bg-violet-500/5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-violet-600">
-                Reasoning
+              <span className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-600">
+                Live
               </span>
             </div>
 
-            <div className="space-y-6 text-sm text-slate-800 sm:text-base">
-              <LatexPanel tex={QUESTION_LABEL} displayMode />
-              <LatexPanel
-                tex={QUESTION_MATH}
-                displayMode
-                centered
-                boxed
-                className="text-base sm:text-lg border-slate-200/60 bg-slate-50/50 text-slate-900"
-              />
-              <LatexPanel tex={QUESTION_PROMPT} displayMode />
+            {/* Slow Scrolling Ticker Container */}
+            <div className="relative h-24 w-full overflow-hidden rounded-2xl border border-slate-800 bg-slate-950 flex items-center justify-between px-6 shadow-inner">
+              {/* Subtle background gradient glow inside the ticker for depth */}
+              <div className="pointer-events-none absolute -right-12 -top-12 h-24 w-24 rounded-full bg-violet-500/10 blur-xl" />
+              <div className="pointer-events-none absolute -left-12 -bottom-12 h-24 w-24 rounded-full bg-emerald-500/10 blur-xl" />
+              
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentIndex}
+                  initial={{ y: 22, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -22, opacity: 0 }}
+                  transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+                  className="flex w-full items-center justify-between gap-4 text-left z-10"
+                >
+                  <p className="text-sm font-medium text-slate-350 leading-relaxed truncate">
+                    {ACTIVITY_FEED[currentIndex].text}
+                  </p>
+                  <span className="shrink-0 font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                    {ACTIVITY_FEED[currentIndex].time}
+                  </span>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             <div className="mt-8 flex flex-col gap-4 border-t border-slate-200/60 pt-8 sm:mt-10 sm:flex-row sm:items-center">
               <button
                 type="button"
-                onClick={() => setHintVisible((v) => !v)}
-                className="inline-flex w-full items-center justify-center rounded-xl border border-slate-250 bg-slate-50 px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-800 transition hover:bg-slate-100 hover:border-violet-500/20 focus:outline-none sm:w-auto"
-                aria-expanded={hintVisible}
-                aria-controls="question-hint"
+                className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md shadow-violet-500/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-gradient-to-r hover:from-violet-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-violet-500/25 active:translate-y-0 active:scale-[0.98] focus:outline-none sm:w-auto cursor-pointer"
               >
-                {hintVisible ? "Hide Hint" : "Reveal Hint"}
+                JOIN THE COMMUNITY
               </button>
               <p className="text-xs leading-relaxed text-slate-500">
-                {hintVisible
-                  ? "Analyze each step in sequence before submitting your final response."
-                  : "Stuck? Reveal the guided hint structure designed to train advanced reasoning."}
+                Unlock peer masterclasses, real-time simulated testing, and track your global rank inside the Maxima Maths community today.
               </p>
             </div>
-
-            <CollapsibleReveal open={hintVisible} className={hintVisible ? "" : "!mt-0"}>
-              <div
-                id="question-hint"
-                role="region"
-                aria-live="polite"
-                className="mt-6 rounded-2xl border border-slate-200/80 bg-slate-50/30 p-5 sm:p-8"
-              >
-                <h3 className="font-mono text-[9px] font-bold uppercase tracking-widest text-cyan-600">
-                  Guided steps
-                </h3>
-                <ol className="mt-5 space-y-4 text-xs text-slate-700 sm:text-sm">
-                  {HINT_STEPS.map((step, index) => (
-                    <li key={index} className="flex gap-4">
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-cyan-500/20 bg-cyan-500/10 text-[10px] font-bold text-cyan-700">
-                        {index + 1}
-                      </span>
-                      <div className="min-w-0 flex-1 pt-0.5">
-                        <LatexPanel tex={step} displayMode />
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </CollapsibleReveal>
           </article>
         </section>
 
         {/* structural horizontal rule */}
-        <div className="my-16 h-px w-full bg-white/[0.04]" aria-hidden />
+        <div className="my-16 h-px w-full bg-slate-200/50" aria-hidden />
 
         {/* Footer */}
         <footer className="text-center">
-          <p className="text-xs leading-relaxed text-white/50">
+          <p className="text-xs leading-relaxed text-slate-500">
             Explore resources in the{" "}
-            <Link href="/exam-prep" className="font-semibold text-white/70 hover:text-white transition">
+            <Link href="/exam-prep" className="font-semibold text-slate-700 hover:text-slate-900 transition underline-offset-2 hover:underline">
               Exam Prep
             </Link>
             ,{" "}
-            <Link href="/games" className="font-semibold text-white/70 hover:text-white transition">
+            <Link href="/games" className="font-semibold text-slate-700 hover:text-slate-900 transition underline-offset-2 hover:underline">
               Maths Games
             </Link>
             , and{" "}
-            <Link href="/leaderboards" className="font-semibold text-white/70 hover:text-white transition">
+            <Link href="/leaderboards" className="font-semibold text-slate-700 hover:text-slate-900 transition underline-offset-2 hover:underline">
               Leaderboards
             </Link>
             .
           </p>
-          <p className="mt-4 font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-white/30">
+          <p className="mt-4 font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-slate-450">
             KaTeX · Next.js · Tailwind CSS
           </p>
         </footer>
