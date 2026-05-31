@@ -54,7 +54,7 @@ export default async function GamesHubPage() {
             {/* Maths Game Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-slate-900/40">
               <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-violet-500/5 transition-all group-hover:scale-110" />
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-750 dark:bg-violet-500/20 dark:text-violet-455">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-400">
                 <svg
                   className="h-5 w-5"
                   xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ export default async function GamesHubPage() {
                 Speed Arithmetic, Integrals, and Olympiad — sprint and race modes, single or multiplayer.
               </p>
               <div className="mt-6 flex items-center justify-between">
-                <span className="rounded-lg bg-violet-50 px-2.5 py-1 text-xs font-semibold text-violet-750 dark:bg-violet-500/10 dark:text-violet-455">
+                <span className="rounded-lg bg-violet-50 px-2.5 py-1 text-xs font-semibold text-violet-700 dark:bg-violet-500/10 dark:text-violet-400">
                   Maths Mode
                 </span>
                 <Link
@@ -89,7 +89,7 @@ export default async function GamesHubPage() {
             {/* Coding Game Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-slate-900/40">
               <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-cyan-500/5 transition-all group-hover:scale-110" />
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-100 text-cyan-750 dark:bg-cyan-500/20 dark:text-cyan-455">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-400">
                 <svg
                   className="h-5 w-5"
                   xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +109,7 @@ export default async function GamesHubPage() {
                 Algorithm and logic puzzles — starter tracks for Python-style reasoning and interview coding prep.
               </p>
               <div className="mt-6 flex items-center justify-between">
-                <span className="rounded-lg bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-755 dark:bg-cyan-500/10 dark:text-cyan-455">
+                <span className="rounded-lg bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
                   Coding Mode
                 </span>
                 <Link
