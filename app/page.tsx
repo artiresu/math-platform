@@ -157,10 +157,7 @@ export default function Home() {
             </div>
 
             {/* Slow Scrolling Ticker Container */}
-            <div className="relative h-24 w-full overflow-hidden rounded-2xl border border-slate-800 bg-slate-950 flex items-center justify-between px-6 shadow-inner">
-              {/* Subtle background gradient glow inside the ticker for depth */}
-              <div className="pointer-events-none absolute -right-12 -top-12 h-24 w-24 rounded-full bg-violet-500/10 blur-xl" />
-              <div className="pointer-events-none absolute -left-12 -bottom-12 h-24 w-24 rounded-full bg-emerald-500/10 blur-xl" />
+            <div className="relative h-24 w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-50/80 flex items-center justify-between px-6 shadow-inner">
               
               <AnimatePresence mode="wait">
                 <motion.div
@@ -171,10 +168,10 @@ export default function Home() {
                   transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
                   className="flex w-full items-center justify-between gap-4 text-left z-10"
                 >
-                  <p className="text-sm font-medium text-slate-200 leading-relaxed truncate">
+                  <p className="text-sm font-medium text-slate-900 leading-relaxed truncate">
                     {ACTIVITY_FEED[currentIndex].text}
                   </p>
-                  <span className="shrink-0 font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                  <span className="shrink-0 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded">
                     {ACTIVITY_FEED[currentIndex].time}
                   </span>
                 </motion.div>
