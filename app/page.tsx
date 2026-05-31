@@ -5,6 +5,7 @@ import { useState } from "react";
 import { CollapsibleReveal } from "./components/CollapsibleReveal";
 import { LatexPanel } from "./components/LatexPanel";
 import { NavBar } from "./components/NavBar";
+import { CinematicIntro } from "./components/CinematicIntro";
 
 const EXAM_BADGES = ["TMUA", "STEP", "A-Level"] as const;
 const UNIVERSITIES = [
@@ -33,6 +34,9 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans">
+      {/* Premium Cinematic Preloader Overlay */}
+      <CinematicIntro />
+
       {/* Visual Architectural Background Grid */}
       <div
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.018)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_40%,transparent_85%)]"
