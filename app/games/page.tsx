@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PageShell } from "../components/PageShell";
 import { SafeLatex } from "../components/SafeLatex";
+import { GlidingText } from "../components/GlidingText";
 import {
   buildRaceQuestionSet,
   generateArithmeticQuestion,
@@ -469,9 +470,11 @@ export default function GamesPage() {
     <PageShell>
       <div className="mx-auto max-w-4xl">
         <header>
-          <h1 className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
-            Maths Games
-          </h1>
+          <GlidingText
+            text="Maths Games"
+            className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl"
+            element="h1"
+          />
           <p className="mt-3 max-w-2xl text-base text-slate-650 sm:text-lg">
             Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
             3-question races — solo for time, multiplayer first to 2 points.
@@ -525,11 +528,16 @@ export default function GamesPage() {
           phase !== "playing" &&
           phase !== "gameover" &&
           !matchmaking && (
-            <MultiplayerLobby onStartMatch={startMultiplayerMatch} />
+            <div key="multiplayer-lobby" className="animate-box-glide">
+              <MultiplayerLobby onStartMatch={startMultiplayerMatch} />
+            </div>
           )}
 
         {matchmaking && (
-          <section className="mt-10 rounded-2xl border border-slate-200/80 bg-white/80 p-10 text-center shadow-md backdrop-blur-md">
+          <section
+            key="matchmaking"
+            className="animate-box-glide mt-10 rounded-2xl border border-slate-200/80 bg-white/80 p-10 text-center shadow-md backdrop-blur-md"
+          >
             <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" />
             <p className="mt-4 font-serif text-xl font-semibold text-slate-950">
               Finding a match…
@@ -541,7 +549,11 @@ export default function GamesPage() {
         )}
 
         {mode === "single" && phase === "menu" && (
-          <section className="mt-10" aria-labelledby="topic-heading">
+          <section
+            key="single-menu"
+            className="animate-box-glide mt-10"
+            aria-labelledby="topic-heading"
+          >
             <h2
               id="topic-heading"
               className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900"
@@ -573,7 +585,8 @@ export default function GamesPage() {
 
         {phase === "playing" && question && topic && (
           <section
-            className="mt-10 rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-md backdrop-blur-md sm:p-8"
+            key={`playing-${topic}-${roundIndex}`}
+            className="animate-box-glide mt-10 rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-md backdrop-blur-md sm:p-8"
             aria-live="polite"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
@@ -606,7 +619,7 @@ export default function GamesPage() {
                       isSprint && timeLeft <= 10
                         ? "text-red-650"
                         : "text-slate-900"
-                    }`}
+                     }`}
                   >
                     {isSprint ? `${timeLeft}s` : formatElapsed(elapsedMs)}
                   </p>
@@ -778,25 +791,27 @@ export default function GamesPage() {
         )}
 
         {phase === "gameover" && (
-          <GameOverPanel
-            gameOverReason={gameOverReason}
-            mode={mode}
-            format={format}
-            score={score}
-            playerPoints={playerPoints}
-            opponentPoints={isRace ? opponentPoints : opponentScore}
-            opponentName={opponentName}
-            questionsAnswered={questionsAnswered}
-            elapsedMs={elapsedMs}
-            topic={topic}
-            onPlayAgain={() =>
-              topic &&
-              (mode === "multiplayer"
-                ? startMultiplayerMatch(topic)
-                : startSinglePlayer(topic))
-            }
-            onMenu={resetToMenu}
-          />
+          <div key="gameover" className="animate-box-glide">
+            <GameOverPanel
+              gameOverReason={gameOverReason}
+              mode={mode}
+              format={format}
+              score={score}
+              playerPoints={playerPoints}
+              opponentPoints={isRace ? opponentPoints : opponentScore}
+              opponentName={opponentName}
+              questionsAnswered={questionsAnswered}
+              elapsedMs={elapsedMs}
+              topic={topic}
+              onPlayAgain={() =>
+                topic &&
+                (mode === "multiplayer"
+                  ? startMultiplayerMatch(topic)
+                  : startSinglePlayer(topic))
+              }
+              onMenu={resetToMenu}
+            />
+          </div>
         )}
       </div>
     </PageShell>

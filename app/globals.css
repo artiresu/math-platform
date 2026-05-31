@@ -171,38 +171,38 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
-/* Premium Awwwards-grade Decelerating Animations */
-@keyframes premium-slide-up {
+/* Premium Awwwards-grade Decelerating Animations (Left-to-Right & Slower/Smooth) */
+@keyframes premium-slide-right {
   0% {
     opacity: 0;
-    transform: translateY(28px) scale(0.99);
+    transform: translateX(-35px) scale(0.99);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateX(0) scale(1);
   }
 }
 
-@keyframes premium-letter-glide {
+@keyframes premium-letter-glide-right {
   0% {
     opacity: 0;
-    transform: translateY(0.55em);
+    transform: translateX(-0.55em);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
 .animate-box-glide {
   opacity: 0;
-  animation: premium-slide-up 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: premium-slide-right 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-letter-glide {
   display: inline-block;
   opacity: 0;
   white-space: pre;
-  animation: premium-letter-glide 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: premium-letter-glide-right 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
