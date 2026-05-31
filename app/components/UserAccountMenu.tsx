@@ -8,6 +8,7 @@ import {
   saveProfile,
   MATH_AVATARS,
   AVATAR_BORDERS,
+  getInitials,
   type UserProfile,
 } from "@/lib/user-settings";
 
@@ -93,6 +94,7 @@ export function UserAccountMenu() {
 
   const displayName = user?.name || profile.name;
   const displayEmail = user?.email || profile.email;
+  const displayInitials = getInitials(displayName);
 
   // Find active avatar profile (default to Pi if not custom or missing)
   const activeAvatar =
@@ -150,7 +152,7 @@ export function UserAccountMenu() {
             className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${activeAvatar.bgGrad} text-sm font-bold text-white`}
           >
             <span className="font-serif select-none transform transition-transform group-hover:scale-110">
-              {activeAvatar.symbol}
+              {activeAvatar.id === "initials" ? displayInitials : activeAvatar.symbol}
             </span>
           </div>
         )}
@@ -175,7 +177,9 @@ export function UserAccountMenu() {
                   <div
                     className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${activeAvatar.bgGrad} text-lg font-bold text-white shadow ${activeBorder.ringClass}`}
                   >
-                    <span className="font-serif select-none">{activeAvatar.symbol}</span>
+                    <span className="font-serif select-none">
+                      {activeAvatar.id === "initials" ? displayInitials : activeAvatar.symbol}
+                    </span>
                   </div>
                 )}
                 <div className="min-w-0 flex-1">
@@ -238,7 +242,7 @@ export function UserAccountMenu() {
                     <div
                       className={`h-7 w-7 rounded-lg bg-gradient-to-br ${activeAvatar.bgGrad} flex items-center justify-center text-xs font-bold text-white shrink-0 shadow ${activeBorder.ringClass}`}
                     >
-                      {activeAvatar.symbol}
+                      {activeAvatar.id === "initials" ? displayInitials : activeAvatar.symbol}
                     </div>
                   )}
                   <div className="text-left">
@@ -350,7 +354,7 @@ export function UserAccountMenu() {
                         }`}
                       >
                         <span className="font-serif text-sm font-bold text-white select-none">
-                          {avatar.symbol}
+                          {avatar.id === "initials" ? displayInitials : avatar.symbol}
                         </span>
 
                         {/* Tiny Check Indicator Dot */}
@@ -452,11 +456,11 @@ export function UserAccountMenu() {
                         <div
                           className={`h-7 w-7 rounded-lg bg-gradient-to-br ${activeAvatar.bgGrad} flex items-center justify-center text-xs font-bold text-white shrink-0 shadow`}
                         >
-                          {activeAvatar.symbol}
+                          {activeAvatar.id === "initials" ? displayInitials : activeAvatar.symbol}
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">
-                            {activeAvatar.name}
+                            {activeAvatar.id === "initials" ? `${activeAvatar.name} (${displayInitials})` : activeAvatar.name}
                           </p>
                           <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5 truncate">
                             {activeAvatar.description}
