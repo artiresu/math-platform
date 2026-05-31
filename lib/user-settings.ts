@@ -7,6 +7,7 @@ export type UserProfile = {
   
   // New avatar field
   avatarId: string;
+  avatarCustomUrl?: string; // Base64 data URL of custom uploaded picture
 
   // New leaderboard settings
   leaderboardRegion: string;

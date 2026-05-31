@@ -10,6 +10,45 @@ import {
   type UserProfile,
 } from "@/lib/user-settings";
 
+// Helper function to resize and compress uploaded images to keep localStorage sizes small
+function resizeAndCompressImage(file: File, callback: (base64: string) => void) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const MAX_WIDTH = 128;
+      const MAX_HEIGHT = 128;
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width = Math.round((width * MAX_HEIGHT) / height);
+          height = MAX_HEIGHT;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, width, height);
+        // Compress to JPEG format with 0.75 quality for minimum storage footprint (approx 5-10KB)
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.75);
+        callback(dataUrl);
+      }
+    };
+    img.src = e.target?.result as string;
+  };
+  reader.readAsDataURL(file);
+}
+
 export function UserAccountMenu() {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
@@ -50,8 +89,9 @@ export function UserAccountMenu() {
   const displayName = user?.name || profile.name;
   const displayEmail = user?.email || profile.email;
 
-  // Find active avatar profile
-  const activeAvatar = MATH_AVATARS.find((a) => a.id === profile.avatarId) || MATH_AVATARS[0];
+  // Find active avatar profile (default to Pi if not custom or missing)
+  const activeAvatar =
+    MATH_AVATARS.find((a) => a.id === profile.avatarId) || MATH_AVATARS[0];
 
   function persistProfile(next: UserProfile) {
     setProfile(next);
@@ -66,18 +106,45 @@ export function UserAccountMenu() {
     window.setTimeout(() => setSavedMessage(null), 1500);
   }
 
+  function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    resizeAndCompressImage(file, (base64) => {
+      persistProfile({
+        ...profile,
+        avatarId: "custom",
+        avatarCustomUrl: base64,
+      });
+    });
+  }
+
   return (
     <div className="relative" ref={menuRef}>
       {/* Aesthetic Math-Themed Avatar Trigger Button */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={`flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br ${activeAvatar.bgGrad} text-sm font-bold text-white ring-2 ring-slate-200/60 dark:ring-white/10 transition hover:ring-violet-400/50 shadow-md`}
+        className="flex h-9 w-9 items-center justify-center rounded-full ring-2 ring-slate-200/60 dark:ring-white/10 transition hover:ring-violet-400/50 shadow-md overflow-hidden bg-slate-100 dark:bg-slate-800"
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label="Account menu"
       >
-        <span className="font-serif select-none transform transition-transform group-hover:scale-110">{activeAvatar.symbol}</span>
+        {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
+          <img
+            src={profile.avatarCustomUrl}
+            className="h-full w-full object-cover select-none"
+            alt="Profile Avatar"
+          />
+        ) : (
+          <div
+            className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${activeAvatar.bgGrad} text-sm font-bold text-white`}
+          >
+            <span className="font-serif select-none transform transition-transform group-hover:scale-110">
+              {activeAvatar.symbol}
+            </span>
+          </div>
+        )}
       </button>
 
       {open && (
@@ -87,12 +154,26 @@ export function UserAccountMenu() {
         >
           {/* Header Info */}
           <div className="border-b border-slate-200/60 dark:border-white/10 pb-4 flex items-center gap-3">
-            <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${activeAvatar.bgGrad} text-lg font-bold text-white shadow`}>
-              <span className="font-serif select-none">{activeAvatar.symbol}</span>
-            </div>
+            {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
+              <img
+                src={profile.avatarCustomUrl}
+                className="h-11 w-11 shrink-0 rounded-xl object-cover shadow"
+                alt="Profile Avatar"
+              />
+            ) : (
+              <div
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${activeAvatar.bgGrad} text-lg font-bold text-white shadow`}
+              >
+                <span className="font-serif select-none">{activeAvatar.symbol}</span>
+              </div>
+            )}
             <div className="min-w-0">
-              <p className="font-semibold text-slate-900 dark:text-white truncate">{displayName}</p>
-              <p className="mt-0.5 text-xs text-slate-500 dark:text-white/60 truncate">{displayEmail}</p>
+              <p className="font-semibold text-slate-900 dark:text-white truncate">
+                {displayName}
+              </p>
+              <p className="mt-0.5 text-xs text-slate-500 dark:text-white/60 truncate">
+                {displayEmail}
+              </p>
             </div>
           </div>
 
@@ -145,14 +226,18 @@ export function UserAccountMenu() {
                     onClick={() => {
                       persistProfile({ ...profile, avatarId: avatar.id });
                     }}
-                    className={`flex h-11 w-11 flex-col items-center justify-center rounded-xl bg-gradient-to-br ${avatar.bgGrad} transition duration-300 relative active:scale-95 cursor-pointer hover:scale-[1.04] shadow ${
+                    className={`flex h-11 w-11 flex-col items-center justify-center rounded-xl bg-gradient-to-br ${
+                      avatar.bgGrad
+                    } transition duration-300 relative active:scale-95 cursor-pointer hover:scale-[1.04] shadow ${
                       isSelected
                         ? "ring-2 ring-violet-500 dark:ring-violet-400 scale-[1.08] shadow-lg"
                         : "opacity-65 hover:opacity-100 ring-1 ring-slate-200 dark:ring-white/5"
                     }`}
                   >
-                    <span className="font-serif text-sm font-bold text-white select-none">{avatar.symbol}</span>
-                    
+                    <span className="font-serif text-sm font-bold text-white select-none">
+                      {avatar.symbol}
+                    </span>
+
                     {/* Tiny Check Indicator Dot */}
                     {isSelected && (
                       <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-emerald-400 border border-white animate-pulse" />
@@ -161,11 +246,72 @@ export function UserAccountMenu() {
                 );
               })}
             </div>
-            
+
+            {/* Custom Image Upload Trigger */}
+            <div className="mt-3.5 flex items-center justify-between gap-3 border-t border-dashed border-slate-200/60 dark:border-white/10 pt-3">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-white/40">
+                Or Upload Picture
+              </span>
+              <label className="relative flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-250 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/15 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10 shadow-sm">
+                <svg
+                  className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  />
+                </svg>
+                Upload File
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="sr-only"
+                />
+              </label>
+            </div>
+
             {/* Selection Details */}
-            <div className="mt-3 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 p-2 text-left">
-              <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">{activeAvatar.name}</p>
-              <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5">{activeAvatar.description}</p>
+            <div className="mt-3 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 p-2 text-left flex items-center gap-2.5">
+              {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
+                <>
+                  <img
+                    src={profile.avatarCustomUrl}
+                    className="h-7 w-7 rounded-lg object-cover shadow-inner"
+                    alt="Custom Avatar"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">
+                      Custom Upload
+                    </p>
+                    <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5 truncate">
+                      Your personalized picture
+                    </p>
+                  </div>
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 border border-white animate-pulse shrink-0" />
+                </>
+              ) : (
+                <>
+                  <div
+                    className={`h-7 w-7 rounded-lg bg-gradient-to-br ${activeAvatar.bgGrad} flex items-center justify-center text-xs font-bold text-white shrink-0 shadow`}
+                  >
+                    {activeAvatar.symbol}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">
+                      {activeAvatar.name}
+                    </p>
+                    <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5 truncate">
+                      {activeAvatar.description}
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
