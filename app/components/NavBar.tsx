@@ -48,7 +48,7 @@ export function NavBar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              className={`whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
                 isActive(pathname, link.href)
                   ? "bg-slate-100 text-slate-900"
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
@@ -69,7 +69,7 @@ export function NavBar() {
           ) : (
             <Link
               href="/auth"
-              className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
+              className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
             >
               Sign In
             </Link>
@@ -85,7 +85,7 @@ export function NavBar() {
           <Link
             key={link.href}
             href={link.href}
-            className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium ${
+            className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
               isActive(pathname, link.href)
                 ? "bg-slate-100 text-slate-900"
                 : "text-slate-600"

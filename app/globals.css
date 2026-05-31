@@ -105,8 +105,29 @@ html[data-theme="dark"] header .text-slate-800 {
 html[data-theme="dark"] header .text-slate-600 {
   color: #cbd5e1 !important;
 }
+/* Translucent active state pill */
 html[data-theme="dark"] header .bg-slate-100 {
   background-color: rgba(255, 255, 255, 0.08) !important;
+}
+/* Sleek translucent active and hover highlights for all navigation header buttons/links in dark mode, removing blocky dark backings */
+html[data-theme="dark"] header a:hover,
+html[data-theme="dark"] header button:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  color: #f8fafc !important;
+}
+/* Prevent browser default ugly black focus outline boxes and use elegant custom outline styles instead */
+html[data-theme="dark"] header a:focus,
+html[data-theme="dark"] header button:focus {
+  outline: none !important;
+}
+html[data-theme="dark"] header a:focus-visible,
+html[data-theme="dark"] header button:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5) !important; /* Soft glowing violet outline */
+}
+html[data-theme="dark"] header nav[aria-label="Main navigation mobile"] {
+  background-color: rgba(15, 23, 42, 0.6) !important; /* Translucent slate mobile nav tray */
+  border-color: rgba(255, 255, 255, 0.06) !important;
 }
 
 /* Ticker & Activity Banner Customizations */
