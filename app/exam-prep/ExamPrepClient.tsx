@@ -98,21 +98,21 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
             heading: "Core idea",
             paragraphs: [
               "STEP integration questions often reward symmetry, clever substitutions, and combining two representations of the same integral.",
-              "Look for intervals such as [0, ¤Ç/2] where sin x and cos x swap roles under x Ôåª ¤Ç/2 ÔêÆ x.",
+              "Look for intervals such as [0, π/2] where sin x and cos x swap roles under x → π/2 − x.",
             ],
             formulaTex:
               "\\int_a^b f(x)\\,dx = \\int_a^b f(a+b-x)\\,dx",
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Pure ┬À Integration",
+          paperLabel: "STEP II · Pure · Integration",
           parts: [
             "\\textbf{(i)} \\text{ Show that } \\displaystyle I = \\int_0^{\\pi/2} \\ln(\\sin x)\\,dx = -\\tfrac{\\pi}{2}\\ln 2.",
             "\\textbf{(ii)} \\text{ Hence evaluate } \\displaystyle \\int_0^{\\pi/2} \\ln(\\cos x)\\,dx.",
           ],
           solutionSteps: [
             {
-              title: "Use x = ¤Ç/2 ÔêÆ t",
+              title: "Use x = π/2 − t",
               tex: "I = \\int_0^{\\pi/2} \\ln(\\cos t)\\,dt. \\text{ Adding gives } 2I = \\int_0^{\\pi/2} \\ln(\\tfrac{1}{2}\\sin 2x)\\,dx.",
             },
             {
@@ -134,14 +134,14 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
             heading: "First-order methods",
             paragraphs: [
               "Separate when the equation factors into functions of x and y alone. For linear equations, use an integrating factor.",
-              "STEP questions may disguise a substitution ÔÇö check whether y' = f(ax + by) or homogeneous forms appear.",
+              "STEP questions may disguise a substitution — check whether y' = f(ax + by) or homogeneous forms appear.",
             ],
             formulaTex:
               "y' + P(x)y = Q(x) \\Rightarrow \\mu = e^{\\int P\\,dx}",
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Pure ┬À Differential equations",
+          paperLabel: "STEP II · Pure · Differential equations",
           parts: [
             "\\text{Find the general solution of } \\dfrac{dy}{dx} + 2y = e^{-x}, \\text{ given } y(0)=1.",
             "\\textbf{(i)} \\text{ State the integrating factor.}",
@@ -178,7 +178,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Pure ┬À Complex numbers",
+          paperLabel: "STEP II · Pure · Complex numbers",
           parts: [
             "\\textbf{(i)} \\text{ Express } z = 1 + i\\sqrt{3} \\text{ in the form } re^{i\\theta}.",
             "\\textbf{(ii)} \\text{ Hence find } z^6 \\text{ in Cartesian form.}",
@@ -210,7 +210,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Pure ┬À Vectors",
+          paperLabel: "STEP II · Pure · Vectors",
           parts: [
             "\\text{Lines } L_1: \\mathbf{r} = \\mathbf{i} + \\lambda(2\\mathbf{i}-\\mathbf{j}+\\mathbf{k}), \\; L_2: \\mathbf{r} = 3\\mathbf{j} + \\mu(\\mathbf{i}+\\mathbf{j}-\\mathbf{k}).",
             "\\textbf{(i)} \\text{ Show the lines are skew.}",
@@ -246,7 +246,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Mechanics",
+          paperLabel: "STEP II · Mechanics",
           parts: [
             "\\text{Projectile speed } u \\text{ at angle } \\alpha \\text{ up a smooth plane inclined at } \\beta.",
             "\\textbf{(i)} \\text{ Show } T = \\dfrac{2u\\sin(\\alpha-\\beta)}{g\\cos\\beta}.",
@@ -281,7 +281,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Mechanics ┬À Collisions",
+          paperLabel: "STEP II · Mechanics · Collisions",
           parts: [
             "\\text{Particle A (mass } 2m\\text{) moving at speed } u \\text{ strikes stationary B (mass } m\\text{), } e=\\tfrac{1}{2}.",
             "\\textbf{(i)} \\text{ Find speeds after impact.}",
@@ -309,13 +309,13 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           {
             heading: "Centripetal acceleration",
             paragraphs: [
-              "For motion in a circle of radius r at speed v, acceleration toward the centre is v┬▓/r.",
+              "For motion in a circle of radius r at speed v, acceleration toward the centre is v²/r.",
             ],
             formulaTex: "a = \\dfrac{v^2}{r} = r\\omega^2",
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Mechanics ┬À Circular motion",
+          paperLabel: "STEP II · Mechanics · Circular motion",
           parts: [
             "\\text{A bead on a vertical circle of radius } a \\text{ at angle } \\theta \\text{ to the downward vertical.}",
             "\\textbf{(i)} \\text{ Show } T + mg\\cos\\theta = \\dfrac{mv^2}{a}.",
@@ -335,13 +335,13 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           {
             heading: "When to use energy",
             paragraphs: [
-              "Energy methods shine when forces are conservative and displacement paths are messy ÔÇö avoid solving for internal reaction forces you do not need.",
+              "Energy methods shine when forces are conservative and displacement paths are messy — avoid solving for internal reaction forces you do not need.",
             ],
             formulaTex: "\\Delta KE + \\Delta PE = \\text{work done by non-conservative forces}",
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Mechanics ┬À Energy",
+          paperLabel: "STEP II · Mechanics · Energy",
           parts: [
             "\\text{A block slides from rest down a rough plane of length } L \\text{ with coefficient } \\mu.",
             "\\textbf{(i)} \\text{ Find speed at the bottom in terms of } L, \\mu, g, \\text{ and incline angle } \\beta.",
@@ -372,7 +372,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Probability",
+          paperLabel: "STEP II · Probability",
           parts: [
             "\\text{Given } f(x)=kx(1-x) \\text{ on } (0,1). \\textbf{(i)} \\text{ Find } k. \\textbf{(ii)} \\text{ Find } \\mathbb{P}(X>0.5\\mid X>0.25).",
           ],
@@ -399,7 +399,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Probability ┬À Conditioning",
+          paperLabel: "STEP II · Probability · Conditioning",
           parts: [
             "\\text{Bag: 3 red, 2 blue. Two draws without replacement.}",
             "\\textbf{(i)} \\text{ Find } \\mathbb{P}(\\text{both red}).",
@@ -418,13 +418,13 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           {
             heading: "Expectation",
             paragraphs: [
-              "For discrete X, E(X) = ╬ú x P(X=x). Variance uses E(X┬▓) ÔêÆ [E(X)]┬▓.",
+              "For discrete X, E(X) = Σ x P(X=x). Variance uses E(X²) − [E(X)]².",
             ],
             formulaTex: "\\mathrm{Var}(X) = \\mathbb{E}(X^2) - [\\mathbb{E}(X)]^2",
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Statistics",
+          paperLabel: "STEP II · Statistics",
           parts: [
             "\\text{X ~ Bin(3, p). Given } \\mathbb{E}(X)=1.2, \\textbf{(i)} \\text{ find } p.",
           ],
@@ -445,7 +445,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP II ┬À Statistics ┬À Testing",
+          paperLabel: "STEP II · Statistics · Testing",
           parts: [
             "\\text{Ten samples have mean } \\bar{x} \\text{ from } N(\\mu,4). \\text{ Test } H_0:\\mu=10 \\text{ vs } H_1:\\mu>10 \\text{ at 5\\%}.",
           ],
@@ -474,7 +474,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP III ┬À Hyperbolic",
+          paperLabel: "STEP III · Hyperbolic",
           parts: [
             "\\textbf{(i)} \\text{ Show } \\cosh^2 x - \\sinh^2 x = 1.",
             "\\textbf{(ii)} \\text{ Solve } \\cosh x = 5\\sinh x - 1.",
@@ -495,13 +495,13 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           {
             heading: "Loci in the Argand diagram",
             paragraphs: [
-              "STEP III may ask you to sketch |z-a| = k|z-b| or arg(z-a) = constant ÔÇö convert to Cartesian form for geometry.",
+              "STEP III may ask you to sketch |z-a| = k|z-b| or arg(z-a) = constant — convert to Cartesian form for geometry.",
             ],
             formulaTex: "|z-z_0| = r",
           },
         ],
         practice: {
-          paperLabel: "STEP III ┬À Complex",
+          paperLabel: "STEP III · Complex",
           parts: [
             "\\textbf{(i)} \\text{ Sketch } |z-1| = 2|z-i|.",
           ],
@@ -527,7 +527,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP III ┬À Analysis",
+          paperLabel: "STEP III · Analysis",
           parts: [
             "\\text{For } f(x,y)=x^2y+e^{xy}, \\textbf{(i)} \\text{ find } f_{xy}.",
           ],
@@ -548,7 +548,7 @@ const STEP_CURRICULUM: Record<StepTopicId, { subtopics: StudySubtopic[] }> = {
           },
         ],
         practice: {
-          paperLabel: "STEP III ┬À Proof",
+          paperLabel: "STEP III · Proof",
           parts: [
             "\\textbf{(i)} \\text{ Prove by induction } 2^n > n^2 \\text{ for } n \\geq 5.",
           ],
@@ -600,70 +600,70 @@ function TrackCards({ onSelect }: { onSelect: (id: TrackId) => void }) {
 function AdmissionsGuide() {
   return (
     <section
-      className="mt-12 rounded-2xl border border-slate-200/80 bg-white/80 p-6 sm:mt-14 sm:p-8 shadow-md"
+      className="mt-12 rounded-2xl border border-slate-200/80 bg-white/80 p-6 sm:mt-14 sm:p-8 shadow-md dark:border-slate-800/80 dark:bg-slate-900/50"
       aria-labelledby="admissions-guide-title"
     >
       <h2
         id="admissions-guide-title"
-        className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600"
+        className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400"
       >
         Admissions insight
       </h2>
 
       <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-        <article className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-6">
-          <h3 className="font-serif text-xl font-semibold text-slate-950">
+        <article className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-6 dark:border-slate-800/50 dark:bg-slate-950/30">
+          <h3 className="font-serif text-xl font-semibold text-slate-950 dark:text-white">
             Why Admissions Tests Matter
           </h3>
           <p className="mt-4 text-sm leading-relaxed text-slate-650 sm:text-base">
-            Top universities ÔÇö including{" "}
-            <span className="font-semibold text-slate-900">Cambridge</span>,{" "}
-            <span className="font-semibold text-slate-900">Oxford</span>,{" "}
-            <span className="font-semibold text-slate-900">Imperial</span>, and{" "}
-            <span className="font-semibold text-slate-900">Warwick</span> ÔÇö use tests
-            such as the <span className="font-semibold text-slate-900">TMUA</span> and{" "}
-            <span className="font-semibold text-slate-900">STEP</span> to look beyond
-            flawless A-Level grades. They want evidence you can tackle{" "}
-            <span className="font-semibold text-slate-900">
-              pure, unstructured mathematics
-            </span>{" "}
-            when the method is not given to you on a formula sheet.
+            Top universities — including{" "}
+            <span className="font-semibold text-slate-900 dark:text-slate-100">Cambridge</span>,{" "}
+            <span className="font-semibold text-slate-900 dark:text-slate-100">Oxford</span>,{" "}
+            <span className="font-semibold text-slate-900 dark:text-slate-100">Imperial</span>, and{" "}
+            <span className="font-semibold text-slate-900 dark:text-slate-100">Warwick</span> — utilize
+            specialized entrance exams like the <span className="font-semibold text-slate-900 dark:text-slate-100">TMUA</span> and{" "}
+            <span className="font-semibold text-slate-900 dark:text-slate-100">STEP</span> to look beyond perfect school grades.
+            Standard school curricula focus on syllabus coverage and routine procedural execution. In contrast, university admissions tests evaluate your raw mathematical intuition, deductive rigour, and ability to construct coherent proofs from first principles.
           </p>
           <p className="mt-4 text-sm leading-relaxed text-slate-650 sm:text-base">
-            Strong module scores show you can learn a syllabus; admissions tests
-            show whether you can think like a mathematician under pressure.
+            These papers demand that you tackle{" "}
+            <span className="font-semibold text-slate-900 dark:text-slate-100">
+              pure, unstructured mathematics
+            </span>{" "}
+            where no guiding sub-parts are provided and no standard methods are listed on a formula sheet. Strong A-Level module scores prove you can learn a syllabus; admissions tests prove you can think, struggle, and reason like a professional mathematician when faced with the completely unfamiliar.
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-slate-650 sm:text-base">
+            Ultimately, this shift represents the transition to undergraduate mathematics, moving away from routine computation toward absolute logical clarity. Excelling in these assessments shows you have the resilience to navigate intellectual dead ends and the passion to thrive in a high-intensity academic environment.
           </p>
         </article>
 
-        <article className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-6">
-          <h3 className="font-serif text-xl font-semibold text-slate-950">
+        <article className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-6 dark:border-slate-800/50 dark:bg-slate-950/30">
+          <h3 className="font-serif text-xl font-semibold text-slate-950 dark:text-white">
             How to Prepare Effectively
           </h3>
-          <ul className="mt-4 space-y-4 text-sm leading-relaxed text-slate-650 sm:text-base">
+          <ul className="mt-4 space-y-5 text-sm leading-relaxed text-slate-650 sm:text-base">
             <li className="flex gap-3">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />
               <span>
-                <span className="font-semibold text-slate-900">A-Levels</span> train
-                speed within a defined specification ÔÇö master techniques until
-                they are automatic, then push into harder unstructured problems.
+                <span className="font-semibold text-slate-900 dark:text-slate-100">Maths A-Levels</span> build flawless structural speed and execution. Master algebraic manipulation, trigonometry, and calculus until they are completely automatic. High-level problem-solving requires your full cognitive focus — you cannot afford to spend working memory on routine arithmetic or basic derivatives.
               </span>
             </li>
             <li className="flex gap-3">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-500" />
               <span>
-                <span className="font-semibold text-slate-900">TMUA</span> rewards
-                crisp logic and fast pattern recognition; practise formal
-                implications, contrapositives, and careful reading of
-                quantifiers.
+                <span className="font-semibold text-slate-900 dark:text-slate-100">TMUA</span> rewards crisp propositional logic and rapid pattern recognition. Master formal implications (<span className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-200">P ⇒ Q</span>), contrapositives (<span className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-200">¬Q ⇒ ¬P</span>), and the precise negation of universal and existential quantifiers. Learn to systematically diagnose logical fallacies in mock arguments.
               </span>
             </li>
             <li className="flex gap-3">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-500" />
               <span>
-                <span className="font-semibold text-slate-900">STEP</span> is an
-                endurance test of depth ÔÇö attempt long, multi-part questions,
-                embrace dead ends, and build resilience rather than chasing
-                quick tricks.
+                <span className="font-semibold text-slate-900 dark:text-slate-100">STEP</span> is a marathon of conceptual depth and resilience. Questions are long, multi-stage, and deliberately open-ended. Spend 45–60 minutes struggling with a roadblock before consulting hints. The cognitive growth happens in the dead ends, the restarts, and the stubborn pursuit of a rigorous proof.
+              </span>
+            </li>
+            <li className="flex gap-3">
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+              <span>
+                <span className="font-semibold text-slate-900 dark:text-slate-100">Interviews & Oral Maths</span> require active verbal communication. Practice solving challenging mathematical problems aloud. Tutors do not want immediate, silent perfection; they want to see how you receive hints, how you adapt under pressure, and how teachable you are in a tutorial setting.
               </span>
             </li>
           </ul>
@@ -857,12 +857,12 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
       {track === "tmua" && (
         <div className="mt-6 space-y-6 text-slate-800">
           <p className="text-sm font-semibold text-slate-900">
-            TMUA Paper 2 ┬À Logical reasoning
+            TMUA Paper 2 · Logical reasoning
           </p>
           <p className="text-base leading-relaxed text-slate-700 sm:text-lg">
             Let <em>n</em> be an integer. Consider the statement:{" "}
             <strong className="font-bold text-slate-900">
-              &ldquo;If n┬▓ is divisible by 4, then n is even.&rdquo;
+              &ldquo;If n² is divisible by 4, then n is even.&rdquo;
             </strong>{" "}
             Which option is{" "}
             <strong className="font-bold text-slate-900">
@@ -937,8 +937,8 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
                 }`}
               >
                 {TMUA_OPTIONS.find((o) => o.id === tmuaSelection)?.correct
-                  ? "Correct ÔÇö this is the contrapositive."
-                  : "Not quite ÔÇö try the contrapositive form."}
+                  ? "Correct — this is the contrapositive."
+                  : "Not quite — try the contrapositive form."}
               </p>
             )}
           </div>
@@ -978,8 +978,8 @@ function PracticeRoom({
           {track === "step"
             ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."
             : track === "alevel"
-              ? "Set your exam board, course, and year ÔÇö then explore subtopics with revision notes, video walkthroughs, and practice questions."
-              : "Work through the question below. Use hints or solutions when you need a nudge ÔÇö then return to the hub to switch tracks."}
+              ? "Set your exam board, course, and year — then explore subtopics with revision notes, video walkthroughs, and practice questions."
+              : "Work through the question below. Use hints or solutions when you need a nudge — then return to the hub to switch tracks."}
         </p>
       </header>
 

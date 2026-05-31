@@ -481,7 +481,7 @@ export default function MathsGamesClient() {
           </h1>
           <p className="mt-3 max-w-2xl text-base text-slate-650 sm:text-lg">
             Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
-            3-question races ÔÇö solo for time, multiplayer first to 2 points.
+            3-question races — solo for time, multiplayer first to 2 points.
           </p>
         </header>
 
@@ -594,12 +594,12 @@ export default function MathsGamesClient() {
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
                   {TOPICS.find((t) => t.id === topic)?.title}
-                  {mode === "multiplayer" && " ┬À Live match"}
-                  {isRace && ` ┬À Question ${roundIndex + 1} of ${RACE_QUESTION_COUNT}`}
+                  {mode === "multiplayer" && " · Live match"}
+                  {isRace && ` · Question ${roundIndex + 1} of ${RACE_QUESTION_COUNT}`}
                 </p>
                 <p className="mt-1 text-2xl font-extrabold tabular-nums text-slate-950">
                   {isRace && mode === "multiplayer"
-                    ? `You ${playerPoints} ÔÇö ${opponentName} ${opponentPoints}`
+                    ? `You ${playerPoints} — ${opponentName} ${opponentPoints}`
                     : isRace
                       ? `Question ${roundIndex + 1} of ${RACE_QUESTION_COUNT}`
                       : `Score: ${score}`}
@@ -683,7 +683,7 @@ export default function MathsGamesClient() {
 
             {isRace && mode === "multiplayer" && (
               <p className="mt-4 text-center text-xs text-slate-500">
-                First correct answer wins the round ┬À First to {RACE_WIN_POINTS}{" "}
+                First correct answer wins the round · First to {RACE_WIN_POINTS}{" "}
                 points wins the match
               </p>
             )}
@@ -772,19 +772,19 @@ export default function MathsGamesClient() {
                 >
                   {feedback === "correct"
                     ? `+${CORRECT_POINTS} points`
-                    : `ÔêÆ${WRONG_POINTS} points`}
+                    : `−${WRONG_POINTS} points`}
                 </p>
               )}
               {feedback && isRace && mode === "single" && feedback === "wrong" && (
                 <p className="mt-3 text-sm font-bold text-red-650">
-                  Not quite ÔÇö try again
+                  Not quite — try again
                 </p>
               )}
             </form>
 
             {isSprint && (
               <p className="mt-4 text-center text-xs text-slate-500">
-                +{CORRECT_POINTS} correct ┬À ÔêÆ{WRONG_POINTS} incorrect ┬À{" "}
+                +{CORRECT_POINTS} correct · −{WRONG_POINTS} incorrect ·{" "}
                 {questionsAnswered} answered
               </p>
             )}
@@ -848,7 +848,7 @@ function GameOverPanel({
 }) {
   const isRace = format === "race";
   const title = (() => {
-    if (gameOverReason === "opponent_left") return "You win ÔÇö opponent left!";
+    if (gameOverReason === "opponent_left") return "You win — opponent left!";
     if (gameOverReason === "exit") return "You exited the round";
     if (gameOverReason === "race_win") return "You win!";
     if (gameOverReason === "race_loss") return "Opponent wins";
@@ -898,7 +898,7 @@ function GameOverPanel({
       )}
       {isRace && mode === "multiplayer" && (
         <p className="mt-8 text-4xl font-extrabold tabular-nums text-slate-900">
-          {playerPoints} ÔÇö {opponentPoints}
+          {playerPoints} — {opponentPoints}
         </p>
       )}
       {!isRace && (
