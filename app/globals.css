@@ -280,3 +280,101 @@ html[data-theme="dark"] .border-orange-500\/20 {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.2);
 }
+
+/* ==========================================
+   PAGE SHELL LIGHT MODE FIXES FOR INVISIBLE TEXT
+   ========================================== */
+
+/* If NOT in dark mode (i.e. Light Mode), override hardcoded text-white elements inside .page-shell to make them beautifully visible */
+html:not([data-theme="dark"]) .page-shell h1.text-white {
+  color: #0f172a !important; /* Stand-out Slate-900 */
+}
+html:not([data-theme="dark"]) .page-shell p.text-white\/90,
+html:not([data-theme="dark"]) .page-shell p.text-white\/85 {
+  color: #475569 !important; /* Soft body text Slate-600 */
+}
+
+/* Also refine the dark containers (like the AI assistant cards or server boxes) to look beautifully clean in light mode! */
+html:not([data-theme="dark"]) .page-shell section.bg-gradient-to-b.from-slate-900\/90 {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
+}
+html:not([data-theme="dark"]) .page-shell section.bg-gradient-to-b.from-slate-900\/90 label,
+html:not([data-theme="dark"]) .page-shell section.bg-gradient-to-b.from-slate-900\/90 p {
+  color: #334155 !important;
+}
+html:not([data-theme="dark"]) .page-shell section.bg-gradient-to-b.from-slate-900\/90 textarea,
+html:not([data-theme="dark"]) .page-shell section.bg-gradient-to-b.from-slate-900\/90 input[type="file"] {
+  background-color: #f8fafc !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  color: #0f172a !important;
+}
+html:not([data-theme="dark"]) .page-shell section.bg-gradient-to-b.from-slate-900\/90 textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Fix server boxes in light mode */
+html:not([data-theme="dark"]) .page-shell .bg-black\/40 {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03) !important;
+}
+html:not([data-theme="dark"]) .page-shell .bg-slate-900\/80 {
+  background-color: #f8fafc !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+html:not([data-theme="dark"]) .page-shell .bg-slate-950\/60 {
+  background-color: #f1f5f9 !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+html:not([data-theme="dark"]) .page-shell .text-white\/80 {
+  color: #475569 !important;
+}
+html:not([data-theme="dark"]) .page-shell .text-white\/70 {
+  color: #64748b !important;
+}
+html:not([data-theme="dark"]) .page-shell .text-white\/50 {
+  color: #94a3b8 !important;
+}
+html:not([data-theme="dark"]) .page-shell .text-white {
+  color: #0f172a !important;
+}
+html:not([data-theme="dark"]) .page-shell .bg-white\/5 {
+  background-color: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  color: #0f172a !important;
+}
+html:not([data-theme="dark"]) .page-shell .bg-white\/10 {
+  background-color: rgba(139, 92, 246, 0.08) !important;
+  color: #6d28d9 !important;
+}
+html:not([data-theme="dark"]) .page-shell .bg-violet-500\/20 {
+  background-color: rgba(139, 92, 246, 0.1) !important;
+  color: #6d28d9 !important;
+}
+html:not([data-theme="dark"]) .page-shell .border-white\/15,
+html:not([data-theme="dark"]) .page-shell .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+html:not([data-theme="dark"]) .page-shell .text-white\/40 {
+  color: #94a3b8 !important;
+}
+html:not([data-theme="dark"]) .page-shell input[type="text"] {
+  background-color: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  color: #0f172a !important;
+}
+html:not([data-theme="dark"]) .page-shell input[type="text"]::placeholder {
+  color: #94a3b8 !important;
+}
+html:not([data-theme="dark"]) .page-shell button.bg-white {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+html:not([data-theme="dark"]) .page-shell button.bg-white:hover {
+  background-color: #1e293b !important;
+}
+html:not([data-theme="dark"]) .page-shell .text-violet-300 {
+  color: #6d28d9 !important; /* Standout deep violet for usernames */
+}
