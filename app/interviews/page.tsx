@@ -18,28 +18,32 @@ export default function InterviewsPage() {
 
   // Progressive violet gradient styling based on the progression depth
   const getProgressiveVioletClass = (level: number, isUnlocked: boolean, isCompleted: boolean) => {
+    // Determine base gradient class
+    let baseClass = "";
+    if (level <= 20) {
+      baseClass = "bg-violet-500/[0.06] text-violet-750 dark:text-violet-300 border-violet-500/20";
+    } else if (level <= 40) {
+      baseClass = "bg-violet-500/15 text-violet-850 dark:text-violet-250 border-violet-500/25";
+    } else if (level <= 60) {
+      baseClass = "bg-violet-500/30 text-violet-900 dark:text-violet-150 border-violet-500/30";
+    } else if (level <= 80) {
+      baseClass = "bg-violet-500/50 text-violet-955 dark:text-violet-100 border-violet-500/40";
+    } else {
+      baseClass = "bg-violet-600 text-white border-violet-600 shadow-sm shadow-violet-500/10";
+    }
+
     if (!isUnlocked) {
-      return "bg-slate-100/40 dark:bg-slate-900/10 text-slate-400/50 dark:text-slate-600/50 border-slate-200/50 dark:border-slate-800/40 cursor-not-allowed";
+      // Locked state overlay styling (gradient still visible, but dimmed and disabled)
+      return `${baseClass} opacity-30 dark:opacity-40 cursor-not-allowed border-dashed`;
     }
 
     if (isCompleted) {
-      return "bg-emerald-500/10 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-500/20";
+      // Completed state overlay styling (green borders, retaining purple backing)
+      return `${baseClass} border-emerald-500/50 dark:border-emerald-500/60 shadow-sm shadow-emerald-500/5 hover:border-emerald-500`;
     }
 
-    // Active unlocked level color based on depth
-    if (level <= 20) {
-      return "bg-violet-500/[0.06] hover:bg-violet-500/20 text-violet-750 dark:text-violet-300 border-violet-500/30 hover:border-violet-500 ring-2 ring-violet-500/10 dark:ring-violet-500/20 animate-pulse-subtle";
-    }
-    if (level <= 40) {
-      return "bg-violet-500/15 hover:bg-violet-500/35 text-violet-850 dark:text-violet-250 border-violet-500/40 hover:border-violet-500 ring-2 ring-violet-500/15 dark:ring-violet-500/25";
-    }
-    if (level <= 60) {
-      return "bg-violet-500/30 hover:bg-violet-500/55 text-violet-900 dark:text-violet-150 border-violet-500/50 hover:border-violet-500 ring-2 ring-violet-500/20 dark:ring-violet-500/30";
-    }
-    if (level <= 80) {
-      return "bg-violet-500/50 hover:bg-violet-500/70 text-violet-950 dark:text-violet-100 border-violet-500/60 hover:border-violet-500 ring-2 ring-violet-500/25 dark:ring-violet-500/35";
-    }
-    return "bg-violet-600 hover:bg-violet-500 text-white border-violet-600 hover:border-violet-500 shadow-sm shadow-violet-500/10 hover:shadow-violet-500/25 ring-2 ring-violet-500/30 dark:ring-violet-500/40";
+    // Active unlocked state styling (fully active, scaling hovers, pulsing rings)
+    return `${baseClass} hover:border-violet-500 ring-2 ring-violet-500/10 dark:ring-violet-500/20`;
   };
 
   return (
