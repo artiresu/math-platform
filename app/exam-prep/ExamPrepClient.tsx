@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -14,6 +14,8 @@ type Track = {
   id: TrackId;
   title: string;
   subtext: string;
+  badgeClass: string;
+  cardClass: string;
 };
 
 const TRACKS: Track[] = [
@@ -22,18 +24,24 @@ const TRACKS: Track[] = [
     title: "A level Maths & Further Maths",
     subtext:
       "Master pure mathematics, calculus, matrices, complex numbers, and advanced mechanics.",
+    badgeClass: "bg-violet-500/5 border-violet-500/10 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400 group-hover:bg-violet-500/10 dark:group-hover:bg-violet-500/20",
+    cardClass: "hover:border-violet-500/30 hover:bg-violet-500/[0.02] hover:shadow-violet-200/20 dark:hover:border-violet-500/30 dark:hover:bg-violet-500/[0.02]",
   },
   {
     id: "tmua",
     title: "TMUA",
     subtext:
       "Test of Mathematics for University Admission. Focus on formal logical reasoning and mathematical thinking.",
+    badgeClass: "bg-cyan-500/5 border-cyan-500/10 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400 group-hover:bg-cyan-500/10 dark:group-hover:bg-cyan-500/20",
+    cardClass: "hover:border-cyan-500/30 hover:bg-cyan-500/[0.02] hover:shadow-cyan-200/20 dark:hover:border-cyan-500/30 dark:hover:bg-cyan-500/[0.02]",
   },
   {
     id: "step",
     title: "STEP",
     subtext:
       "Sixth Term Examination Paper. Advanced, unstructured problem-solving challenges for top-tier universities.",
+    badgeClass: "bg-rose-500/5 border-rose-500/10 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400 group-hover:bg-rose-500/10 dark:group-hover:bg-rose-500/20",
+    cardClass: "hover:border-rose-500/30 hover:bg-rose-500/[0.02] hover:shadow-rose-200/20 dark:hover:border-rose-500/30 dark:hover:bg-rose-500/[0.02]",
   },
 ];
 
@@ -572,9 +580,9 @@ function TrackCards({ onSelect }: { onSelect: (id: TrackId) => void }) {
           key={track.id}
           type="button"
           onClick={() => onSelect(track.id)}
-          className="group rounded-2xl border border-slate-200 bg-white/70 p-5 text-left transition-all duration-200 hover:border-violet-500/30 hover:bg-violet-500/[0.03] hover:shadow-lg hover:shadow-violet-200/50 sm:p-6"
+          className={`group rounded-2xl border border-slate-200 bg-white/70 p-5 text-left transition-all duration-200 hover:shadow-lg sm:p-6 ${track.cardClass}`}
         >
-          <span className="inline-block rounded-full bg-violet-500/5 border border-violet-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-violet-700 group-hover:bg-violet-500/10">
+          <span className={`inline-block rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${track.badgeClass}`}>
             Enter practice room
           </span>
           <h2 className="mt-3 font-serif text-lg font-semibold text-slate-950 sm:text-xl">
