@@ -22,7 +22,12 @@ export function PageShell({ children }: PageShellProps) {
       />
 
       <div
-        className="pointer-events-none absolute -right-48 top-32 h-[550px] w-[550px] rounded-full bg-violet-400/25 blur-[120px] animate-neon-drift-1"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[640px] bg-[radial-gradient(ellipse_70%_60%_at_80%_0%,rgba(209,250,229,0.35),transparent_70%)] dark:bg-[radial-gradient(ellipse_70%_60%_at_80%_0%,rgba(16,185,129,0.06),transparent_70%)]"
+        aria-hidden
+      />
+
+      <div
+        className="pointer-events-none absolute -right-48 top-32 h-[550px] w-[550px] rounded-full bg-violet-400/25  blur-[120px] animate-neon-drift-1"
         aria-hidden
       />
       <div
