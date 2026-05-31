@@ -174,10 +174,10 @@ body {
 /* Premium Awwwards-grade Decelerating Animations (Left-to-Right, Micro-Subtle & Slow easeOutQuart - Pure Movement) */
 @keyframes premium-slide-right {
   0% {
-    transform: translateX(-4.5px) scale(0.998);
+    transform: translateX(-4.5px);
   }
   100% {
-    transform: translateX(0) scale(1);
+    transform: translateX(0);
   }
 }
 

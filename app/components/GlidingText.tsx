@@ -19,23 +19,44 @@ export function GlidingText({
 }: GlidingTextProps) {
   const Component = element;
   
-  // Split the text into individual characters
-  const chars = Array.from(text);
+  // Split the text into words
+  const words = text.split(" ");
+
+  // Absolute character index for continuous stagger delays across words
+  let absoluteCharIndex = 0;
 
   return (
-    <Component className={`inline-block select-none ${className}`}>
-      {chars.map((char, index) => {
-        const delay = baseDelay + index * staggerDelay;
+    <Component className={`select-none ${className}`}>
+      {words.map((word, wordIndex) => {
+        const chars = Array.from(word);
+        
         return (
-          <span
-            key={index}
-            className="animate-letter-glide"
-            style={{
-              animationDelay: `${delay}ms`,
-            }}
-          >
-            {char === " " ? "\u00A0" : char}
-          </span>
+          <React.Fragment key={wordIndex}>
+            {/* Force the entire word to wrap together as a single block */}
+            <span className="inline-block whitespace-nowrap">
+              {chars.map((char) => {
+                const delay = baseDelay + absoluteCharIndex * staggerDelay;
+                absoluteCharIndex++;
+                
+                return (
+                  <span
+                    key={absoluteCharIndex}
+                    className="animate-letter-glide"
+                    style={{
+                      animationDelay: `${delay}ms`,
+                    }}
+                  >
+                    {char}
+                  </span>
+                );
+              })}
+            </span>
+            
+            {/* Standard line break space after each word except the last one */}
+            {wordIndex < words.length - 1 && (
+              <span className="inline-block">&nbsp;</span>
+            )}
+          </React.Fragment>
         );
       })}
     </Component>
