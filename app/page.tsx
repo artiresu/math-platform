@@ -171,7 +171,7 @@ export default function Home() {
                   transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
                   className="flex w-full items-center justify-between gap-4 text-left z-10"
                 >
-                  <p className="text-sm font-medium text-slate-350 leading-relaxed truncate">
+                  <p className="text-sm font-medium text-slate-200 leading-relaxed truncate">
                     {ACTIVITY_FEED[currentIndex].text}
                   </p>
                   <span className="shrink-0 font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
