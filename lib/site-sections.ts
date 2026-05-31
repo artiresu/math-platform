@@ -14,9 +14,21 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     id: "exam-prep",
-    label: "Exam Prep",
+    label: "Exam Hub",
     href: "/exam-prep",
-    keywords: ["exam", "a-level", "alevel", "study"],
+    keywords: ["exam", "hub", "study", "a-level"],
+  },
+  {
+    id: "resources",
+    label: "Resources",
+    href: "/resources",
+    keywords: ["resources", "library", "past papers", "formula", "problem sets"],
+  },
+  {
+    id: "a-levels",
+    label: "A-Levels",
+    href: "/exam-prep/a-levels",
+    keywords: ["a-level", "maths", "further maths", "computer science"],
   },
   {
     id: "admissions",

@@ -84,13 +84,15 @@ export function LeaderboardTabs({
   loadError,
   viewerCountry = "United Kingdom",
   viewerContinent = "Europe",
+  compact = false,
 }: {
   boards: LeaderboardBoard[];
   loadError?: boolean;
   viewerCountry?: string;
   viewerContinent?: string;
+  compact?: boolean;
 }) {
-  const [active, setActive] = useState<GameType>("speed-arithmetic");
+  const [active, setActive] = useState<GameType>(boards[0]?.gameType ?? "speed-arithmetic");
   const [period, setPeriod] = useState<TimePeriod>("all-time");
   const [regionScope, setRegionScope] = useState<RegionScope>("global");
 
@@ -114,7 +116,8 @@ export function LeaderboardTabs({
   }, [current, period, regionScope, viewerCountry, viewerContinent]);
 
   return (
-    <div className="mt-10">
+    <div className={compact ? "mt-0" : "mt-10"}>
+      {!compact && (
       <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-4">
         <p className="w-full font-mono text-[10px] font-medium uppercase tracking-widest text-slate-500">
           Game
@@ -139,8 +142,9 @@ export function LeaderboardTabs({
           );
         })}
       </div>
+      )}
 
-      <div className="mt-4 flex flex-wrap gap-4">
+      <div className={`flex flex-wrap gap-4 ${compact ? "mt-0" : "mt-4"}`}>
         <div>
           <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">
             Time
@@ -186,7 +190,7 @@ export function LeaderboardTabs({
       </div>
 
       <div
-        className="mt-6 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-md"
+        className={`overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-md ${compact ? "mt-3" : "mt-6"}`}
         role="tabpanel"
       >
         {loadError ? (
@@ -262,10 +266,12 @@ export function LeaderboardTabs({
         )}
       </div>
 
+      {!compact && (
       <p className="mt-4 text-center text-xs text-slate-500">
         {GAME_TYPE_LABELS[active]} · {TIME_PERIOD_LABELS[period]} ·{" "}
         {REGION_SCOPE_LABELS[regionScope]} · {filteredEntries.length} results
       </p>
+      )}
     </div>
   );
 }

@@ -20,6 +20,7 @@ export type UserProfile = {
   autoSaveSolutions: boolean;
   emailNotifications: boolean;
   autoBackupInterval: number; // in minutes
+  bio?: string;
 };
 
 export type AvatarItem = {

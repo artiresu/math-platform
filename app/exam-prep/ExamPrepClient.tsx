@@ -1,49 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { AlevelPracticeSection } from "./AlevelPracticeSection";
+import { useEffect, useState, type ReactNode } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { StudyHub } from "./StudyHub";
 import type { StudySubtopic, StudyTabId } from "./study-types";
 import { PageShell } from "../components/PageShell";
 import { SafeLatex } from "../components/SafeLatex";
 
-type TrackId = "alevel" | "tmua" | "step";
+type TrackId = "tmua" | "step";
 
-type Track = {
-  id: TrackId;
-  title: string;
-  subtext: string;
-  badgeClass: string;
-  cardClass: string;
+const TRACK_TITLES: Record<TrackId, string> = {
+  tmua: "TMUA",
+  step: "STEP",
 };
-
-const TRACKS: Track[] = [
-  {
-    id: "alevel",
-    title: "A level Maths & Further Maths",
-    subtext:
-      "Master pure mathematics, calculus, matrices, complex numbers, and advanced mechanics.",
-    badgeClass: "bg-violet-50 border-violet-100 text-violet-750 dark:bg-violet-500/10 dark:border-violet-500/20 dark:text-violet-400 group-hover:bg-violet-100 dark:group-hover:bg-violet-500/20",
-    cardClass: "hover:border-violet-400/40 hover:bg-violet-50/20 hover:shadow-lg hover:shadow-violet-100/50 dark:hover:border-violet-500/30 dark:hover:bg-violet-500/[0.02]",
-  },
-  {
-    id: "tmua",
-    title: "TMUA",
-    subtext:
-      "Test of Mathematics for University Admission. Focus on formal logical reasoning and mathematical thinking.",
-    badgeClass: "bg-cyan-50 border-cyan-100 text-cyan-750 dark:bg-cyan-500/10 dark:border-cyan-500/20 dark:text-cyan-400 group-hover:bg-cyan-100 dark:group-hover:bg-cyan-500/20",
-    cardClass: "hover:border-cyan-400/40 hover:bg-cyan-50/20 hover:shadow-lg hover:shadow-cyan-100/50 dark:hover:border-cyan-500/30 dark:hover:bg-cyan-500/[0.02]",
-  },
-  {
-    id: "step",
-    title: "STEP",
-    subtext:
-      "Sixth Term Examination Paper. Advanced, unstructured problem-solving challenges for top-tier universities.",
-    badgeClass: "bg-rose-50 border-rose-100 text-rose-750 dark:bg-rose-500/10 dark:border-rose-500/20 dark:text-rose-400 group-hover:bg-rose-100 dark:group-hover:bg-rose-500/20",
-    cardClass: "hover:border-rose-400/40 hover:bg-rose-50/20 hover:shadow-lg hover:shadow-rose-100/50 dark:hover:border-rose-500/30 dark:hover:bg-rose-500/[0.02]",
-  },
-];
 
 const TMUA_OPTIONS = [
   {
@@ -569,130 +538,7 @@ function getStepSubtopic(topic: StepTopicId, subtopicId: string) {
 }
 
 function getTrackTitle(id: TrackId) {
-  return TRACKS.find((t) => t.id === id)?.title ?? "";
-}
-
-function TrackCards({ onSelect }: { onSelect: (id: TrackId) => void }) {
-  return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-6">
-      {TRACKS.map((track) => (
-        <button
-          key={track.id}
-          type="button"
-          onClick={() => onSelect(track.id)}
-          className={`group rounded-2xl border border-slate-200 bg-white/70 p-5 text-left transition-all duration-200 hover:shadow-lg sm:p-6 ${track.cardClass}`}
-        >
-          <span className={`inline-block rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${track.badgeClass}`}>
-            Enter practice room
-          </span>
-          <h2 className="mt-3 font-serif text-lg font-semibold text-slate-950 sm:text-xl">
-            {track.title}
-          </h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            {track.subtext}
-          </p>
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function AdmissionsGuide() {
-  return (
-    <section
-      className="mt-12 rounded-2xl border border-slate-200/80 bg-white/80 p-6 sm:mt-14 sm:p-8 shadow-md dark:border-slate-800/80 dark:bg-slate-900/50"
-      aria-labelledby="admissions-guide-title"
-    >
-      <h2
-        id="admissions-guide-title"
-        className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400"
-      >
-        Admissions insight
-      </h2>
-
-      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-        <article className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-6 dark:border-slate-800/50 dark:bg-slate-950/30">
-          <h3 className="font-serif text-xl font-semibold text-slate-950 dark:text-white">
-            Why Admissions Tests Matter
-          </h3>
-          <p className="mt-4 text-sm leading-relaxed text-slate-650 sm:text-base">
-            Top universities — including{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">Cambridge</span>,{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">Oxford</span>,{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">Imperial</span>, and{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">Warwick</span> — utilize
-            specialized entrance exams like the <span className="font-semibold text-slate-900 dark:text-slate-100">TMUA</span> and{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">STEP</span> to look beyond perfect school grades.
-            Standard school curricula focus on syllabus coverage and routine procedural execution. In contrast, university admissions tests evaluate your raw mathematical intuition, deductive rigour, and ability to construct coherent proofs from first principles.
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-slate-650 sm:text-base">
-            These papers demand that you tackle{" "}
-            <span className="font-semibold text-slate-900 dark:text-slate-100">
-              pure, unstructured mathematics
-            </span>{" "}
-            where no guiding sub-parts are provided and no standard methods are listed on a formula sheet. Strong A-Level module scores prove you can learn a syllabus; admissions tests prove you can think, struggle, and reason like a professional mathematician when faced with the completely unfamiliar.
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-slate-650 sm:text-base">
-            Ultimately, this shift represents the transition to undergraduate mathematics, moving away from routine computation toward absolute logical clarity. Excelling in these assessments shows you have the resilience to navigate intellectual dead ends and the passion to thrive in a high-intensity academic environment.
-          </p>
-        </article>
-
-        <article className="rounded-xl border border-slate-200/80 bg-slate-50/50 p-6 dark:border-slate-800/50 dark:bg-slate-950/30">
-          <h3 className="font-serif text-xl font-semibold text-slate-950 dark:text-white">
-            How to Prepare Effectively
-          </h3>
-          <ul className="mt-4 space-y-5 text-sm leading-relaxed text-slate-650 sm:text-base">
-            <li className="flex gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />
-              <span>
-                <span className="font-semibold text-slate-900 dark:text-slate-100">Maths A-Levels</span> build flawless structural speed and execution. Master algebraic manipulation, trigonometry, and calculus until they are completely automatic. High-level problem-solving requires your full cognitive focus — you cannot afford to spend working memory on routine arithmetic or basic derivatives.
-              </span>
-            </li>
-            <li className="flex gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-500" />
-              <span>
-                <span className="font-semibold text-slate-900 dark:text-slate-100">TMUA</span> rewards crisp propositional logic and rapid pattern recognition. Master formal implications (<span className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-200">P ⇒ Q</span>), contrapositives (<span className="font-mono text-xs font-semibold text-slate-900 dark:text-slate-200">¬Q ⇒ ¬P</span>), and the precise negation of universal and existential quantifiers. Learn to systematically diagnose logical fallacies in mock arguments.
-              </span>
-            </li>
-            <li className="flex gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-500" />
-              <span>
-                <span className="font-semibold text-slate-900 dark:text-slate-100">STEP</span> is a marathon of conceptual depth and resilience. Questions are long, multi-stage, and deliberately open-ended. Spend 45–60 minutes struggling with a roadblock before consulting hints. The cognitive growth happens in the dead ends, the restarts, and the stubborn pursuit of a rigorous proof.
-              </span>
-            </li>
-            <li className="flex gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
-              <span>
-                <span className="font-semibold text-slate-900 dark:text-slate-100">Interviews & Oral Maths</span> require active verbal communication. Practice solving challenging mathematical problems aloud. Tutors do not want immediate, silent perfection; they want to see how you receive hints, how you adapt under pressure, and how teachable you are in a tutorial setting.
-              </span>
-            </li>
-          </ul>
-        </article>
-      </div>
-    </section>
-  );
-}
-
-function HubView({ onSelectTrack }: { onSelectTrack: (id: TrackId) => void }) {
-  return (
-    <div className="space-y-12">
-      <header className="max-w-4xl">
-        <h1 className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
-          Exam Preparation Hub
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-slate-600">
-          Select a track to enter its practice room, or read the guide below to
-          understand how UK admissions tests fit alongside A-Level study.
-        </p>
-      </header>
-
-      <div className="mt-10 lg:mt-12">
-        <TrackCards onSelect={onSelectTrack} />
-      </div>
-
-      <AdmissionsGuide />
-    </div>
-  );
+  return TRACK_TITLES[id] ?? "";
 }
 
 function StepMainTopicNav({
@@ -969,9 +815,7 @@ function PracticeRoom({
           <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-400">
             {track === "step"
               ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."
-              : track === "alevel"
-                ? "Set your exam board, course, and year — then explore subtopics with revision notes, video walkthroughs, and practice questions."
-                : "Explore subtopics with revision notes, video walkthroughs, and practice questions."}
+              : "Explore subtopics with revision notes, video walkthroughs, and practice questions."}
           </p>
         </div>
         <button
@@ -980,19 +824,15 @@ function PracticeRoom({
           className="shrink-0 inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-350 transition hover:border-slate-350 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none h-fit"
         >
           <span aria-hidden>←</span>
-          Back to Exam Hub
+          Back to Admissions Tests
         </button>
       </div>
 
       <div
-        className={
-          track === "step" || track === "alevel" ? "mt-10" : "mt-10 max-w-3xl"
-        }
+        className={track === "step" ? "mt-10" : "mt-10 max-w-3xl"}
       >
         {track === "step" ? (
           <StepPracticeSection />
-        ) : track === "alevel" ? (
-          <AlevelPracticeSection />
         ) : (
           <PracticeQuestionCard track={track} />
         )}
@@ -1001,16 +841,23 @@ function PracticeRoom({
   );
 }
 
-export default function ExamPrepClient() {
+export default function ExamPrepClient({ hub }: { hub: ReactNode }) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTrack, setActiveTrack] = useState<TrackId | null>(null);
 
   useEffect(() => {
     const track = searchParams.get("track");
-    if (track === "tmua" || track === "step" || track === "alevel") {
+    if (track === "tmua" || track === "step") {
       setActiveTrack(track);
+    } else {
+      setActiveTrack(null);
     }
   }, [searchParams]);
+
+  const handleBack = () => {
+    router.push("/exam-prep/admissions");
+  };
 
   return (
     <PageShell
@@ -1021,12 +868,9 @@ export default function ExamPrepClient() {
       }
     >
       {activeTrack === null ? (
-        <HubView onSelectTrack={setActiveTrack} />
+        hub
       ) : (
-        <PracticeRoom
-          track={activeTrack}
-          onBack={() => setActiveTrack(null)}
-        />
+        <PracticeRoom track={activeTrack} onBack={handleBack} />
       )}
     </PageShell>
   );

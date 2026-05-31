@@ -13,7 +13,9 @@ function AuthForm() {
   const { user, loading, login, signup, googleLogin } = useAuth();
   
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [bio, setBio] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [password, setPassword] = useState("");
   
   const [error, setError] = useState<string | null>(null);
@@ -42,9 +44,17 @@ function AuthForm() {
     e.preventDefault();
     setError(null);
 
-    if (!email || !password || (mode === "signup" && !name)) {
+    if (!email || !password || (mode === "signup" && !username)) {
       setError("Please fill in all fields.");
       return;
+    }
+
+    if (mode === "signup") {
+      const wordCount = bio.trim().split(/\s+/).filter(Boolean).length;
+      if (wordCount > 50) {
+        setError("Bio must be 50 words or fewer.");
+        return;
+      }
     }
 
     if (password.length < 6) {
@@ -57,7 +67,7 @@ function AuthForm() {
         if (mode === "signin") {
           await login(email, password);
         } else {
-          await signup(email, name, password);
+          await signup(email, username, password, avatarPreview, bio);
         }
         // Redirect happens automatically via the useEffect hook above
       } catch (err: unknown) {
@@ -117,7 +127,7 @@ function AuthForm() {
             {mode === "signin" ? "Welcome Back" : "Create Account"}
           </h1>
           <p className="mt-2.5 text-xs font-mono uppercase tracking-wider text-white/60">
-            Maxima Maths
+            Convexity
           </p>
         </header>
 
@@ -162,20 +172,68 @@ function AuthForm() {
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           {mode === "signup" && (
-            <div className="space-y-1.5">
-              <label htmlFor="auth-name" className="text-xs font-semibold uppercase tracking-wider text-white/60">
-                Full Name
-              </label>
-              <input
-                id="auth-name"
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Alex Chen"
-                className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30 transition duration-200"
-              />
-            </div>
+            <>
+              <div className="space-y-1.5">
+                <label htmlFor="auth-username" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+                  Username
+                </label>
+                <input
+                  id="auth-username"
+                  type="text"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="e.g. alex_chen"
+                  className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label htmlFor="auth-avatar" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+                  Profile picture
+                </label>
+                <input
+                  id="auth-avatar"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) {
+                      setAvatarPreview(null);
+                      return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = () => setAvatarPreview(reader.result as string);
+                    reader.readAsDataURL(file);
+                  }}
+                  className="w-full text-xs text-white/70 file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white"
+                />
+                {avatarPreview && (
+                  <img
+                    src={avatarPreview}
+                    alt="Profile preview"
+                    className="mt-2 h-16 w-16 rounded-full object-cover ring-2 ring-white/20"
+                  />
+                )}
+              </div>
+
+              <div className="space-y-1.5">
+                <label htmlFor="auth-bio" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+                  Bio <span className="font-normal normal-case text-white/40">(up to 50 words)</span>
+                </label>
+                <textarea
+                  id="auth-bio"
+                  rows={3}
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  placeholder="Tell others about your maths goals…"
+                  className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30"
+                />
+                <p className="text-right text-[10px] text-white/40">
+                  {bio.trim().split(/\s+/).filter(Boolean).length}/50 words
+                </p>
+              </div>
+            </>
           )}
 
           <div className="space-y-1.5">

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { saveProfile, loadProfile } from "@/lib/user-settings";
 
 export type SessionUser = {
   id: string;
@@ -13,7 +14,13 @@ type AuthContextType = {
   user: SessionUser | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, name: string, password: string) => Promise<void>;
+  signup: (
+    email: string,
+    username: string,
+    password: string,
+    image?: string | null,
+    bio?: string,
+  ) => Promise<void>;
   logout: () => Promise<void>;
   googleLogin: () => void;
 };
@@ -62,21 +69,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signup = async (email: string, name: string, password: string) => {
+  const signup = async (
+    email: string,
+    username: string,
+    password: string,
+    image?: string | null,
+    bio?: string,
+  ) => {
     setLoading(true);
     try {
       const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, password }),
+        body: JSON.stringify({ email, name: username, password, image, bio }),
       });
-      
+
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.error || "Registration failed");
       }
-      
+
       setUser(data.user);
+
+      const existing = loadProfile();
+      saveProfile({
+        ...existing,
+        name: username,
+        email: email.toLowerCase(),
+        avatarCustomUrl: image || existing.avatarCustomUrl,
+        bio: bio?.trim() || existing.bio,
+      });
     } finally {
       setLoading(false);
     }
