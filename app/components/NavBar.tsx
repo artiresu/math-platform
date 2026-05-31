@@ -45,15 +45,15 @@ export function NavBar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative whitespace-nowrap px-3.5 py-2 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
+                className={`relative whitespace-nowrap px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 hover:bg-slate-100/70 dark:hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
                   active
-                    ? "text-slate-950 font-semibold"
+                    ? "text-slate-950 font-semibold bg-slate-100/80 dark:bg-white/10"
                     : "text-slate-600 hover:text-slate-950"
                 }`}
               >
                 {link.label}
                 {active && (
-                  <span className="absolute bottom-[-18px] left-3.5 right-3.5 h-[2.5px] bg-violet-600 rounded-full dark:bg-violet-400" />
+                  <span className="absolute bottom-[-18px] left-4 right-4 h-[2.5px] bg-violet-600 rounded-full dark:bg-violet-400" />
                 )}
               </Link>
             );
@@ -99,10 +99,10 @@ export function NavBar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
+              className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
                 active
-                  ? "bg-slate-100 text-slate-900"
-                  : "text-slate-600"
+                  ? "bg-slate-200/80 dark:bg-white/15 text-slate-900 dark:text-white"
+                  : "text-slate-600 hover:bg-slate-100/50 dark:hover:bg-white/5"
               }`}
             >
               {link.label}

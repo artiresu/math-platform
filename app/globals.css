@@ -116,6 +116,7 @@ html[data-theme="dark"] header.site-navbar a:hover,
 html[data-theme="dark"] header.site-navbar button:hover {
   background-color: rgba(255, 255, 255, 0.06) !important;
   color: #f8fafc !important;
+  border-radius: 9999px !important;
 }
 /* Prevent browser default ugly black focus outline boxes and use elegant custom outline styles instead */
 html[data-theme="dark"] header.site-navbar a:focus,
