@@ -87,6 +87,7 @@ export function AlevelPracticeSection() {
   const [selectedModule, setSelectedModule] = useState<AlevelModule>("pure");
   const [selectedSubtopicId, setSelectedSubtopicId] = useState("");
   const [activeStudyTab, setActiveStudyTab] = useState<StudyTabId>("notes");
+  const [isStudying, setIsStudying] = useState(false);
 
   const subtopics = useMemo(
     () =>
@@ -103,6 +104,7 @@ export function AlevelPracticeSection() {
   if (subtopics !== prevSubtopics) {
     setPrevSubtopics(subtopics);
     setSelectedSubtopicId("");
+    setIsStudying(false);
     setActiveStudyTab("notes");
   }
 
@@ -118,6 +120,46 @@ export function AlevelPracticeSection() {
     setActiveStudyTab("notes");
   }
 
+  // --- STUDY ROOM FOCUSED VIEW ---
+  if (isStudying && activeSubtopic) {
+    return (
+      <div className="space-y-6">
+        <button
+          type="button"
+          onClick={() => setIsStudying(false)}
+          className="inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:border-slate-350 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none"
+        >
+          ← Back to Curriculum
+        </button>
+
+        <header className="mt-8 max-w-3xl">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-cyan-600">
+            {selectedBoard.toUpperCase()} A-Level {selectedCourse === "maths" ? "Mathematics" : "Further Mathematics"} · {ALEVEL_MODULES.find((m) => m.id === selectedModule)?.label} ({selectedYear === "year1" ? "Year 1" : "Year 2"})
+          </p>
+          <h1 className="mt-2 font-serif text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">
+            {activeSubtopic.title}
+          </h1>
+          <p className="mt-3 text-base text-slate-600 dark:text-slate-400 sm:text-lg">
+            {getSubtopicDescription(activeSubtopic.title)}
+          </p>
+        </header>
+
+        <div className="mt-8 border-t border-slate-200 dark:border-slate-800 pt-6">
+          <StudyHub
+            key={activeSubtopicId}
+            subtopic={activeSubtopic}
+            activeStudyTab={activeStudyTab}
+            onTabChange={setActiveStudyTab}
+            videoCaption="Watch standard A-Level walkthrough for this module"
+            solutionIdPrefix="alevel"
+            tabLabels={{ practice: "Practice Questions" }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // --- MAIN CURRICULUM VIEW ---
   return (
     <div className="space-y-8">
       {/* Profile settings card */}
@@ -185,7 +227,10 @@ export function AlevelPracticeSection() {
             return (
               <div
                 key={sub.id}
-                onClick={() => setSelectedSubtopicId(sub.id)}
+                onClick={() => {
+                  setSelectedSubtopicId(sub.id);
+                  setIsStudying(true);
+                }}
                 className={`group relative flex flex-col justify-between rounded-2xl border bg-white dark:bg-slate-900/50 p-6 transition duration-200 hover:scale-[1.01] hover:shadow-md cursor-pointer ${
                   active
                     ? "border-2 border-violet-600 dark:border-violet-500 shadow-md ring-1 ring-violet-500/20"
@@ -213,61 +258,27 @@ export function AlevelPracticeSection() {
                 </div>
                 
                 <div className="mt-6 min-h-[40px]">
-                  {active ? (
-                    <button
-                      type="button"
-                      className="w-full rounded-xl bg-violet-600 dark:bg-violet-500 px-4 py-2.5 text-center text-xs font-semibold text-white transition hover:bg-violet-500 dark:hover:bg-violet-400 shadow-sm active:scale-[0.98]"
-                    >
-                      Continue Learning
-                    </button>
-                  ) : (
-                    <div className="text-[11px] font-semibold text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition">
-                      Click to expand study module →
-                    </div>
-                  )}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedSubtopicId(sub.id);
+                      setIsStudying(true);
+                    }}
+                    className={`w-full rounded-xl px-4 py-2.5 text-center text-xs font-semibold transition shadow-sm active:scale-[0.98] ${
+                      active
+                        ? "bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-500 dark:hover:bg-violet-400"
+                        : "bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    {active ? "Continue Learning" : "Start Learning"}
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
       </section>
-
-      {/* Active study hub room */}
-      {activeSubtopic ? (
-        <section className="mt-12 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/80 p-6 shadow-md backdrop-blur-md sm:p-8">
-          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4 mb-6">
-            <div>
-              <p className="font-mono text-[9px] uppercase tracking-wider text-cyan-600">
-                Active Module Study Hub
-              </p>
-              <h3 className="font-serif text-xl font-bold text-slate-950 dark:text-white">
-                Currently Studying: {activeSubtopic.title}
-              </h3>
-            </div>
-            <button
-              type="button"
-              onClick={() => setSelectedSubtopicId("")}
-              className="text-xs font-semibold text-slate-500 hover:text-slate-850 dark:text-slate-400 dark:hover:text-slate-200 transition"
-            >
-              Collapse Hub ×
-            </button>
-          </div>
-          
-          <StudyHub
-            key={activeSubtopicId}
-            subtopic={activeSubtopic}
-            activeStudyTab={activeStudyTab}
-            onTabChange={setActiveStudyTab}
-            videoCaption="Watch standard A-Level walkthrough for this module"
-            solutionIdPrefix="alevel"
-            tabLabels={{ practice: "Practice Questions" }}
-          />
-        </section>
-      ) : (
-        <div className="flex items-center justify-center rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-12 text-slate-650 dark:text-slate-400">
-          Select a curriculum module from the grid above to activate the Study Hub.
-        </div>
-      )}
 
       {/* Examination Archives past papers section */}
       <section className="mt-12 border-t border-slate-200 dark:border-slate-800 pt-10">
