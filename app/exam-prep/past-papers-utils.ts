@@ -21,23 +21,53 @@ export function parsePastPapers(): PastPaper[] {
 
     const lower = filename.toLowerCase();
 
-    // 1. Detect Board
-    if (lower.includes("aqa")) {
-      board = "aqa";
-    } else if (lower.includes("ocr a") || lower.includes("ocr_a")) {
-      board = "ocra";
-    } else if (lower.includes("ocr b") || lower.includes("ocr_b") || lower.includes("mei")) {
-      board = "ocrb";
-    } else if (
-      lower.includes("9ma0") ||
-      lower.includes("8ma0") ||
-      lower.includes("9fm0") ||
-      lower.includes("8fm0") ||
-      lower.startsWith("eam") ||
-      lower.startsWith("easm")
-    ) {
+    // 0. Detect and Parse Renamed Edexcel Format
+    if (lower.startsWith("edexcel_")) {
       board = "edexcel";
+      const parts = filename.split("_");
+      year = parts[1] || "Unknown";
+      
+      const lastPart = parts[parts.length - 1].replace(".pdf", "");
+      if (lastPart === "MS") type = "MS";
+      else if (lastPart === "QP") type = "QP";
+      else type = "Other";
+      
+      const nameParts = parts.slice(2, parts.length - 1);
+      const cleanPaperName = nameParts.join(" ");
+      name = cleanPaperName;
+      
+      const nameLower = cleanPaperName.toLowerCase();
+      if (
+        nameLower.includes("further") ||
+        nameLower.includes("core pure") ||
+        nameLower.includes("decision") ||
+        nameLower.includes("hyperbolic") ||
+        nameLower.includes("polar") ||
+        nameLower.includes("numerical methods")
+      ) {
+        course = "further";
+      } else {
+        course = "maths";
+      }
+      
+      if (nameLower.includes("as ") || nameLower.startsWith("as ")) {
+        level = "AS-Level";
+      } else {
+        level = "A-Level";
+      }
+      
+      return {
+        filename,
+        board,
+        course,
+        year,
+        type,
+        name,
+        level,
+      };
     }
+
+    // 1. Detect Board
 
     // 2. Detect Course (Maths vs Further) and Level (A-Level vs AS-Level)
     if (board === "aqa") {
