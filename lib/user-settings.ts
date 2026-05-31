@@ -40,7 +40,7 @@ export type AvatarBorderItem = {
 };
 
 export const MATH_AVATARS: AvatarItem[] = [
-  { id: "initials", name: "Initials", symbol: "", description: "Your Display Initials", bgGrad: "from-indigo-600 to-fuchsia-600", textColor: "text-white" },
+  { id: "initials", name: "Initials", symbol: "", description: "Your Display Initials", bgGrad: "from-indigo-600 to-indigo-600", textColor: "text-white" },
   { id: "pi", name: "Pi (π)", symbol: "π", description: "The Circle Constant", bgGrad: "from-fuchsia-500 to-pink-600", textColor: "text-white" },
   { id: "infinity", name: "Infinity (∞)", symbol: "∞", description: "Infinite Potential", bgGrad: "from-cyan-400 to-indigo-600", textColor: "text-white" },
   { id: "sigma", name: "Sigma (Σ)", symbol: "Σ", description: "The Summation", bgGrad: "from-violet-600 to-purple-800", textColor: "text-white" },
