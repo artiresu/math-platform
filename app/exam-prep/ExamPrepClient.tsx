@@ -957,31 +957,32 @@ function PracticeRoom({
   onBack: () => void;
 }) {
   return (
-    <div>
-      <button
-        type="button"
-        onClick={onBack}
-        className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50/50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-350 hover:bg-slate-100 focus:outline-none"
-      >
-        <span aria-hidden>←</span>
-        Back to Exam Hub
-      </button>
-
-      <header className="mt-8 max-w-3xl">
-        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600">
-          Practice room
-        </p>
-        <h1 className="mt-2 font-serif text-3xl font-semibold text-slate-950 sm:text-4xl">
-          {getTrackTitle(track)}
-        </h1>
-        <p className="mt-3 text-base text-slate-650 sm:text-lg">
-          {track === "step"
-            ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."
-            : track === "alevel"
-              ? "Set your exam board, course, and year — then explore subtopics with revision notes, video walkthroughs, and practice questions."
-              : "Work through the question below. Use hints or solutions when you need a nudge — then return to the hub to switch tracks."}
-        </p>
-      </header>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
+        <div>
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-cyan-600">
+            Practice room
+          </p>
+          <h1 className="mt-1 font-serif text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">
+            {getTrackTitle(track)}
+          </h1>
+          <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-400">
+            {track === "step"
+              ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."
+              : track === "alevel"
+                ? "Set your exam board, course, and year — then explore subtopics with revision notes, video walkthroughs, and practice questions."
+                : "Explore subtopics with revision notes, video walkthroughs, and practice questions."}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={onBack}
+          className="shrink-0 inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-350 transition hover:border-slate-350 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none h-fit"
+        >
+          <span aria-hidden>←</span>
+          Back to Exam Hub
+        </button>
+      </div>
 
       <div
         className={
@@ -1012,7 +1013,13 @@ export default function ExamPrepClient() {
   }, [searchParams]);
 
   return (
-    <PageShell>
+    <PageShell
+      mainClassName={
+        activeTrack !== null
+          ? "relative mx-auto max-w-7xl px-4 pt-4 pb-16 text-slate-900 sm:px-8 sm:pt-6 sm:pb-20"
+          : undefined
+      }
+    >
       {activeTrack === null ? (
         <HubView onSelectTrack={setActiveTrack} />
       ) : (

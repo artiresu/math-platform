@@ -2,9 +2,10 @@ import { SiteHeader } from "./SiteHeader";
 
 type PageShellProps = {
   children: React.ReactNode;
+  mainClassName?: string;
 };
 
-export function PageShell({ children }: PageShellProps) {
+export function PageShell({ children, mainClassName }: PageShellProps) {
   return (
     <div className="page-shell relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans">
       <div
@@ -40,7 +41,7 @@ export function PageShell({ children }: PageShellProps) {
       />
 
       <SiteHeader />
-      <main className="relative mx-auto max-w-7xl px-4 py-16 text-slate-900 sm:px-8 sm:py-20">
+      <main className={mainClassName || "relative mx-auto max-w-7xl px-4 py-16 text-slate-900 sm:px-8 sm:py-20"}>
         {children}
       </main>
     </div>
