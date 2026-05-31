@@ -122,48 +122,57 @@ export default function Home() {
                   </linearGradient>
 
                   <radialGradient id="neonGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.25" />
-                    <stop offset="70%" stopColor="#8b5cf6" stopOpacity="0.05" />
+                    <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.2" />
+                    <stop offset="70%" stopColor="#8b5cf6" stopOpacity="0.03" />
                     <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
                   </radialGradient>
 
                   <radialGradient id="meshGlow" cx="40%" cy="40%" r="60%">
-                    <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.2" />
+                    <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.15" />
                     <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
                   </radialGradient>
                 </defs>
 
                 {/* SVG Internal Premium 2D Animations stylesheet */}
                 <style>{`
-                  @keyframes float-2d-y {
-                    0% { transform: translateY(0px); }
-                    50% { transform: translateY(-12px); }
-                    100% { transform: translateY(0px); }
+                  @keyframes float-tri {
+                    0% { transform: translateY(0px) rotate(0deg); }
+                    50% { transform: translateY(-8px) rotate(2deg); }
+                    100% { transform: translateY(0px) rotate(0deg); }
                   }
-                  @keyframes float-2d-x {
+                  @keyframes float-circle {
                     0% { transform: translateX(0px); }
-                    50% { transform: translateX(12px); }
+                    50% { transform: translateX(8px); }
                     100% { transform: translateX(0px); }
                   }
-                  @keyframes scale-2d {
+                  @keyframes scale-rings {
                     0% { transform: scale(1); }
-                    50% { transform: scale(1.04); }
+                    50% { transform: scale(1.05); }
                     100% { transform: scale(1); }
+                  }
+                  @keyframes rotate-square {
+                    0% { transform: rotate(15deg); }
+                    50% { transform: rotate(20deg) translateY(-4px); }
+                    100% { transform: rotate(15deg); }
                   }
                   @keyframes dash {
                     to { stroke-dashoffset: -40; }
                   }
-                  .anim-float-y {
-                    animation: float-2d-y 8s infinite ease-in-out;
-                    transform-origin: 265px 155px;
+                  .anim-tri {
+                    animation: float-tri 8s infinite ease-in-out;
+                    transform-origin: 70px 70px;
                   }
-                  .anim-float-x {
-                    animation: float-2d-x 10s infinite ease-in-out;
-                    transform-origin: 200px 150px;
+                  .anim-rings {
+                    animation: scale-rings 9s infinite ease-in-out;
+                    transform-origin: 310px 65px;
                   }
-                  .anim-scale {
-                    animation: scale-2d 9s infinite ease-in-out;
-                    transform-origin: 130px 130px;
+                  .anim-circle {
+                    animation: float-circle 10s infinite ease-in-out;
+                    transform-origin: 70px 220px;
+                  }
+                  .anim-square {
+                    animation: rotate-square 12s infinite ease-in-out;
+                    transform-origin: 320px 220px;
                   }
                   .pulse-wave {
                     stroke-dasharray: 8 4;
@@ -177,7 +186,7 @@ export default function Home() {
 
                 {/* 1. Large 2D Math Coordinate Grid (Fills the entire box) */}
                 <g stroke="currentColor" strokeWidth="0.5" className="text-slate-200 dark:text-slate-800" opacity="0.65">
-                  {/* Grid Lines spanning to the margins */}
+                  {/* Grid Lines spanning horizontally and vertically */}
                   <line x1="40" y1="15" x2="40" y2="285" />
                   <line x1="90" y1="15" x2="90" y2="285" />
                   <line x1="140" y1="15" x2="140" y2="285" strokeWidth="0.75" />
@@ -203,127 +212,166 @@ export default function Home() {
                   <polygon points="140,15 136,24 144,24" fill="currentColor" />
                 </g>
 
-                {/* 3. Mathematical Wave Functions (Traversing the entire width) */}
+                {/* 3. Mathematical Wave Functions (Thread linking the quadrants) */}
                 {/* Dotted Fuchsia Wave */}
                 <path
                   d="M 15,140 Q 80,10 140,140 T 260,140 T 385,140"
                   fill="none"
                   stroke="url(#violetPinkGrad)"
-                  strokeWidth="3"
+                  strokeWidth="2.5"
                   className="pulse-wave"
-                  opacity="0.85"
+                  opacity="0.8"
                 />
                 {/* Dashed Cyan Wave */}
                 <path
                   d="M 15,140 Q 80,270 140,140 T 260,140 T 385,140"
                   fill="none"
                   stroke="url(#cyanGreenGrad)"
-                  strokeWidth="2.5"
+                  strokeWidth="2"
                   strokeDasharray="6 3"
                   className="pulse-wave"
                   style={{ animationDelay: "-3s", animationDuration: "8s" }}
-                  opacity="0.8"
+                  opacity="0.75"
                 />
 
-                {/* 4. Large Bold 2D Geometric Shapes (Simplified to cover the box) */}
+                {/* 4. Distributed Geometric Shapes in Each Quadrant (Zero Overlaps, Clean Space) */}
                 
-                {/* Shape A: Massive Translucent Fuchsia Circle (Scaling Pulse) */}
-                <g className="anim-scale">
-                  <circle
-                    cx="130"
-                    cy="130"
-                    r="105"
-                    fill="url(#violetPinkGrad)"
-                    opacity="0.35"
-                  />
-                  {/* Structural grid highlight inside circle */}
-                  <circle
-                    cx="130"
-                    cy="130"
-                    r="75"
-                    fill="none"
-                    stroke="rgba(255,255,255,0.25)"
-                    strokeWidth="1"
-                    strokeDasharray="3 3"
-                  />
-                </g>
-
-                {/* Shape B: Massive Cyan Ring (Vertical Float) */}
-                <g className="anim-float-y">
-                  {/* Outlined thick ring */}
-                  <circle
-                    cx="265"
-                    cy="155"
-                    r="95"
-                    fill="none"
-                    stroke="url(#cyanGreenGrad)"
-                    strokeWidth="12"
-                    opacity="0.75"
-                  />
-                  {/* Translucent solid core */}
-                  <circle
-                    cx="265"
-                    cy="155"
-                    r="60"
-                    fill="url(#cyanGreenGrad)"
-                    opacity="0.12"
-                  />
-                </g>
-
-                {/* Shape C: Large Geometric Triangle Outline (Horizontal Float) */}
-                <g className="anim-float-x">
+                {/* QUADRANT 1 (Top-Left): Elegant Fuchsia Triangle */}
+                <g className="anim-tri">
                   <polygon
-                    points="90,40 320,220 50,240"
+                    points="45,45 105,80 35,95"
                     fill="none"
                     stroke="url(#violetPinkGrad)"
-                    strokeWidth="2.5"
-                    strokeDasharray="6 4"
-                    opacity="0.5"
+                    strokeWidth="2"
                   />
                   <polygon
-                    points="90,40 320,220 50,240"
+                    points="45,45 105,80 35,95"
+                    fill="url(#violetPinkGrad)"
+                    opacity="0.15"
+                  />
+                  {/* Geometric height line */}
+                  <line x1="45" y1="45" x2="70" y2="87" stroke="#ec4899" strokeWidth="1.25" strokeDasharray="3 3" opacity="0.6" />
+                </g>
+
+                {/* QUADRANT 2 (Top-Right): Clean Concentric Cyan Rings */}
+                <g className="anim-rings">
+                  <circle
+                    cx="310"
+                    cy="65"
+                    r="35"
+                    fill="none"
+                    stroke="url(#cyanGreenGrad)"
+                    strokeWidth="2"
+                    opacity="0.8"
+                  />
+                  <circle
+                    cx="310"
+                    cy="65"
+                    r="20"
+                    fill="none"
+                    stroke="url(#cyanGreenGrad)"
+                    strokeWidth="1.25"
+                    strokeDasharray="4 2"
+                    opacity="0.6"
+                  />
+                  <circle
+                    cx="310"
+                    cy="65"
+                    r="8"
                     fill="url(#cyanGreenGrad)"
-                    opacity="0.06"
+                    opacity="0.25"
                   />
                 </g>
 
-                {/* 5. Mathematical Vector Elements (No Orange!) */}
-                <g strokeWidth="2.5" opacity="0.95">
-                  {/* Fuchsia Primary Vector Arrow */}
-                  <line x1="140" y1="140" x2="255" y2="65" stroke="#ec4899" />
-                  <polygon points="260,62 250,65 254,72" fill="#ec4899" />
-
-                  {/* Cyan Dotted Secondary Vector Arrow */}
-                  <line x1="140" y1="140" x2="55" y2="65" stroke="#22d3ee" strokeDasharray="3 2" />
-                  <polygon points="50,60 55,69 60,64" fill="#22d3ee" />
+                {/* QUADRANT 3 (Bottom-Left): Translucent Violet Circle */}
+                <g className="anim-circle">
+                  <circle
+                    cx="70"
+                    cy="220"
+                    r="40"
+                    fill="url(#violetPinkGrad)"
+                    opacity="0.3"
+                  />
+                  <circle
+                    cx="70"
+                    cy="220"
+                    r="55"
+                    fill="none"
+                    stroke="url(#violetPinkGrad)"
+                    strokeWidth="1.5"
+                    strokeDasharray="4 4"
+                    opacity="0.45"
+                  />
                 </g>
 
-                {/* Geometric Angle Arc Indicator in Fuchsia */}
+                {/* QUADRANT 4 (Bottom-Right): Rotated Glassmorphic Cyan Square */}
+                <g className="anim-square">
+                  <rect
+                    x="290"
+                    y="190"
+                    width="60"
+                    height="60"
+                    rx="10"
+                    fill="url(#cyanGreenGrad)"
+                    stroke="url(#cyanGreenGrad)"
+                    strokeWidth="1.5"
+                    opacity="0.2"
+                  />
+                  <rect
+                    x="295"
+                    y="195"
+                    width="50"
+                    height="50"
+                    rx="6"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.3)"
+                    strokeWidth="1"
+                    opacity="0.4"
+                  />
+                </g>
+
+                {/* 5. Minimalist Center Vectors (Spreading outwards, non-messy) */}
+                <g strokeWidth="2.25" opacity="0.9">
+                  {/* Fuchsia Primary Vector pointing Top-Right */}
+                  <line x1="140" y1="140" x2="230" y2="85" stroke="#ec4899" />
+                  <polygon points="235,82 225,84 229,91" fill="#ec4899" />
+
+                  {/* Cyan Dotted Secondary Vector pointing Bottom-Right */}
+                  <line x1="140" y1="140" x2="195" y2="215" stroke="#22d3ee" strokeDasharray="3 2" />
+                  <polygon points="200,220 196,211 190,215" fill="#22d3ee" />
+                </g>
+
+                {/* Center Geometric Angle Arc Indicator */}
                 <path
                   d="M 170,140 A 30,30 0 0,0 196,120"
                   fill="none"
                   stroke="#ec4899"
                   strokeWidth="1.5"
                   strokeDasharray="3 3"
-                  opacity="0.95"
+                  opacity="0.9"
                 />
                 
-                {/* 6. Dynamic High-Tech Labelling & Typography (No Orange!) */}
+                {/* 6. Spaced-Out Math Annotations */}
                 <text x="202" y="135" fill="#ec4899" className="font-mono text-[10px] font-semibold opacity-90 select-none">θ</text>
                 
-                {/* Coordinates annotations in Fuchsia and Cyan */}
-                <text x="265" y="60" fill="#ec4899" className="font-mono text-[9px] font-medium opacity-90 select-none">(x₁, y₁)</text>
-                <text x="20" y="55" fill="#22d3ee" className="font-mono text-[9px] font-medium opacity-90 select-none">(x₂, y₂)</text>
+                {/* Coordinate Markers positioned cleanly near the quadrants */}
+                <text x="240" y="78" fill="#ec4899" className="font-mono text-[9px] font-medium opacity-85 select-none">(x₁, y₁)</text>
+                <text x="205" y="225" fill="#22d3ee" className="font-mono text-[9px] font-medium opacity-85 select-none">(x₂, y₂)</text>
                 
-                {/* Function indicators */}
-                <text x="350" y="115" fill="#c084fc" className="font-mono text-[9px] font-semibold opacity-85 select-none">f(x)</text>
-                <text x="350" y="175" fill="#22d3ee" className="font-mono text-[9px] font-semibold opacity-85 select-none">g(x)</text>
+                {/* Wave equation labels */}
+                <text x="350" y="115" fill="#c084fc" className="font-mono text-[9px] font-semibold opacity-80 select-none">f(x)</text>
+                <text x="350" y="175" fill="#22d3ee" className="font-mono text-[9px] font-semibold opacity-80 select-none">g(x)</text>
 
-                {/* Minimalist Floating Math Points */}
-                <circle cx="260" cy="62" r="3.5" fill="#ffffff" stroke="#ec4899" strokeWidth="1.5" />
-                <circle cx="50" cy="60" r="3.5" fill="#ffffff" stroke="#22d3ee" strokeWidth="1.5" />
-                <circle cx="190" cy="230" r="3" fill="#ec4899" />
-                <circle cx="300" cy="90" r="3.5" fill="#22d3ee" />
+                {/* Minimalist Floating Coordinate Points (Dotted stars filling blank space) */}
+                <circle cx="235" cy="82" r="3.5" fill="#ffffff" stroke="#ec4899" strokeWidth="1.5" />
+                <circle cx="200" cy="220" r="3.5" fill="#ffffff" stroke="#22d3ee" strokeWidth="1.5" />
+                
+                {/* Isolated Points in blank zones to balance composition */}
+                <circle cx="190" cy="45" r="3" fill="#ec4899" opacity="0.6" />
+                <circle cx="270" cy="250" r="3" fill="#22d3ee" opacity="0.6" />
+                <circle cx="20" cy="180" r="2.5" fill="#c084fc" opacity="0.6" />
+                <circle cx="370" cy="110" r="3" fill="#22d3ee" opacity="0.6" />
+                <circle cx="95" cy="120" r="2" fill="#ec4899" opacity="0.4" />
 
               </svg>
 
