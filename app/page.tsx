@@ -794,10 +794,10 @@ export default function Home() {
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-1">
               <span className="font-serif text-base font-bold text-slate-950 dark:text-white">
-                Academic Precision
+                Convexity
               </span>
               <p className="text-xs text-slate-400 dark:text-slate-500">
-                © 2026 Academic Precision. Designed for Intellectual Calm.
+                © 2026 Convexity. Designed for Intellectual Calm.
               </p>
             </div>
 

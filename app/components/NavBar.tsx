@@ -31,7 +31,7 @@ export function NavBar() {
           className="group flex min-w-0 items-center gap-2 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2"
         >
           <span className="truncate font-serif text-lg font-bold tracking-tight text-slate-950 dark:text-white sm:text-xl">
-            Academic Precision
+            Convexity
           </span>
         </Link>
 
