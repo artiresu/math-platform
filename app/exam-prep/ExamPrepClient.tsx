@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { StudyHub } from "./StudyHub";
 import type { StudySubtopic, StudyTabId } from "./study-types";
-import { PageShell } from "../components/PageShell";
 import { SafeLatex } from "../components/SafeLatex";
 
 type TrackId = "tmua" | "step";
@@ -795,42 +795,21 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
   );
 }
 
-function PracticeRoom({
-  track,
-  onBack,
-}: {
-  track: TrackId;
-  onBack: () => void;
-}) {
+function PracticeRoom({ track }: { track: TrackId }) {
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
-        <div>
-          <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-cyan-600">
-            Practice room
-          </p>
-          <h1 className="mt-1 font-serif text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">
-            {getTrackTitle(track)}
-          </h1>
-          <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-400">
-            {track === "step"
-              ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."
-              : "Explore subtopics with revision notes, video walkthroughs, and practice questions."}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onBack}
-          className="shrink-0 inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-350 transition hover:border-slate-350 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none h-fit"
-        >
-          <span aria-hidden>←</span>
-          Back to Admissions Tests
-        </button>
-      </div>
+      <header className="max-w-3xl border-b border-slate-200 pb-4 dark:border-slate-800">
+        <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-cyan-600">
+          {getTrackTitle(track)}
+        </p>
+        <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-400">
+          {track === "step"
+            ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."
+            : "Work through admissions-style practice questions and logical reasoning drills."}
+        </p>
+      </header>
 
-      <div
-        className={track === "step" ? "mt-10" : "mt-10 max-w-3xl"}
-      >
+      <div className={track === "step" ? undefined : "max-w-3xl"}>
         {track === "step" ? (
           <StepPracticeSection />
         ) : (
@@ -841,37 +820,55 @@ function PracticeRoom({
   );
 }
 
-export default function ExamPrepClient({ hub }: { hub: ReactNode }) {
-  const router = useRouter();
+const ADMISSIONS_TESTS = [
+  { id: "tmua" as const, label: "TMUA", href: "/exam-prep/admissions?track=tmua" },
+  { id: "step" as const, label: "STEP", href: "/exam-prep/admissions?track=step" },
+];
+
+export default function ExamPrepClient() {
   const searchParams = useSearchParams();
-  const [activeTrack, setActiveTrack] = useState<TrackId | null>(null);
-
-  useEffect(() => {
-    const track = searchParams.get("track");
-    if (track === "tmua" || track === "step") {
-      setActiveTrack(track);
-    } else {
-      setActiveTrack(null);
-    }
-  }, [searchParams]);
-
-  const handleBack = () => {
-    router.push("/exam-prep/admissions");
-  };
+  const trackParam = searchParams.get("track");
+  const activeTrack: TrackId | null =
+    trackParam === "tmua" || trackParam === "step" ? trackParam : null;
 
   return (
-    <PageShell
-      mainClassName={
-        activeTrack !== null
-          ? "relative mx-auto max-w-7xl px-4 pt-4 pb-16 text-slate-900 sm:px-8 sm:pt-6 sm:pb-20"
-          : undefined
-      }
-    >
-      {activeTrack === null ? (
-        hub
-      ) : (
-        <PracticeRoom track={activeTrack} onBack={handleBack} />
-      )}
-    </PageShell>
+    <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+      <aside className="w-full shrink-0 space-y-6 rounded-2xl border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/80 lg:w-64">
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-slate-400">
+            Test
+          </p>
+          <nav className="flex flex-col gap-1.5" aria-label="Admissions test">
+            {ADMISSIONS_TESTS.map((test) => {
+              const active = activeTrack === test.id;
+              return (
+                <Link
+                  key={test.id}
+                  href={test.href}
+                  className={`rounded-lg border px-3 py-2 text-sm font-medium transition ${
+                    active
+                      ? "border-violet-500/30 bg-violet-500/5 text-violet-700 dark:text-violet-300 font-semibold"
+                      : "border-slate-200 bg-slate-50/50 text-slate-700 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300"
+                  }`}
+                >
+                  {test.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      </aside>
+
+      <div className="min-w-0 flex-1">
+        {activeTrack === null ? (
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Select <strong className="text-slate-800 dark:text-slate-200">TMUA</strong> or{" "}
+            <strong className="text-slate-800 dark:text-slate-200">STEP</strong> on the left to open a practice room.
+          </p>
+        ) : (
+          <PracticeRoom track={activeTrack} />
+        )}
+      </div>
+    </div>
   );
 }

@@ -7,6 +7,7 @@ export type UsageSectionId =
   | "step"
   | "admissions"
   | "interviews"
+  | "interview-stability"
   | "servers"
   | "games-arithmetic"
   | "games-integrals"
@@ -35,6 +36,13 @@ const DEFAULT_SECTIONS: SectionUsage[] = [
     id: "tmua",
     label: "TMUA Strategy",
     href: "/exam-prep/admissions?track=tmua",
+    visits: 0,
+    progress: 0,
+  },
+  {
+    id: "interview-stability",
+    label: "Interview Stability",
+    href: "/interview-prep",
     visits: 0,
     progress: 0,
   },
@@ -124,4 +132,31 @@ export function getTopGame(): SectionUsage {
   const games = loadUsage().filter((s) => s.id.startsWith("games-"));
   const top = [...games].sort((a, b) => b.visits - a.visits)[0];
   return top?.visits ? top : games[0];
+}
+
+const HOME_PROGRESS_IDS: UsageSectionId[] = [
+  "alevel-pure",
+  "tmua",
+  "interview-stability",
+];
+
+const HOME_PROGRESS_DEFAULTS = [14, 9, 6] as const;
+
+export function getHomeProgressSections(): SectionUsage[] {
+  const sections = loadUsage();
+  return HOME_PROGRESS_IDS.map((id, index) => {
+    const section = sections.find((s) => s.id === id);
+    const fallback = DEFAULT_SECTIONS.find((s) => s.id === id);
+    const base = section ?? fallback ?? {
+      id,
+      label: id,
+      href: "/",
+      visits: 0,
+      progress: 0,
+    };
+    return {
+      ...base,
+      progress: base.progress > 0 ? base.progress : HOME_PROGRESS_DEFAULTS[index],
+    };
+  });
 }

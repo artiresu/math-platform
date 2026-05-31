@@ -9,6 +9,7 @@ import { UserAccountMenu } from "./UserAccountMenu";
 import { SettingsMenu } from "./SettingsMenu";
 
 const NAV_LINKS = [
+  { label: "Home", href: "/" },
   { label: "Exam Hub", href: "/exam-prep" },
   { label: "Resources", href: "/resources" },
   { label: "Interviews", href: "/interview-prep" },
@@ -17,6 +18,7 @@ const NAV_LINKS = [
 ] as const;
 
 function isActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 

@@ -1,30 +1,21 @@
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { BranchSelector } from "../../components/BranchSelector";
 import ExamPrepClient from "../ExamPrepClient";
-import { PageShell } from "../../components/PageShell";
 
-function AdmissionsHub() {
-  return (
-    <BranchSelector
-      title="Admissions Tests"
-      branches={[
-        { href: "/exam-prep/admissions?track=tmua", title: "TMUA" },
-        { href: "/exam-prep/admissions?track=step", title: "STEP" },
-      ]}
-    />
-  );
-}
+type Props = {
+  searchParams: Promise<{ track?: string }>;
+};
 
-export default function AdmissionsPrepPage() {
+export default async function AdmissionsPrepPage({ searchParams }: Props) {
+  const { track } = await searchParams;
+
+  if (track !== "tmua" && track !== "step") {
+    redirect("/exam-prep/admissions?track=tmua");
+  }
+
   return (
-    <Suspense
-      fallback={
-        <PageShell>
-          <p className="text-slate-600">Loading…</p>
-        </PageShell>
-      }
-    >
-      <ExamPrepClient hub={<AdmissionsHub />} />
+    <Suspense fallback={<p className="text-slate-600">Loading practice room…</p>}>
+      <ExamPrepClient />
     </Suspense>
   );
 }

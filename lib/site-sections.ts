@@ -10,7 +10,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     id: "home",
     label: "Home",
     href: "/",
-    keywords: ["home", "convexity", "landing"],
+    keywords: ["home", "convexity", "landing", "dashboard"],
   },
   {
     id: "exam-prep",

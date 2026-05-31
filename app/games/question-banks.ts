@@ -192,6 +192,15 @@ function randInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function mulberry32(seed: number) {
+  return function () {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 function shuffle<T>(arr: T[]): T[] {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
@@ -233,6 +242,80 @@ type ArithmeticOp = "+" | "-" | "*" | "/";
 function pickOp(): ArithmeticOp {
   const ops: ArithmeticOp[] = ["+", "-", "*", "/"];
   return ops[randInt(0, ops.length - 1)];
+}
+
+function randIntSeeded(seed: number, min: number, max: number) {
+  return Math.floor(mulberry32(seed)() * (max - min + 1)) + min;
+}
+
+function pickOpSeeded(seed: number): ArithmeticOp {
+  const ops: ArithmeticOp[] = ["+", "-", "*", "/"];
+  return ops[randIntSeeded(seed, 0, ops.length - 1)];
+}
+
+/** Deterministic arithmetic question for a given rotation index (home daily sample). */
+export function generateArithmeticQuestionSeeded(rotationIndex: number): GameQuestion {
+  const seed = rotationIndex * 7919 + 104729;
+  const op = pickOpSeeded(seed);
+  let a = randIntSeeded(seed + 1, 2, 99);
+  let b = randIntSeeded(seed + 2, 2, 99);
+  let answer = 0;
+  let promptTex = "";
+
+  switch (op) {
+    case "+":
+      answer = a + b;
+      promptTex = `${a} + ${b} = \\; ?`;
+      break;
+    case "-":
+      if (b > a) [a, b] = [b, a];
+      answer = a - b;
+      promptTex = `${a} - ${b} = \\; ?`;
+      break;
+    case "*":
+      a = randIntSeeded(seed + 3, 2, 24);
+      b = randIntSeeded(seed + 4, 2, 15);
+      answer = a * b;
+      promptTex = `${a} \\times ${b} = \\; ?`;
+      break;
+    case "/": {
+      b = randIntSeeded(seed + 5, 2, 12);
+      answer = randIntSeeded(seed + 6, 2, 12);
+      a = b * answer;
+      promptTex = `${a} \\div ${b} = \\; ?`;
+      break;
+    }
+  }
+
+  return {
+    id: `arith-home-${rotationIndex}`,
+    promptTex,
+    acceptableAnswers: [String(answer)],
+  };
+}
+
+function bankQuestion(
+  item: Omit<GameQuestion, "id">,
+  prefix: string,
+  index: number,
+): GameQuestion {
+  return { ...item, id: `${prefix}-home-${index}` };
+}
+
+/** Sample question for home page — rotationIndex changes daily and after each answer. */
+export function getHomeGameQuestion(
+  topic: "speed-arithmetic" | "integrals" | "olympiad",
+  rotationIndex: number,
+): GameQuestion {
+  if (topic === "speed-arithmetic") {
+    return generateArithmeticQuestionSeeded(rotationIndex);
+  }
+  if (topic === "integrals") {
+    const item = HARD_INTEGRAL_BANK[rotationIndex % HARD_INTEGRAL_BANK.length];
+    return bankQuestion(item, "integral", rotationIndex);
+  }
+  const item = OLYMPIAD_RACE_BANK[rotationIndex % OLYMPIAD_RACE_BANK.length];
+  return bankQuestion(item, "olympiad", rotationIndex);
 }
 
 export function generateArithmeticQuestion(): GameQuestion {

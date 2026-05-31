@@ -18,8 +18,8 @@ export const COURSE_TYPES: { id: CourseType; label: string }[] = [
 ];
 
 export const ACADEMIC_YEARS: { id: AcademicYear; label: string }[] = [
-  { id: "year1", label: "Year 1" },
-  { id: "year2", label: "Year 2" },
+  { id: "year1", label: "AS Level (Year 12)" },
+  { id: "year2", label: "A Level (Year 13)" },
 ];
 
 export const ALEVEL_MODULES: { id: AlevelModule; label: string }[] = [
@@ -472,7 +472,7 @@ function buildNotes(
 ): NoteSection[] {
   const courseLabel =
     COURSE_TYPES.find((c) => c.id === course)?.label ?? "A-Level";
-  const yearLabel = year === "year1" ? "Year 1 (AS)" : "Year 2 (A2)";
+  const yearLabel = year === "year1" ? "AS Level (Year 12)" : "A Level (Year 13)";
 
   const moduleIntro: Record<AlevelModule, string> = {
     pure:
