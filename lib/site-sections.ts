@@ -39,7 +39,7 @@ export const SITE_SECTIONS: SiteSection[] = [
   {
     id: "interview-oxbridge",
     label: "Oxbridge Interviews",
-    href: "/interview-prep/oxbridge",
+    href: "/interviews",
     keywords: ["oxbridge", "oxford", "cambridge", "interview"],
   },
   {

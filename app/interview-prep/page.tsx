@@ -16,7 +16,7 @@ export default function InterviewPrepHubPage() {
             badge: "Finance & data",
           },
           {
-            href: "/interview-prep/oxbridge",
+            href: "/interviews",
             title: "Oxbridge Interviews",
             description:
               "Classic mathematical problem-solving and whiteboard-style prompts for Oxford, Cambridge, and top UK maths interviews.",
