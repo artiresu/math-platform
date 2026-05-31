@@ -117,7 +117,7 @@ function AuthForm() {
             {mode === "signin" ? "Welcome Back" : "Create Account"}
           </h1>
           <p className="mt-2.5 text-xs font-mono uppercase tracking-wider text-white/60">
-            University Maths Admissions Hub
+            Maxima Maths
           </p>
         </header>
 

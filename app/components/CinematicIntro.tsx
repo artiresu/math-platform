@@ -70,12 +70,10 @@ export function CinematicIntro({ onComplete }: { onComplete?: () => void }) {
                 times: [0, 0.25, 0.82, 1], // Perfect keyframe offsets for fade-in, hold, expansion, and fade-out
                 ease: "easeOut",
               }}
-              className="max-w-4xl font-sans text-2xl font-extrabold uppercase tracking-widest text-white sm:text-3xl md:text-4xl leading-relaxed sm:leading-loose"
+              className="max-w-4xl font-sans text-4xl font-extrabold uppercase tracking-widest text-white sm:text-5xl md:text-6xl leading-relaxed"
             >
-              The Ultimate University
-              <br />
               <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-                Maths Admissions Hub
+                Maxima Maths
               </span>
             </motion.h1>
           )}

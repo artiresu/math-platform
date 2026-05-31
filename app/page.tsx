@@ -77,11 +77,11 @@ export default function Home() {
         {/* Hero Section */}
         <section className="mx-auto max-w-3xl text-center">
           <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-600">
-            Admissions Hub · UK Mathematics
+            Maxima Maths · UK Admissions
           </p>
 
           <h1 className="mt-6 font-sans text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl md:text-6xl">
-            The Ultimate University Maths Admissions Hub
+            Maxima Maths
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">

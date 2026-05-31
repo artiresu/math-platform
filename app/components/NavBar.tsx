@@ -34,7 +34,7 @@ export function NavBar() {
             ∑
           </span>
           <span className="truncate font-serif text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
-            Admissions Hub
+            Maxima Maths
           </span>
         </Link>
 

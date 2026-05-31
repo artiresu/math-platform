@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "University Maths Admissions Hub",
+  title: "Maxima Maths - Admissions Hub",
   description:
     "Master A-Level Maths and prepare for TMUA and STEP for top UK universities.",
 };
