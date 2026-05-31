@@ -963,7 +963,7 @@ function PracticeRoom({
         onClick={onBack}
         className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50/50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-350 hover:bg-slate-100 focus:outline-none"
       >
-        <span aria-hidden>ÔåÉ</span>
+        <span aria-hidden>←</span>
         Back to Exam Hub
       </button>
 
