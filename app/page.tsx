@@ -98,104 +98,194 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Column: 3D Studio Mockup & Code overlay */}
+          {/* Right Column: Animated Abstract Geometric Canvas */}
           <div className="relative lg:col-span-6">
-            <div className="relative aspect-[4/3] w-full rounded-2xl border border-slate-200/60 bg-white/60 p-6 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-slate-900/10 flex items-center justify-center overflow-hidden">
+            <div className="relative aspect-[4/3] w-full rounded-2xl border border-slate-200/60 bg-white/60 p-4 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-slate-900/10 flex items-center justify-center overflow-hidden">
               
-              {/* Studio 3D Vector Shapes SVG */}
+              {/* Animated Abstract Vector SVG */}
               <svg
                 viewBox="0 0 400 300"
-                className="w-full h-full max-w-[340px] drop-shadow-2xl select-none"
+                className="w-full h-full max-w-[360px] drop-shadow-2xl select-none"
               >
                 <defs>
-                  {/* Cone gradient */}
-                  <linearGradient id="coneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="35%" stopColor="#e2e8f0" />
-                    <stop offset="100%" stopColor="#94a3b8" />
+                  {/* Linear & Radial Gradients for Abstract Color Shading */}
+                  <linearGradient id="violetPinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#c084fc" />
+                    <stop offset="50%" stopColor="#8b5cf6" />
+                    <stop offset="100%" stopColor="#ec4899" />
                   </linearGradient>
-                  {/* Sphere gradient */}
-                  <radialGradient id="sphereGrad" cx="30%" cy="30%" r="70%">
-                    <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="45%" stopColor="#cbd5e1" />
-                    <stop offset="90%" stopColor="#64748b" />
-                    <stop offset="100%" stopColor="#475569" />
+
+                  <linearGradient id="cyanGreenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#22d3ee" />
+                    <stop offset="60%" stopColor="#06b6d4" />
+                    <stop offset="100%" stopColor="#10b981" />
+                  </linearGradient>
+
+                  <linearGradient id="orangeGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#fed7aa" />
+                    <stop offset="50%" stopColor="#f97316" />
+                    <stop offset="100%" stopColor="#eab308" />
+                  </linearGradient>
+
+                  <radialGradient id="neonGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.4" />
+                    <stop offset="60%" stopColor="#8b5cf6" stopOpacity="0.1" />
+                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
                   </radialGradient>
-                  {/* Cylinder body gradient */}
-                  <linearGradient id="cylGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#e2e8f0" />
-                    <stop offset="30%" stopColor="#ffffff" />
-                    <stop offset="70%" stopColor="#cbd5e1" />
-                    <stop offset="100%" stopColor="#94a3b8" />
-                  </linearGradient>
-                  {/* Cylinder top gradient */}
-                  <linearGradient id="cylTopGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#ffffff" />
-                    <stop offset="100%" stopColor="#e2e8f0" />
-                  </linearGradient>
+
+                  <radialGradient id="meshGlow" cx="40%" cy="40%" r="60%">
+                    <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
+                  </radialGradient>
+
+                  {/* Soft Drop Shadow Filter for 3D depth */}
+                  <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="2" dy="8" stdDeviation="6" floodOpacity="0.15" />
+                  </filter>
+                  <filter id="neonBlur" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="8" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
                 </defs>
 
-                {/* Soft ground shadow ellipse */}
-                <ellipse cx="200" cy="245" rx="140" ry="15" fill="rgba(15,23,42,0.06)" />
+                {/* SVG Internal Premium Animations stylesheet */}
+                <style>{`
+                  @keyframes float-donut {
+                    0% { transform: translate(0px, 0px) rotate(0deg); }
+                    50% { transform: translate(12px, -18px) rotate(5deg); }
+                    100% { transform: translate(0px, 0px) rotate(0deg); }
+                  }
+                  @keyframes float-sphere {
+                    0% { transform: translate(0px, 0px) scale(1); }
+                    50% { transform: translate(-10px, 12px) scale(1.04); }
+                    100% { transform: translate(0px, 0px) scale(1); }
+                  }
+                  @keyframes float-mesh {
+                    0% { transform: rotate(0deg) translate(0px, 0px); }
+                    50% { transform: rotate(1.5deg) translate(-5px, -5px); }
+                    100% { transform: rotate(0deg) translate(0px, 0px); }
+                  }
+                  @keyframes dash {
+                    to { stroke-dashoffset: -40; }
+                  }
+                  .anim-donut {
+                    animation: float-donut 9s infinite ease-in-out;
+                    transform-origin: 180px 140px;
+                  }
+                  .anim-sphere {
+                    animation: float-sphere 7s infinite ease-in-out;
+                    transform-origin: 270px 180px;
+                  }
+                  .anim-mesh {
+                    animation: float-mesh 15s infinite ease-in-out;
+                    transform-origin: 200px 150px;
+                  }
+                  .pulse-wave {
+                    stroke-dasharray: 8 4;
+                    animation: dash 5s infinite linear;
+                  }
+                `}</style>
 
-                {/* Left shape: Cone */}
-                <ellipse cx="120" cy="225" rx="35" ry="10" fill="rgba(15,23,42,0.08)" />
-                <path d="M85,225 L120,95 L155,225 Z" fill="url(#coneGrad)" />
-                <ellipse cx="120" cy="225" rx="35" ry="10" fill="url(#cylTopGrad)" opacity="0.15" />
+                {/* Background Ambient Color Mesh Glows */}
+                <circle cx="180" cy="140" r="130" fill="url(#neonGlow)" />
+                <circle cx="270" cy="180" r="100" fill="url(#meshGlow)" />
 
-                {/* Middle back shape: Tall Cylinder */}
-                <ellipse cx="220" cy="230" rx="30" ry="8" fill="rgba(15,23,42,0.08)" />
-                <path d="M190,135 L250,135 L250,230 L190,230 Z" fill="url(#cylGrad)" />
-                <ellipse cx="220" cy="135" rx="30" ry="8" fill="url(#cylTopGrad)" />
+                {/* Left Background Area: Animated Isometric Mathematical Mesh Grid */}
+                <g className="anim-mesh text-slate-350 dark:text-slate-700" opacity="0.3" stroke="currentColor" strokeWidth="0.75">
+                  <path d="M 50 120 L 220 50 L 350 120 L 220 190 Z" fill="none" />
+                  <path d="M 50 120 L 220 120 L 350 120" fill="none" />
+                  <path d="M 220 50 L 220 190" fill="none" />
+                  {/* Grid lines inside isometric layout */}
+                  <path d="M 92.5 102.5 L 262.5 172.5" fill="none" />
+                  <path d="M 135 85 L 305 155" fill="none" />
+                  <path d="M 177.5 67.5 L 347.5 137.5" fill="none" />
+                  
+                  <path d="M 92.5 137.5 L 262.5 67.5" fill="none" />
+                  <path d="M 135 155 L 305 85" fill="none" />
+                  <path d="M 177.5 172.5 L 347.5 67.5" fill="none" />
+                </g>
 
-                {/* Right back shape: Flat base cylinder platform */}
-                <ellipse cx="300" cy="240" rx="45" ry="12" fill="rgba(15,23,42,0.08)" />
-                <path d="M255,215 L345,215 L345,240 L255,240 Z" fill="url(#cylGrad)" />
-                <ellipse cx="300" cy="215" rx="45" ry="12" fill="url(#cylTopGrad)" />
+                {/* Mathematical Vector Waves */}
+                <path
+                  d="M 40,150 C 90,80 120,220 180,150 C 240,80 270,220 360,150"
+                  fill="none"
+                  stroke="url(#cyanGreenGrad)"
+                  strokeWidth="2.5"
+                  className="pulse-wave"
+                  opacity="0.8"
+                />
 
-                {/* Middle front shape: Sphere */}
-                <circle cx="250" cy="220" r="24" fill="rgba(15,23,42,0.12)" transform="translate(0, 10) scale(1, 0.3)" />
-                <circle cx="250" cy="220" r="24" fill="url(#sphereGrad)" />
-              </svg>
+                {/* Left Abstract Shape: Floating Neon Orange Prism/Cone */}
+                <g className="anim-donut" style={{ animationDelay: "-2s" }} filter="url(#softShadow)">
+                  <path
+                    d="M 90,190 L 130,80 L 150,210 Z"
+                    fill="url(#orangeGoldGrad)"
+                    opacity="0.9"
+                  />
+                  {/* Facet separator for 3D dimensional depth */}
+                  <path
+                    d="M 130,80 L 130,220 L 150,210"
+                    fill="rgba(0,0,0,0.06)"
+                  />
+                </g>
 
-              {/* Overlaid Floating Syntax python card */}
-              <div className="absolute bottom-4 right-4 w-[210px] sm:w-[230px] rounded-xl border border-slate-800 bg-[#0b0f19] p-3 text-left font-mono text-[9px] sm:text-[10px] text-slate-350 shadow-xl select-text">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                  <span className="text-slate-400 font-semibold flex items-center gap-1.5 leading-none">
-                    <span className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" />
-                    binary_search.py
-                  </span>
-                  <svg
-                    className="h-3.5 w-3.5 text-slate-500 hover:text-slate-300 transition cursor-pointer"
+                {/* Center Abstract Shape: Large Floating Glassmorphic Torus/Donut */}
+                <g className="anim-donut" filter="url(#softShadow)">
+                  {/* Torus shadow */}
+                  <circle
+                    cx="180"
+                    cy="140"
+                    r="45"
                     fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    viewBox="0 0 24 24"
-                  >
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                  </svg>
-                </div>
-                <pre className="space-y-0.5 leading-relaxed text-slate-300">
-                  <div>
-                    <span className="text-violet-400">def</span>{" "}
-                    <span className="text-cyan-400 font-bold">search</span>(arr, x):
-                  </div>
-                  <div className="pl-3">
-                    low = <span className="text-amber-500">0</span>
-                  </div>
-                  <div className="pl-3">
-                    high = <span className="text-cyan-400">len</span>(arr) - <span className="text-amber-500">1</span>
-                  </div>
-                  <div className="pl-3">
-                    <span className="text-violet-400">while</span> low &lt;= high:
-                  </div>
-                  <div className="pl-6">
-                    mid = (low + high) // <span className="text-amber-500">2</span>
-                  </div>
-                  <div className="pl-6">...</div>
-                </pre>
-              </div>
+                    stroke="url(#violetPinkGrad)"
+                    strokeWidth="18"
+                    opacity="0.9"
+                  />
+                  {/* Shading overlay for torus */}
+                  <circle
+                    cx="180"
+                    cy="140"
+                    r="45"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.2)"
+                    strokeWidth="4"
+                    transform="translate(-3, -3)"
+                  />
+                </g>
+
+                {/* Right Abstract Shape: Floating Cyan Translucent Sphere */}
+                <g className="anim-sphere" filter="url(#softShadow)">
+                  <circle
+                    cx="270"
+                    cy="180"
+                    r="32"
+                    fill="url(#cyanGreenGrad)"
+                    opacity="0.85"
+                  />
+                  {/* Specular highlighting overlay */}
+                  <circle
+                    cx="258"
+                    cy="168"
+                    r="8"
+                    fill="#ffffff"
+                    opacity="0.4"
+                    filter="url(#neonBlur)"
+                  />
+                </g>
+
+                {/* Additional Floating micro particles for vector dynamic feel */}
+                <circle cx="70" cy="80" r="3" fill="#ec4899" className="anim-sphere" style={{ animationDelay: "-1s" }} />
+                <circle cx="320" cy="90" r="4.5" fill="#22d3ee" className="anim-donut" style={{ animationDelay: "-4s" }} />
+                <circle cx="160" cy="240" r="2.5" fill="#eab308" className="anim-sphere" style={{ animationDelay: "-3s" }} />
+                
+                {/* Floating mathematical vector indicators */}
+                <line x1="280" y1="60" x2="310" y2="60" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="2 2" className="anim-donut" />
+                <polygon points="310,60 305,57 305,63" fill="#06b6d4" className="anim-donut" />
+
+              </svg>
 
             </div>
           </div>
