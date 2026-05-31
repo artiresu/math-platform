@@ -28,11 +28,11 @@ function SelectorGroup<T extends string>({
   onChange: (id: T) => void;
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-slate-450 dark:text-slate-500">
-        {label}:
-      </span>
-      <div className="flex flex-wrap gap-1">
+    <div>
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-slate-400">
+        {label}
+      </p>
+      <div className="flex flex-wrap gap-2">
         {options.map((opt) => {
           const active = value === opt.id;
           return (
@@ -41,10 +41,10 @@ function SelectorGroup<T extends string>({
               type="button"
               onClick={() => onChange(opt.id)}
               aria-pressed={active}
-              className={`rounded-lg border px-2.5 py-1 text-xs font-semibold transition ${
+              className={`rounded-lg border px-3 py-2 text-sm font-medium transition ${
                 active
-                  ? "border-cyan-500/40 bg-cyan-500/5 text-cyan-700 dark:text-cyan-400 shadow-sm"
-                  : "border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-350 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  ? "border-cyan-500/30 bg-cyan-500/5 text-cyan-700 dark:text-cyan-400 shadow-sm font-semibold"
+                  : "border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 hover:border-slate-355 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               {opt.label}
@@ -162,26 +162,27 @@ export function AlevelPracticeSection() {
   // --- MAIN CURRICULUM VIEW ---
   return (
     <div className="space-y-8">
-      {/* Thinner, space-efficient horizontal control bar */}
-      <section className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 py-2 px-4 shadow-sm">
-        <div className="flex flex-col gap-y-2.5 gap-x-6 md:flex-row md:items-center md:justify-between">
+      {/* Profile settings card */}
+      <section className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 p-5 sm:p-6 shadow-sm">
+        <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-cyan-600">
+          Your profile
+        </p>
+        <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-3">
           <SelectorGroup
-            label="Board"
+            label="Exam board"
             options={EXAM_BOARDS}
             value={selectedBoard}
             onChange={setSelectedBoard}
           />
-          <div className="hidden md:block h-3.5 w-px bg-slate-200 dark:bg-slate-800" />
           <SelectorGroup
-            label="Course"
-            options={COURSE_TYPES.map(c => ({ id: c.id, label: c.id === "maths" ? "Maths" : "Further" }))}
+            label="Course type"
+            options={COURSE_TYPES}
             value={selectedCourse}
             onChange={setSelectedCourse}
           />
-          <div className="hidden md:block h-3.5 w-px bg-slate-200 dark:bg-slate-800" />
           <SelectorGroup
-            label="Year"
-            options={ACADEMIC_YEARS.map(y => ({ id: y.id, label: y.id === "year1" ? "Year 1" : "Year 2" }))}
+            label="Academic year"
+            options={ACADEMIC_YEARS}
             value={selectedYear}
             onChange={setSelectedYear}
           />
