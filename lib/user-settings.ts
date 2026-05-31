@@ -8,6 +8,7 @@ export type UserProfile = {
   // New avatar field
   avatarId: string;
   avatarCustomUrl?: string; // Base64 data URL of custom uploaded picture
+  avatarBorderId: string;   // ID of custom active avatar border
 
   // New leaderboard settings
   leaderboardRegion: string;
@@ -30,6 +31,14 @@ export type AvatarItem = {
   textColor: string;
 };
 
+export type AvatarBorderItem = {
+  id: string;
+  name: string;
+  description: string;
+  ringClass: string;
+  previewBg: string;
+};
+
 export const MATH_AVATARS: AvatarItem[] = [
   { id: "pi", name: "Pi (π)", symbol: "π", description: "The Circle Constant", bgGrad: "from-fuchsia-500 to-pink-600", textColor: "text-white" },
   { id: "infinity", name: "Infinity (∞)", symbol: "∞", description: "Infinite Potential", bgGrad: "from-cyan-400 to-indigo-600", textColor: "text-white" },
@@ -41,6 +50,14 @@ export const MATH_AVATARS: AvatarItem[] = [
   { id: "aleph", name: "Aleph-Null (ℵ₀)", symbol: "ℵ₀", description: "Infinite Cardinality", bgGrad: "from-slate-600 to-slate-900", textColor: "text-slate-100" },
 ];
 
+export const AVATAR_BORDERS: AvatarBorderItem[] = [
+  { id: "standard", name: "Standard", description: "Clean & minimal slate ring", ringClass: "ring-2 ring-slate-200/80 dark:ring-white/10", previewBg: "bg-slate-200 dark:bg-white/10" },
+  { id: "gold", name: "Golden Ratio", description: "Luxurious glowing amber ring", ringClass: "ring-2 ring-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.55)] dark:ring-amber-400", previewBg: "bg-amber-500" },
+  { id: "quantum", name: "Quantum Pink", description: "Luminous fuchsia wave border", ringClass: "ring-2 ring-fuchsia-500 shadow-[0_0_8px_rgba(217,70,239,0.55)] dark:ring-fuchsia-400", previewBg: "bg-fuchsia-500" },
+  { id: "complex", name: "Complex Plane", description: "Sleek indigo-cyan gradient glow", ringClass: "ring-2 ring-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.55)] dark:ring-cyan-400", previewBg: "bg-indigo-500" },
+  { id: "zero", name: "Absolute Zero", description: "Chilled emerald-mint glow", ringClass: "ring-2 ring-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.55)] dark:ring-emerald-450", previewBg: "bg-emerald-500" },
+];
+
 const PROFILE_KEY = "convexity-user-profile";
 const THEME_KEY = "convexity-theme";
 
@@ -49,6 +66,7 @@ export const DEFAULT_PROFILE: UserProfile = {
   email: "guest@convexity.app",
   leaderboardOptIn: true,
   avatarId: "pi",
+  avatarBorderId: "standard",
   leaderboardRegion: "Global",
   leaderboardShowSchool: false,
   schoolName: "",

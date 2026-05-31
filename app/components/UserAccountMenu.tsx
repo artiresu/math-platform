@@ -7,6 +7,7 @@ import {
   loadProfile,
   saveProfile,
   MATH_AVATARS,
+  AVATAR_BORDERS,
   type UserProfile,
 } from "@/lib/user-settings";
 
@@ -97,6 +98,10 @@ export function UserAccountMenu() {
   const activeAvatar =
     MATH_AVATARS.find((a) => a.id === profile.avatarId) || MATH_AVATARS[0];
 
+  // Find active border style (default to Standard if missing)
+  const activeBorder =
+    AVATAR_BORDERS.find((b) => b.id === profile.avatarBorderId) || AVATAR_BORDERS[0];
+
   function persistProfile(next: UserProfile) {
     setProfile(next);
     saveProfile(next);
@@ -129,7 +134,7 @@ export function UserAccountMenu() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-full ring-2 ring-slate-200/60 dark:ring-white/10 transition hover:ring-violet-400/50 shadow-md overflow-hidden bg-slate-100 dark:bg-slate-800"
+        className={`flex h-9 w-9 items-center justify-center rounded-full transition overflow-hidden bg-slate-100 dark:bg-slate-800 ${activeBorder.ringClass} shadow-md`}
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label="Account menu"
@@ -163,12 +168,12 @@ export function UserAccountMenu() {
                 {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
                   <img
                     src={profile.avatarCustomUrl}
-                    className="h-11 w-11 shrink-0 rounded-xl object-cover shadow"
+                    className={`h-11 w-11 shrink-0 rounded-xl object-cover shadow ${activeBorder.ringClass}`}
                     alt="Profile Avatar"
                   />
                 ) : (
                   <div
-                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${activeAvatar.bgGrad} text-lg font-bold text-white shadow`}
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${activeAvatar.bgGrad} text-lg font-bold text-white shadow ${activeBorder.ringClass}`}
                   >
                     <span className="font-serif select-none">{activeAvatar.symbol}</span>
                   </div>
@@ -226,12 +231,12 @@ export function UserAccountMenu() {
                   {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
                     <img
                       src={profile.avatarCustomUrl}
-                      className="h-7 w-7 rounded-lg object-cover shadow-sm shrink-0"
+                      className={`h-7 w-7 rounded-lg object-cover shadow-sm shrink-0 ${activeBorder.ringClass}`}
                       alt="Custom Avatar"
                     />
                   ) : (
                     <div
-                      className={`h-7 w-7 rounded-lg bg-gradient-to-br ${activeAvatar.bgGrad} flex items-center justify-center text-xs font-bold text-white shrink-0 shadow`}
+                      className={`h-7 w-7 rounded-lg bg-gradient-to-br ${activeAvatar.bgGrad} flex items-center justify-center text-xs font-bold text-white shrink-0 shadow ${activeBorder.ringClass}`}
                     >
                       {activeAvatar.symbol}
                     </div>
@@ -239,7 +244,7 @@ export function UserAccountMenu() {
                   <div className="text-left">
                     <p className="text-xs font-bold">Customise Profile</p>
                     <p className="text-[9px] font-normal text-slate-500 dark:text-white/40 mt-0.5">
-                      Choose math avatar or upload photo
+                      Choose avatar and border style
                     </p>
                   </div>
                 </div>
@@ -325,7 +330,7 @@ export function UserAccountMenu() {
                   Select a mathematical archetype
                 </p>
 
-                <div className="mt-2.5 grid grid-cols-4 gap-2">
+                <div className="mt-2 grid grid-cols-4 gap-2">
                   {MATH_AVATARS.map((avatar) => {
                     const isSelected = profile.avatarId === avatar.id;
                     return (
@@ -358,7 +363,7 @@ export function UserAccountMenu() {
                 </div>
 
                 {/* Custom Image Upload Trigger */}
-                <div className="mt-3.5 flex items-center justify-between gap-3 border-t border-dashed border-slate-200/60 dark:border-white/10 pt-3">
+                <div className="mt-3 flex items-center justify-between gap-3 border-t border-dashed border-slate-200/60 dark:border-white/10 pt-3">
                   <span className="text-[10px] font-semibold text-slate-500 dark:text-white/40">
                     Or Upload Picture
                   </span>
@@ -386,42 +391,95 @@ export function UserAccountMenu() {
                   </label>
                 </div>
 
+                {/* 🌟 New Border Customisation Section */}
+                <div className="mt-3.5 border-t border-dashed border-slate-200/60 dark:border-white/10 pt-3">
+                  <p className="text-[10px] font-semibold text-slate-500 dark:text-white/40">
+                    Select Border Style
+                  </p>
+                  <div className="mt-2 grid grid-cols-5 gap-2">
+                    {AVATAR_BORDERS.map((border) => {
+                      const isSelected = profile.avatarBorderId === border.id;
+                      return (
+                        <button
+                          key={border.id}
+                          type="button"
+                          title={`${border.name} — ${border.description}`}
+                          onClick={() => {
+                            persistProfile({ ...profile, avatarBorderId: border.id });
+                          }}
+                          className={`flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/50 dark:border-white/5 bg-slate-50 dark:bg-white/5 cursor-pointer transition relative hover:scale-105 active:scale-95 ${
+                            isSelected
+                              ? "ring-2 ring-violet-500 dark:ring-violet-400 scale-[1.05]"
+                              : "opacity-75 hover:opacity-100"
+                          }`}
+                        >
+                          {/* Inner preview circle showing active border */}
+                          <span
+                            className={`h-6 w-6 rounded-full flex items-center justify-center ${border.ringClass} bg-slate-300/40 dark:bg-white/10`}
+                          >
+                            {isSelected && (
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 border border-white animate-pulse" />
+                            )}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 {/* Selection Details */}
-                <div className="mt-3 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 p-2.5 text-left flex items-center gap-2.5">
-                  {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
-                    <>
-                      <img
-                        src={profile.avatarCustomUrl}
-                        className="h-7 w-7 rounded-lg object-cover shadow-inner"
-                        alt="Custom Avatar"
-                      />
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">
-                          Custom Upload
-                        </p>
-                        <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5 truncate">
-                          Your personalized picture
-                        </p>
-                      </div>
-                      <span className="h-2 w-2 rounded-full bg-emerald-400 border border-white animate-pulse shrink-0" />
-                    </>
-                  ) : (
-                    <>
-                      <div
-                        className={`h-7 w-7 rounded-lg bg-gradient-to-br ${activeAvatar.bgGrad} flex items-center justify-center text-xs font-bold text-white shrink-0 shadow`}
-                      >
-                        {activeAvatar.symbol}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">
-                          {activeAvatar.name}
-                        </p>
-                        <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5 truncate">
-                          {activeAvatar.description}
-                        </p>
-                      </div>
-                    </>
-                  )}
+                <div className="mt-3 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 p-2.5 text-left space-y-2">
+                  {/* Avatar details row */}
+                  <div className="flex items-center gap-2.5">
+                    {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
+                      <>
+                        <img
+                          src={profile.avatarCustomUrl}
+                          className="h-7 w-7 rounded-lg object-cover shadow-inner"
+                          alt="Custom Avatar"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">
+                            Custom Upload
+                          </p>
+                          <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5 truncate">
+                            Your personalized picture
+                          </p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className={`h-7 w-7 rounded-lg bg-gradient-to-br ${activeAvatar.bgGrad} flex items-center justify-center text-xs font-bold text-white shrink-0 shadow`}
+                        >
+                          {activeAvatar.symbol}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">
+                            {activeAvatar.name}
+                          </p>
+                          <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5 truncate">
+                            {activeAvatar.description}
+                          </p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Border style details row */}
+                  <div className="border-t border-dashed border-slate-200/60 dark:border-white/10 pt-2 flex items-center gap-2.5">
+                    <span
+                      className={`h-5 w-5 rounded-full flex items-center justify-center shrink-0 ${activeBorder.ringClass} bg-slate-300/40 dark:bg-white/10`}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-300">
+                        {activeBorder.name} Border
+                      </p>
+                      <p className="text-[9px] text-slate-500 dark:text-white/40 mt-0.5 truncate">
+                        {activeBorder.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Finish & Back Button */}
