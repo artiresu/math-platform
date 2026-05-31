@@ -3,6 +3,24 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+  --surface: #ffffff;
+  --border: rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --border: rgba(15, 23, 42, 0.12);
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  --background: #020617;
+  --foreground: #ffffff;
+  --surface: #0f172a;
+  --border: rgba(255, 255, 255, 0.1);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -24,6 +42,16 @@ body {
   color: var(--foreground);
 }
 
+html[data-theme="dark"] .page-shell {
+  background-color: #020617;
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .page-shell .text-slate-900,
+html[data-theme="dark"] .page-shell .text-slate-950 {
+  color: #ffffff;
+}
+
 .font-serif {
   font-family: var(--font-source-serif), ui-serif, Georgia, serif;
 }
@@ -32,7 +60,6 @@ body {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-/* Math / text panels: grow vertically; avoid horizontal scrollbars in content boxes */
 .latex-panel {
   overflow: visible;
 }
@@ -73,13 +100,11 @@ body {
   font-size: clamp(0.65rem, 2.8vw, 0.9rem);
 }
 
-/* Inline math inside interview paragraphs */
 .interview-paragraph .katex {
   font-size: 1em;
   white-space: normal;
 }
 
-/* Ultimate Awwwards-grade flowing neon drifting keyframes */
 @keyframes neon-drift-1 {
   0% {
     transform: translate(0px, 0px) scale(1) rotate(0deg);
@@ -137,7 +162,6 @@ body {
   animation: neon-drift-3 24s infinite ease-in-out;
 }
 
-/* Backward compatibility for previous classes */
 .animate-drift {
   animation: neon-drift-1 25s infinite ease-in-out;
 }
@@ -146,13 +170,11 @@ body {
   animation: neon-drift-2 30s infinite ease-in-out;
 }
 
-/* Premium selection styling */
 ::selection {
   background-color: rgba(139, 92, 246, 0.25);
-  color: #ffffff;
+  color: inherit;
 }
 
-/* Slim scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -170,6 +192,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.2);
 }
-
-
-

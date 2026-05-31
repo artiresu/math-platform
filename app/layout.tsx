@@ -5,8 +5,8 @@ import {
   Source_Serif_4,
 } from "next/font/google";
 import "katex/dist/katex.min.css";
+import { AppProviders } from "./components/AppProviders";
 import "./globals.css";
-import { AuthProvider } from "@/app/components/AuthContext";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -26,9 +26,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Maxima Maths - Admissions Hub",
+  title: "Convexity",
   description:
-    "Master A-Level Maths and prepare for TMUA and STEP for top UK universities.",
+    "Master A-Level Maths, admissions tests, interview prep, games, and AI-powered solutions.",
 };
 
 export default function RootLayout({
@@ -39,10 +39,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="light"
       className={`${plusJakarta.variable} ${sourceSerif.variable} ${geistMono.variable} h-full`}
+      suppressHydrationWarning
     >
       <body className="min-h-screen bg-white font-sans text-slate-900 antialiased">
-        <AuthProvider>{children}</AuthProvider>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

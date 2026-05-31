@@ -35,11 +35,15 @@ async function main() {
   for (const { gameType, scores } of SAMPLE_SCORES) {
     for (let i = 0; i < scores.length; i++) {
       const user = users[i % users.length];
+      const daysAgo = i * 12 + (gameType === "speed-arithmetic" ? i * 3 : i * 7);
+      const createdAt = new Date();
+      createdAt.setDate(createdAt.getDate() - daysAgo);
       await prisma.score.create({
         data: {
           userId: user.id,
           gameType,
           score: scores[i],
+          createdAt,
         },
       });
     }

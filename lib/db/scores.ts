@@ -1,3 +1,4 @@
+import { getPlayerRegion } from "../leaderboard-filters";
 import { prisma } from "../prisma";
 import type { GameType } from "./game-types";
 
@@ -7,6 +8,8 @@ export type LeaderboardEntry = {
   name: string;
   score: number;
   createdAt: Date;
+  country: string;
+  continent: string;
 };
 
 /** Record a single-player result for the authenticated user */
@@ -40,11 +43,16 @@ export async function getLeaderboard(
     },
   });
 
-  return rows.map((row, index) => ({
-    rank: index + 1,
-    userId: row.user.id,
-    name: row.user.name,
-    score: row.score,
-    createdAt: row.createdAt,
-  }));
+  return rows.map((row, index) => {
+    const region = getPlayerRegion(row.user.name);
+    return {
+      rank: index + 1,
+      userId: row.user.id,
+      name: row.user.name,
+      score: row.score,
+      createdAt: row.createdAt,
+      country: region.country,
+      continent: region.continent,
+    };
+  });
 }

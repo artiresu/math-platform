@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { NavBar } from "./components/NavBar";
 import { CinematicIntro } from "./components/CinematicIntro";
+import { SiteHeader } from "./components/SiteHeader";
 
 const EXAM_BADGES = ["TMUA", "STEP", "A-Level"] as const;
 const UNIVERSITIES = [
@@ -92,11 +92,9 @@ export default function Home() {
   const chances = getChances(targetScore);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans">
-      {/* Premium Cinematic Preloader Overlay */}
+    <div className="page-shell relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans">
       <CinematicIntro />
 
-      {/* Visual Architectural Background Grid */}
       <div
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.018)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_40%,transparent_85%)]"
         aria-hidden
@@ -130,23 +128,23 @@ export default function Home() {
         aria-hidden
       />
 
-      <NavBar />
+      <SiteHeader />
 
       <main className="relative mx-auto max-w-5xl px-4 pb-24 pt-16 text-slate-900 sm:px-8 sm:pt-20 lg:pt-24">
         {/* Hero Section */}
         <section className="mx-auto max-w-3xl text-center">
           <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-600">
-            Maxima Maths · UK Admissions
+            Convexity · UK Admissions
           </p>
 
           <h1 className="mt-6 font-sans text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl md:text-6xl">
-            Maxima Maths
+            Convexity
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
-            Master advanced problem-solving depth to ace competitive admission tests including the{" "}
-            <span className="font-semibold text-slate-900">TMUA</span> and{" "}
-            <span className="font-semibold text-slate-900">STEP</span> for world-leading institutions:{" "}
+            Your hub for A-Level mathematics, admissions tests, interview prep,
+            games, community servers, and AI-powered solutions — built for top UK
+            university applicants targeting{" "}
             {UNIVERSITIES.map((name, i) => (
               <span key={name}>
                 {i > 0 && (i === UNIVERSITIES.length - 1 ? ", and " : ", ")}
@@ -287,7 +285,7 @@ export default function Home() {
                   JOIN THE COMMUNITY
                 </button>
                 <p className="text-xs leading-relaxed text-slate-500">
-                  Unlock peer masterclasses, real-time simulated testing, and track your global rank inside the Maxima Maths community today.
+                  Unlock peer masterclasses, real-time simulated testing, and track your global rank inside the Convexity community today.
                 </p>
               </div>
 
@@ -334,10 +332,10 @@ export default function Home() {
             </Link>
             ,{" "}
             <Link href="/games" className="font-semibold text-slate-700 hover:text-slate-900 transition underline-offset-2 hover:underline">
-              Maths Games
+              Games
             </Link>
             , and{" "}
-            <Link href="/leaderboards" className="font-semibold text-slate-700 hover:text-slate-900 transition underline-offset-2 hover:underline">
+            <Link href="/games/leaderboards" className="font-semibold text-slate-700 hover:text-slate-900 transition underline-offset-2 hover:underline">
               Leaderboards
             </Link>
             .
