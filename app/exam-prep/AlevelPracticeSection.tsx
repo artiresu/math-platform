@@ -15,6 +15,7 @@ import {
 } from "./alevel-curriculum";
 import { StudyHub } from "./StudyHub";
 import type { StudyTabId } from "./study-types";
+import { parsePastPapers } from "./past-papers-utils";
 
 function SelectorGroup<T extends string>({
   label,
@@ -98,6 +99,46 @@ export function AlevelPracticeSection() {
   const [selectedSubtopicId, setSelectedSubtopicId] = useState("");
   const [activeStudyTab, setActiveStudyTab] = useState<StudyTabId>("notes");
   const [isStudying, setIsStudying] = useState(false);
+
+  // --- PAST PAPERS STATES AND LOGIC ---
+  const [selectedPaperBoard, setSelectedPaperBoard] = useState<ExamBoard | null>(null);
+  const [selectedPaperYear, setSelectedPaperYear] = useState<string>("all");
+  const [selectedPaperType, setSelectedPaperType] = useState<string>("all");
+  const [visiblePapersLimit, setVisiblePapersLimit] = useState(24);
+
+  const allPapers = useMemo(() => parsePastPapers(), []);
+  const currentPaperBoard = selectedPaperBoard || selectedBoard;
+
+  const [prevBoardCourse, setPrevBoardCourse] = useState({ board: currentPaperBoard, course: selectedCourse });
+  if (prevBoardCourse.board !== currentPaperBoard || prevBoardCourse.course !== selectedCourse) {
+    setPrevBoardCourse({ board: currentPaperBoard, course: selectedCourse });
+    setSelectedPaperYear("all");
+    setSelectedPaperType("all");
+    setVisiblePapersLimit(24);
+  }
+
+  const filteredPapers = useMemo(() => {
+    return allPapers.filter((paper) => {
+      if (paper.course !== selectedCourse) return false;
+      if (paper.board !== currentPaperBoard) return false;
+      if (selectedPaperYear !== "all" && paper.year !== selectedPaperYear) return false;
+      if (selectedPaperType !== "all" && paper.type !== selectedPaperType) return false;
+      return true;
+    });
+  }, [allPapers, selectedCourse, currentPaperBoard, selectedPaperYear, selectedPaperType]);
+
+  const availableYears = useMemo(() => {
+    const years = allPapers
+      .filter((p) => p.course === selectedCourse && p.board === currentPaperBoard)
+      .map((p) => p.year);
+    return Array.from(new Set(years)).sort((a, b) => {
+      if (a === "SAM") return -1;
+      if (b === "SAM") return 1;
+      if (a === "Other") return 1;
+      if (b === "Other") return -1;
+      return b.localeCompare(a);
+    });
+  }, [allPapers, selectedCourse, currentPaperBoard]);
 
   const subtopics = useMemo(
     () =>
@@ -288,55 +329,212 @@ export function AlevelPracticeSection() {
             );
           })}
         </div>
-      </section>
-
-      {/* Examination Archives past papers section */}
-      <section className="mt-12 border-t border-slate-200 dark:border-slate-800 pt-10">
-        <h3 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white">
-          Examination Archives
-        </h3>
-        <p className="mt-1.5 text-sm text-slate-600 dark:text-slate-400">
-          Download official past papers and high precision mark schemes.
-        </p>
-
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { title: "2023 Paper 1", subtitle: "Pure Mathematics", type: "pdf" },
-            { title: "2023 Paper 2", subtitle: "Pure & Stats", type: "pdf" },
-            { title: "2022 Paper 1", subtitle: "Pure Mathematics", type: "pdf" },
-            { title: "Formula Booklet", subtitle: "All Boards", type: "book" },
-          ].map((paper, idx) => (
-            <a
-              key={idx}
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                alert(`Opening ${paper.title} (${paper.subtitle})...`);
-              }}
-              className="flex items-center gap-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 p-4 transition hover:scale-[1.02] hover:border-slate-300 dark:hover:border-slate-700 shadow-sm"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-950/40 text-violet-750 dark:text-violet-400">
-                {paper.type === "pdf" ? (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                ) : (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
-                )}
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">
-                  {paper.title}
-                </p>
-                <p className="truncate text-xs text-slate-500 dark:text-slate-400">
-                  {paper.subtitle}
-                </p>
-              </div>
-            </a>
-          ))}
+      </section>      {/* Examination Archives past papers section */}
+      <section className="mt-16 border-t border-slate-200 dark:border-slate-800 pt-12">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h3 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl">
+              Examination Archives
+            </h3>
+            <p className="mt-1.5 text-sm text-slate-600 dark:text-slate-400">
+              Access and download official past papers, formulae booklets, and high-precision mark schemes for {selectedCourse === "maths" ? "A-Level Mathematics" : "A-Level Further Mathematics"}.
+            </p>
+          </div>
+          <div className="text-xs font-semibold px-3 py-1.5 rounded-full bg-violet-50 dark:bg-violet-950/30 text-violet-750 dark:text-violet-400 border border-violet-100 dark:border-violet-800/40 w-fit">
+            {filteredPapers.length} papers available
+          </div>
         </div>
+
+        {/* Board Tabs & Filters */}
+        <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between pb-6 border-b border-slate-100 dark:border-slate-850">
+          {/* Tabs */}
+          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Exam boards">
+            {EXAM_BOARDS.map((board) => {
+              const active = currentPaperBoard === board.id;
+              return (
+                <button
+                  key={board.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setSelectedPaperBoard(board.id)}
+                  className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+                    active
+                      ? "bg-violet-600 dark:bg-violet-500 text-white shadow-sm hover:bg-violet-500 dark:hover:bg-violet-400 scale-[1.01]"
+                      : "border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 hover:border-slate-350 dark:hover:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-850"
+                  }`}
+                >
+                  {board.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Filter dropdowns */}
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Year filter */}
+            <div className="flex items-center gap-2">
+              <label htmlFor="paper-year-filter" className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                Year:
+              </label>
+              <select
+                id="paper-year-filter"
+                value={selectedPaperYear}
+                onChange={(e) => setSelectedPaperYear(e.target.value)}
+                className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-850 dark:text-slate-200 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500/20"
+              >
+                <option value="all">All Years</option>
+                {availableYears.map((yr) => (
+                  <option key={yr} value={yr}>
+                    {yr}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Type filter */}
+            <div className="flex items-center gap-2">
+              <label htmlFor="paper-type-filter" className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                Type:
+              </label>
+              <select
+                id="paper-type-filter"
+                value={selectedPaperType}
+                onChange={(e) => setSelectedPaperType(e.target.value)}
+                className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-850 dark:text-slate-200 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500/20"
+              >
+                <option value="all">All Types</option>
+                <option value="QP">Question Papers</option>
+                <option value="MS">Mark Schemes</option>
+                <option value="Other">Other Docs</option>
+              </select>
+            </div>
+
+            {/* Reset button */}
+            {(selectedPaperYear !== "all" || selectedPaperType !== "all" || selectedPaperBoard !== null) && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedPaperYear("all");
+                  setSelectedPaperType("all");
+                  setSelectedPaperBoard(null);
+                }}
+                className="text-xs font-semibold text-violet-600 hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300 transition"
+              >
+                Reset
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Papers Grid */}
+        {filteredPapers.length > 0 ? (
+          <div className="mt-8 space-y-8">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredPapers.slice(0, visiblePapersLimit).map((paper, idx) => (
+                <a
+                  key={idx}
+                  href={`/past-papers/${paper.filename}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/40 p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-violet-300 dark:hover:border-violet-800"
+                >
+                  <div className="flex items-start gap-4">
+                    {/* Icon */}
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100 dark:bg-violet-950/40 text-violet-750 dark:text-violet-400 group-hover:scale-105 transition-transform duration-200">
+                      <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+
+                    {/* Paper Info */}
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-serif text-sm font-bold text-slate-900 dark:text-white leading-snug group-hover:text-violet-600 dark:group-hover:text-violet-400 transition truncate">
+                        {paper.name}
+                      </h4>
+                      
+                      {/* Meta Tags */}
+                      <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+                        {/* Year Badge */}
+                        <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-650 dark:text-slate-350">
+                          {paper.year}
+                        </span>
+
+                        {/* Type Badge */}
+                        {paper.type === "QP" && (
+                          <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-450 border border-emerald-100/50 dark:border-emerald-900/30">
+                            Question Paper
+                          </span>
+                        )}
+                        {paper.type === "MS" && (
+                          <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-455 border border-rose-100/50 dark:border-rose-900/30">
+                            Mark Scheme
+                          </span>
+                        )}
+                        {paper.type === "Other" && (
+                          <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-450 border border-amber-100/50 dark:border-amber-900/30">
+                            Document
+                          </span>
+                        )}
+
+                        {/* Level Badge */}
+                        {paper.level !== "A-Level" && (
+                          <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-semibold bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-400">
+                            {paper.level}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-end text-xs font-semibold text-violet-600 dark:text-violet-400 group-hover:text-violet-500 dark:group-hover:text-violet-300">
+                    <span>Open PDF</span>
+                    <svg className="ml-1 h-3 w-3 transform group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </div>
+                </a>
+              ))}
+            </div>
+
+            {/* Show More Pagination */}
+            {filteredPapers.length > visiblePapersLimit && (
+              <div className="flex justify-center pt-4">
+                <button
+                  type="button"
+                  onClick={() => setVisiblePapersLimit((prev) => prev + 24)}
+                  className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 px-6 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-slate-350 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-850 transition"
+                >
+                  Load More Papers ({filteredPapers.length - visiblePapersLimit} remaining)
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Empty State */
+          <div className="mt-8 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-950/20 p-12 text-center">
+            <svg className="h-10 w-10 text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <h4 className="mt-4 font-serif text-lg font-bold text-slate-900 dark:text-white">
+              No matching archives
+            </h4>
+            <p className="mt-2 text-sm text-slate-650 dark:text-slate-400 max-w-sm">
+              We couldn't find any past papers matching your current filters. Try changing the year, type, or reset the filters.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedPaperYear("all");
+                setSelectedPaperType("all");
+                setSelectedPaperBoard(null);
+              }}
+              className="mt-6 rounded-xl bg-slate-900 dark:bg-slate-100 px-4 py-2 text-xs font-semibold text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-white transition"
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
       </section>
     </div>
   );
