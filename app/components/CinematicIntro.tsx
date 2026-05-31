@@ -6,9 +6,18 @@ import { motion, AnimatePresence } from "framer-motion";
 export function CinematicIntro({ onComplete }: { onComplete?: () => void }) {
   const [textActive, setTextActive] = useState(true);
   const [slideOut, setSlideOut] = useState(false);
-  const [mounted, setMounted] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hasPlayed = sessionStorage.getItem("maxima_maths_intro_played");
+      if (hasPlayed) {
+        if (onComplete) onComplete();
+        return;
+      }
+    }
+
+    setMounted(true);
     // Lock scrolling on mount
     document.body.style.overflow = "hidden";
 
@@ -26,6 +35,9 @@ export function CinematicIntro({ onComplete }: { onComplete?: () => void }) {
     const completeTimer = setTimeout(() => {
       document.body.style.overflow = "";
       setMounted(false);
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("maxima_maths_intro_played", "true");
+      }
       if (onComplete) onComplete();
     }, 3600); // 2.5s + 1.1s = 3.6s
 

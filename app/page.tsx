@@ -29,8 +29,19 @@ const ACTIVITY_FEED = [
   },
 ] as const;
 
+const STREAK_DAYS = [
+  { label: "M", completed: true },
+  { label: "T", completed: true },
+  { label: "W", completed: true },
+  { label: "T", completed: true },
+  { label: "F", completed: false },
+  { label: "S", completed: false },
+  { label: "S", completed: false },
+] as const;
+
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [targetScore, setTargetScore] = useState(6.5);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -38,6 +49,47 @@ export default function Home() {
     }, 3500);
     return () => clearInterval(timer);
   }, []);
+
+  const getChances = (score: number) => {
+    if (score < 4.0) {
+      return {
+        imperial: "Low",
+        cambridge: "Unlikely",
+        colorImp: "text-red-700 bg-red-500/5 border border-red-500/10",
+        colorCam: "text-red-700 bg-red-500/5 border border-red-500/10",
+      };
+    } else if (score < 5.5) {
+      return {
+        imperial: "Moderate",
+        cambridge: "Unlikely",
+        colorImp: "text-amber-700 bg-amber-500/5 border border-amber-500/10",
+        colorCam: "text-red-700 bg-red-500/5 border border-red-500/10",
+      };
+    } else if (score < 6.8) {
+      return {
+        imperial: "High",
+        cambridge: "Moderate",
+        colorImp: "text-emerald-700 bg-emerald-500/5 border border-emerald-500/10",
+        colorCam: "text-amber-700 bg-amber-500/5 border border-amber-500/10",
+      };
+    } else if (score < 7.8) {
+      return {
+        imperial: "High",
+        cambridge: "Competitive",
+        colorImp: "text-emerald-700 bg-emerald-500/5 border border-emerald-500/10",
+        colorCam: "text-violet-750 bg-violet-500/5 border border-violet-500/10",
+      };
+    } else {
+      return {
+        imperial: "Very High",
+        cambridge: "Very Competitive",
+        colorImp: "text-cyan-700 bg-cyan-500/5 border border-cyan-500/10",
+        colorCam: "text-indigo-700 bg-indigo-500/5 border border-indigo-500/10",
+      };
+    }
+  };
+
+  const chances = getChances(targetScore);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans">
@@ -123,71 +175,149 @@ export default function Home() {
         {/* structural horizontal rule */}
         <div className="my-16 h-px w-full bg-slate-200/50" aria-hidden />
 
-        {/* Live Global Activity Section */}
+        {/* Interactive Dashboard Widget Card Section */}
         <section
           className="mx-auto max-w-2xl w-full"
-          id="activity-feed"
-          aria-labelledby="activity-heading"
+          id="student-widget"
+          aria-labelledby="widget-heading"
         >
           {/* Pristine, Flat Glass Card Container */}
           <article
-            className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-md backdrop-blur-2xl sm:p-10 transition duration-300 hover:border-violet-500/20 hover:shadow-lg"
+            className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-2xl transition duration-300 hover:border-violet-500/20 hover:shadow-lg"
           >
-            <div className="mb-6 flex items-center justify-between gap-4 sm:mb-8">
-              <div className="text-left flex items-center gap-3">
-                <div className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </div>
-                <div>
-                  <p className="font-mono text-[9px] font-bold uppercase tracking-widest text-cyan-600">
-                    Real-time updates
-                  </p>
+            {/* Padded Main Content Area */}
+            <div className="p-6 sm:p-10 pb-4 sm:pb-6">
+              
+              {/* Header Row with Feature 2 (Daily Streak Tracker) */}
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between border-b border-slate-100 pb-6 mb-6">
+                <div className="text-left">
+                  <span className="rounded-xl border border-violet-500/20 bg-violet-500/5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-violet-650 font-mono">
+                    Student Widget
+                  </span>
                   <h2
-                    id="activity-heading"
-                    className="mt-0.5 font-serif text-xl font-semibold text-slate-950 sm:text-2xl"
+                    id="widget-heading"
+                    className="mt-2 font-serif text-xl font-semibold text-slate-950 sm:text-2xl"
                   >
-                    Live Global Activity
+                    Personal Target Hub
                   </h2>
                 </div>
+
+                {/* Feature 2: Daily Streak Tracker */}
+                <div className="flex flex-col items-start gap-2 sm:items-end">
+                  <div className="flex items-center gap-1.5 rounded-full border border-orange-500/20 bg-orange-50 px-3 py-1 text-[10px] font-bold text-orange-700 shadow-sm font-mono leading-none">
+                    <span className="animate-pulse">🔥</span>
+                    <span>14 Day Streak</span>
+                  </div>
+                  
+                  {/* Geometric indicators row */}
+                  <div className="flex items-center gap-1">
+                    {STREAK_DAYS.map((day, idx) => (
+                      <div
+                        key={idx}
+                        className="flex flex-col items-center gap-0.5"
+                      >
+                        <div
+                          className={`flex h-5 w-5 items-center justify-center rounded-md text-[9px] font-bold border transition ${
+                            day.completed
+                              ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-700 font-extrabold"
+                              : "border-slate-200 bg-slate-50/50 text-slate-400"
+                          }`}
+                          title={day.completed ? `${day.label} completed` : `${day.label} incomplete`}
+                        >
+                          {day.completed ? "✓" : day.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <span className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-600">
-                Live
-              </span>
-            </div>
 
-            {/* Slow Scrolling Ticker Container */}
-            <div className="relative h-24 w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-50/80 flex items-center justify-between px-6 shadow-inner">
-              
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  initial={{ y: 22, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -22, opacity: 0 }}
-                  transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-                  className="flex w-full items-center justify-between gap-4 text-left z-10"
-                >
-                  <p className="text-sm font-medium text-slate-900 leading-relaxed truncate">
-                    {ACTIVITY_FEED[currentIndex].text}
+              {/* Feature 1: Target Score Optimizer */}
+              <div className="mt-4">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                  <p className="text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
+                    Target Score Optimizer
                   </p>
-                  <span className="shrink-0 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded">
-                    {ACTIVITY_FEED[currentIndex].time}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
+                  <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-violet-750 bg-violet-500/5 border border-violet-500/15 px-2.5 py-1 rounded-xl">
+                    <span>Target TMUA Score:</span>
+                    <span className="text-sm font-extrabold">{targetScore.toFixed(1)}</span>
+                  </div>
+                </div>
+
+                {/* Sleek Custom Horizontal Range Slider */}
+                <div className="relative mt-2 flex items-center">
+                  <input
+                    type="range"
+                    min="1.0"
+                    max="9.0"
+                    step="0.1"
+                    value={targetScore}
+                    onChange={(e) => setTargetScore(parseFloat(e.target.value))}
+                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-400 border border-slate-200/60"
+                  />
+                </div>
+
+                {/* Dynamic feedback badges */}
+                <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div className={`flex flex-col gap-1 rounded-2xl p-4 transition-all duration-300 ${chances.colorImp}`}>
+                    <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-500">
+                      Chances at Imperial
+                    </span>
+                    <span className="text-sm font-bold sm:text-base">
+                      {chances.imperial}
+                    </span>
+                  </div>
+                  <div className={`flex flex-col gap-1 rounded-2xl p-4 transition-all duration-300 ${chances.colorCam}`}>
+                    <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-500">
+                      Chances at Cambridge
+                    </span>
+                    <span className="text-sm font-bold sm:text-base">
+                      {chances.cambridge}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Call to Action Button */}
+              <div className="mt-8 flex flex-col gap-4 border-t border-slate-100 pt-8 sm:mt-10 sm:flex-row sm:items-center">
+                <button
+                  type="button"
+                  className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md shadow-violet-500/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-gradient-to-r hover:from-violet-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-violet-500/25 active:translate-y-0 active:scale-[0.98] focus:outline-none sm:w-auto cursor-pointer"
+                >
+                  JOIN THE COMMUNITY
+                </button>
+                <p className="text-xs leading-relaxed text-slate-500">
+                  Unlock peer masterclasses, real-time simulated testing, and track your global rank inside the Maxima Maths community today.
+                </p>
+              </div>
+
             </div>
 
-            <div className="mt-8 flex flex-col gap-4 border-t border-slate-200/60 pt-8 sm:mt-10 sm:flex-row sm:items-center">
-              <button
-                type="button"
-                className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md shadow-violet-500/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-gradient-to-r hover:from-violet-500 hover:to-indigo-500 hover:shadow-lg hover:shadow-violet-500/25 active:translate-y-0 active:scale-[0.98] focus:outline-none sm:w-auto cursor-pointer"
-              >
-                JOIN THE COMMUNITY
-              </button>
-              <p className="text-xs leading-relaxed text-slate-500">
-                Unlock peer masterclasses, real-time simulated testing, and track your global rank inside the Maxima Maths community today.
-              </p>
+            {/* Feature 3: Full-Width Bottom Banner Activity Ticker */}
+            <div className="w-full border-t border-slate-200/60 bg-slate-50/70 px-6 py-3.5 sm:px-10 flex items-center justify-between gap-4 select-none">
+              <div className="flex items-center gap-2 text-left min-w-0">
+                <span className="relative flex h-1.5 w-1.5 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={currentIndex}
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -10, opacity: 0 }}
+                    transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                    className="text-[11px] font-medium text-slate-500 truncate leading-relaxed pt-0.5"
+                  >
+                    {ACTIVITY_FEED[currentIndex].text}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+              
+              <span className="shrink-0 font-mono text-[9px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 border border-slate-200/60 px-1.5 py-0.5 rounded leading-none">
+                {ACTIVITY_FEED[currentIndex].time}
+              </span>
             </div>
           </article>
         </section>
