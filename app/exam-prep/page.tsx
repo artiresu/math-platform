@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AlevelPracticeSection } from "./AlevelPracticeSection";
 import { StudyHub } from "./StudyHub";
 import type { StudySubtopic, StudyTabId } from "./study-types";
@@ -761,22 +761,28 @@ function StepSubtopicList({
 function StepPracticeSection() {
   const [selectedStepTopic, setSelectedStepTopic] =
     useState<StepTopicId>("pure");
-  const [selectedSubtopicId, setSelectedSubtopicId] = useState(
-    STEP_CURRICULUM.pure.subtopics[0].id,
-  );
+  const [selectedSubtopicId, setSelectedSubtopicId] = useState("");
   const [activeStudyTab, setActiveStudyTab] = useState<StudyTabId>("notes");
 
-  const subtopic = getStepSubtopic(selectedStepTopic, selectedSubtopicId);
+  const subtopics = STEP_CURRICULUM[selectedStepTopic].subtopics;
+  const activeSubtopicId = selectedSubtopicId && subtopics.some((s) => s.id === selectedSubtopicId)
+    ? selectedSubtopicId
+    : (subtopics[0]?.id || "");
 
-  useEffect(() => {
-    const first = STEP_CURRICULUM[selectedStepTopic].subtopics[0].id;
-    setSelectedSubtopicId(first);
-    setActiveStudyTab("notes");
-  }, [selectedStepTopic]);
+  const subtopic = getStepSubtopic(selectedStepTopic, activeSubtopicId);
 
-  useEffect(() => {
+  const [prevStepTopic, setPrevStepTopic] = useState(selectedStepTopic);
+  if (selectedStepTopic !== prevStepTopic) {
+    setPrevStepTopic(selectedStepTopic);
+    setSelectedSubtopicId("");
     setActiveStudyTab("notes");
-  }, [selectedSubtopicId]);
+  }
+
+  const [prevActiveSubtopicId, setPrevActiveSubtopicId] = useState(activeSubtopicId);
+  if (activeSubtopicId !== prevActiveSubtopicId) {
+    setPrevActiveSubtopicId(activeSubtopicId);
+    setActiveStudyTab("notes");
+  }
 
   return (
     <div className="space-y-6">
@@ -792,7 +798,7 @@ function StepPracticeSection() {
           </p>
           <StepSubtopicList
             topic={selectedStepTopic}
-            selectedSubtopicId={selectedSubtopicId}
+            selectedSubtopicId={activeSubtopicId}
             onSelect={setSelectedSubtopicId}
           />
         </aside>
@@ -819,10 +825,12 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
   const [tmuaSelection, setTmuaSelection] = useState<string | null>(null);
   const [tmuaChecked, setTmuaChecked] = useState(false);
 
-  useEffect(() => {
+  const [prevTrack, setPrevTrack] = useState(track);
+  if (track !== prevTrack) {
+    setPrevTrack(track);
     setTmuaSelection(null);
     setTmuaChecked(false);
-  }, [track]);
+  }
 
   return (
     <section

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CollapsibleReveal } from "../components/CollapsibleReveal";
 import { LatexPanel } from "../components/LatexPanel";
 import { STUDY_TABS, type StudySubtopic, type StudyTabId } from "./study-types";
@@ -105,9 +105,11 @@ function StudyHubPractice({
   const [solutionOpen, setSolutionOpen] = useState(false);
   const panelId = `${solutionIdPrefix}-solution-${subtopic.id}`;
 
-  useEffect(() => {
+  const [prevSubtopicId, setPrevSubtopicId] = useState(subtopic.id);
+  if (subtopic.id !== prevSubtopicId) {
+    setPrevSubtopicId(subtopic.id);
     setSolutionOpen(false);
-  }, [subtopic.id]);
+  }
 
   return (
     <div className="text-white">

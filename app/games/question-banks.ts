@@ -274,6 +274,6 @@ export function generateArithmeticQuestion(): GameQuestion {
   };
 }
 
-export function generateQuestion(topic: TopicId): GameQuestion {
+export function generateQuestion(_topic: TopicId): GameQuestion {
   return generateArithmeticQuestion();
 }

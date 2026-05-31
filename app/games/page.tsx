@@ -66,8 +66,14 @@ export default function GamesPage() {
   const phaseRef = useRef(phase);
   const feedbackRef = useRef(feedback);
   const roundResolvedRef = useRef(false);
-  phaseRef.current = phase;
-  feedbackRef.current = feedback;
+
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
+
+  useEffect(() => {
+    feedbackRef.current = feedback;
+  }, [feedback]);
 
   const beginRaceRound = useCallback(
     (set: GameQuestion[], index: number) => {

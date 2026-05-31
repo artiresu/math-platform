@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ACADEMIC_YEARS,
   ALEVEL_MODULES,
@@ -111,17 +111,24 @@ export function AlevelPracticeSection() {
     [selectedBoard, selectedCourse, selectedYear, selectedModule],
   );
 
-  const activeSubtopic = getAlevelSubtopic(subtopics, selectedSubtopicId);
-
-  useEffect(() => {
-    if (subtopics.length > 0) {
-      setSelectedSubtopicId(subtopics[0].id);
-    }
-  }, [subtopics]);
-
-  useEffect(() => {
+  const [prevSubtopics, setPrevSubtopics] = useState(subtopics);
+  if (subtopics !== prevSubtopics) {
+    setPrevSubtopics(subtopics);
+    setSelectedSubtopicId("");
     setActiveStudyTab("notes");
-  }, [selectedSubtopicId]);
+  }
+
+  const activeSubtopicId = selectedSubtopicId && subtopics.some((s) => s.id === selectedSubtopicId)
+    ? selectedSubtopicId
+    : (subtopics[0]?.id || "");
+
+  const activeSubtopic = getAlevelSubtopic(subtopics, activeSubtopicId);
+
+  const [prevActiveSubtopicId, setPrevActiveSubtopicId] = useState(activeSubtopicId);
+  if (activeSubtopicId !== prevActiveSubtopicId) {
+    setPrevActiveSubtopicId(activeSubtopicId);
+    setActiveStudyTab("notes");
+  }
 
   return (
     <div className="space-y-8">
@@ -182,7 +189,7 @@ export function AlevelPracticeSection() {
           </p>
           <SubtopicSidebar
             subtopics={subtopics}
-            selectedId={selectedSubtopicId}
+            selectedId={activeSubtopicId}
             onSelect={setSelectedSubtopicId}
           />
         </aside>
