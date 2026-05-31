@@ -28,6 +28,132 @@ export const ALEVEL_MODULES: { id: AlevelModule; label: string }[] = [
   { id: "statistics", label: "Statistics" },
 ];
 
+export const curriculumData = {
+  ocra: {
+    year1: {
+      pure: [
+        { title: "Proof", desc: "Algebraic proof, proof by deduction, and disproving statements using counter-examples." },
+        { title: "Quadratics", desc: "Solving quadratic equations, completing the square, functions, and discriminant properties." },
+        { title: "Simultaneous Equations", desc: "Solving linear and quadratic simultaneous systems analytically and graphically." },
+        { title: "Inequalities", desc: "Solving linear and quadratic inequalities and representing regions graphically." },
+        { title: "Graphs and Transformations", desc: "Cubic, quartic, and reciprocal graphs; sketching curves with f(x) transformations." },
+        { title: "Coordinate Geometry", desc: "Straight line equations, parallel/perpendicular lines, and the coordinate geometry of circles." },
+        { title: "Binomial Expansion", desc: "Expanding (1 + x)^n for positive integer n, notations, and calculating coefficients." },
+        { title: "Trigonometry", desc: "Sine/cosine rules, trigonometric identities (sin^2 + cos^2 = 1, tan = sin/cos), and solving equations." },
+        { title: "Exponentials and Logarithms", desc: "Laws of logarithms, solving exponential equations, and modeling growth/decay." },
+        { title: "Differentiation", desc: "First principles, differentiating x^n, gradients, tangents, normals, and turning points." },
+        { title: "Integration", desc: "Fundamental Theorem of Calculus, indefinite/definite integration of x^n, and area under a curve." },
+        { title: "2D Vectors", desc: "Working with vector columns, i and j notation, magnitudes, unit vectors, and displacement." }
+      ],
+      mechanics: [
+        { title: "Quantities and Units", desc: "Working with SI units, distinguishing scalars from vectors, and foundational mechanics models." },
+        { title: "Kinematics", desc: "Motion graphs, constant acceleration equations (SUVAT), and introduction to variable acceleration calculus." },
+        { title: "Forces and Newton's Laws", desc: "Force diagrams, gravity, weight, normal reaction, applying F = ma, and equilibrium." }
+      ],
+      statistics: [
+        { title: "Data Collection", desc: "Understanding populations, sampling methods (random, systematic, quota, opportunity), and bias." },
+        { title: "Measures of Location and Spread", desc: "Mean, median, mode, quartiles, percentiles, standard deviation, and variance calculations." },
+        { title: "Representations of Data", desc: "Constructing and interpreting box plots, cumulative frequency graphs, and histograms." },
+        { title: "Correlation", desc: "Linear regression lines, explanatory variables, and interpreting the product moment correlation coefficient (r)." },
+        { title: "Probability", desc: "Venn diagrams, tree diagrams, mutually exclusive events, independent events, and sample spaces." },
+        { title: "Statistical Distributions", desc: "Discrete random variables, probability distributions, and the Binomial distribution framework." },
+        { title: "Binomial Hypothesis Testing", desc: "Formulating null and alternative hypotheses, critical regions, and executing 1-tailed and 2-tailed tests." }
+      ]
+    },
+    year2: {
+      pure: [
+        { title: "Proof", desc: "Mastering proof by contradiction, exhaustion, and structured deduction for A2." },
+        { title: "Mathematical Literacy", desc: "Critiquing mathematical errors, logical presentation, and processing structural multi-stage problem descriptions." },
+        { title: "Partial Fractions", desc: "Decomposing rational expressions with linear and repeated algebraic denominators." },
+        { title: "Functions", desc: "Domain and range, composite functions, inverse functions, and modulus graphs |y| = f(|x|)." },
+        { title: "Sequences and Series", desc: "Arithmetic and geometric progressions, sigma notation, and infinite convergent series." },
+        { title: "Binomial Expansion", desc: "Expanding (1 + x)^n for negative or fractional n, including structural convergence domains." },
+        { title: "Radians", desc: "Arc length, sector areas, and small-angle approximations (sin x ≈ x, cos x ≈ 1 - x^2/2)." },
+        { title: "Trigonometric Functions", desc: "Secant, cosecant, and cotangent functions, inverse trig, and compound/double-angle formulae." },
+        { title: "Parametric Equations", desc: "Converting parametric curves into cartesian form, curve sketching, and coordinate modeling." },
+        { title: "Differentiation", desc: "Chain rule, product rule, quotient rule, differentiating exponentials, logs, trig, and implicit curves." },
+        { title: "Integration", desc: "Integration by substitution, integration by parts, partial fractions integration, and differential equations." },
+        { title: "Numerical Methods", desc: "Locating roots by sign changes, cobweb/staircase iterations, and the Newton-Raphson method." },
+        { title: "3D Vectors", desc: "Extending vectors to three dimensions, distance formulas, and solving geometric spatial problems." }
+      ],
+      mechanics: [
+        { title: "Kinematics (Projectiles)", desc: "Motion in 2D under gravity, launching at angles, flight times, horizontal range, and trajectory paths." },
+        { title: "Friction and Inclined Planes", desc: "Resolving forces on slopes, calculating normal reaction, and friction bounds using F ≤ μR." },
+        { title: "Connected Particles", desc: "Analyzing tension and acceleration in multi-particle systems, trailers, and pulleys." },
+        { title: "Rigid Body Moments", desc: "The principle of moments, centers of gravity, and conditions for static equilibrium on beams and ladders." }
+      ],
+      statistics: [
+        { title: "Regression and Correlation", desc: "Measuring exponential data trends using logarithms and conducting hypothesis tests for correlation coefficients." },
+        { title: "Conditional Probability", desc: "Mastering conditional probability formula layouts, dependency rules, and advanced Venn/Tree mappings." },
+        { title: "The Normal Distribution", desc: "Continuous random variables, normal curves, calculating probabilities, and standardizing values using Z scores." },
+        { title: "Normal Hypothesis Testing", desc: "Conducting hypothesis tests for the mean of a Normal distribution using sample statistics." },
+        { title: "The Large Data Set", desc: "Interpreting trends, cleaning fields, and processing patterns within the official OCR A Large Data Set (covering UK business, demographics, and regional economies)." }
+      ]
+    }
+  },
+  ocrb: {
+    year1: {
+      pure: [
+        { title: "Proof", desc: "Algebraic proof, proof by deduction, and disproving statements using counter-examples." },
+        { title: "Quadratics", desc: "Solving quadratic equations, completing the square, functions, and discriminant properties." },
+        { title: "Simultaneous Equations", desc: "Solving linear and quadratic simultaneous systems analytically and graphically." },
+        { title: "Inequalities", desc: "Solving linear and quadratic inequalities and representing regions graphically." },
+        { title: "Graphs and Transformations", desc: "Cubic, quartic, and reciprocal graphs; sketching curves with f(x) transformations." },
+        { title: "Coordinate Geometry", desc: "Straight line equations, parallel/perpendicular lines, and the coordinate geometry of circles." },
+        { title: "Binomial Expansion", desc: "Expanding (1 + x)^n for positive integer n, notations, and calculating coefficients." },
+        { title: "Trigonometry", desc: "Sine/cosine rules, trigonometric identities (sin^2 + cos^2 = 1, tan = sin/cos), and solving equations." },
+        { title: "Exponentials and Logarithms", desc: "Laws of logarithms, solving exponential equations, and modeling growth/decay." },
+        { title: "Differentiation", desc: "First principles, differentiating x^n, gradients, tangents, normals, and turning points." },
+        { title: "Integration", desc: "Fundamental Theorem of Calculus, indefinite/definite integration of x^n, and area under a curve." },
+        { title: "2D Vectors", desc: "Working with vector columns, i and j notation, magnitudes, unit vectors, and displacement." }
+      ],
+      mechanics: [
+        { title: "Quantities and Units", desc: "Working with SI units, distinguishing scalars from vectors, and foundational mechanics models." },
+        { title: "Kinematics", desc: "Motion graphs, constant acceleration equations (SUVAT), and introduction to variable acceleration calculus." },
+        { title: "Forces and Newton's Laws", desc: "Force diagrams, gravity, weight, normal reaction, applying F = ma, and equilibrium." }
+      ],
+      statistics: [
+        { title: "Data Collection", desc: "Understanding populations, sampling methods (random, systematic, quota, opportunity), and bias." },
+        { title: "Measures of Location and Spread", desc: "Mean, median, mode, quartiles, percentiles, standard deviation, and variance calculations." },
+        { title: "Representations of Data", desc: "Constructing and interpreting box plots, cumulative frequency graphs, and histograms." },
+        { title: "Correlation", desc: "Linear regression lines, explanatory variables, and interpreting the product moment correlation coefficient (r)." },
+        { title: "Probability", desc: "Venn diagrams, tree diagrams, mutually exclusive events, independent events, and sample spaces." },
+        { title: "Statistical Distributions", desc: "Discrete random variables, probability distributions, and the Binomial distribution framework." },
+        { title: "Binomial Hypothesis Testing", desc: "Formulating null and alternative hypotheses, critical regions, and executing 1-tailed and 2-tailed tests." }
+      ]
+    },
+    year2: {
+      pure: [
+        { title: "Proof", desc: "Mastering proof by contradiction, exhaustion, and structured deduction for A2." },
+        { title: "Partial Fractions", desc: "Decomposing rational expressions with linear and repeated algebraic denominators." },
+        { title: "Functions", desc: "Domain and range, composite functions, inverse functions, and modulus graphs |y| = f(|x|)." },
+        { title: "Sequences and Series", desc: "Arithmetic and geometric progressions, sigma notation, and infinite convergent series." },
+        { title: "Binomial Expansion", desc: "Expanding (1 + x)^n for negative or fractional n, including structural convergence domains." },
+        { title: "Radians", desc: "Arc length, sector areas, and small-angle approximations (sin x ≈ x, cos x ≈ 1 - x^2/2)." },
+        { title: "Trigonometric Functions", desc: "Secant, cosecant, and cotangent functions, inverse trig, and compound/double-angle formulae." },
+        { title: "Parametric Equations", desc: "Converting parametric curves into cartesian form, curve sketching, and coordinate modeling." },
+        { title: "Differentiation", desc: "Chain rule, product rule, quotient rule, differentiating exponentials, logs, trig, and implicit curves." },
+        { title: "Integration", desc: "Integration by substitution, integration by parts, partial fractions integration, and differential equations." },
+        { title: "Numerical Methods and Modelling", desc: "Root finding, trapezium rule errors, Newton-Raphson, and iterating mathematical modeling cycles." },
+        { title: "3D Vectors", desc: "Extending vectors to three dimensions, distance formulas, and solving geometric spatial problems." }
+      ],
+      mechanics: [
+        { title: "Kinematics (Projectiles)", desc: "Motion in 2D under gravity, launching at angles, flight times, horizontal range, and trajectory paths." },
+        { title: "Friction and Inclined Planes", desc: "Resolving forces on slopes, calculating normal reaction, and friction bounds using F ≤ μR." },
+        { title: "Connected Particles", desc: "Analyzing tension and acceleration in multi-particle systems, trailers, and pulleys." },
+        { title: "Rigid Body Moments", desc: "The principle of moments, centers of gravity, and conditions for static equilibrium on beams and ladders." }
+      ],
+      statistics: [
+        { title: "Regression and Correlation", desc: "Measuring exponential data trends using logarithms and conducting hypothesis tests for correlation coefficients." },
+        { title: "Conditional Probability", desc: "Mastering conditional probability formula layouts, dependency rules, and advanced Venn/Tree mappings." },
+        { title: "The Normal Distribution", desc: "Continuous random variables, normal curves, calculating probabilities, and standardizing values using Z scores." },
+        { title: "Normal Hypothesis Testing", desc: "Conducting hypothesis tests for the mean of a Normal distribution using sample statistics." },
+        { title: "The Large Data Set", desc: "Manipulating and interpreting data structures from the official OCR B MEI Large Data Set (focusing on global geographic, environmental, and wealth metrics)." }
+      ]
+    }
+  }
+};
+
 const Y1_FURTHER_PURE = [
   "Complex numbers",
   "Matrices",
@@ -75,14 +201,17 @@ export function resolveAlevelSubtopicTitles(
   year: AcademicYear,
   module: AlevelModule,
 ): string[] {
+  if (course === "maths" && (board === "ocra" || board === "ocrb")) {
+    const list = curriculumData[board][year][module];
+    return list.map((item) => item.title);
+  }
+
   // If it's Further Maths
   if (course === "further") {
     if (module === "pure") return year === "year1" ? Y1_FURTHER_PURE : Y2_FURTHER_PURE;
     if (module === "mechanics") return Y1_FURTHER_MECHANICS;
     return Y1_FURTHER_STATS;
   }
-
-  // Regular A-Level Maths
   if (year === "year1") {
     if (module === "pure") {
       if (board === "aqa") {
@@ -211,6 +340,16 @@ export function getSubtopicDescriptionForBoard(
   course: CourseType,
   year: AcademicYear,
 ): string {
+  if (course === "maths" && (board === "ocra" || board === "ocrb")) {
+    const boardData = curriculumData[board];
+    for (const y of ["year1", "year2"] as const) {
+      for (const m of ["pure", "mechanics", "statistics"] as const) {
+        const match = boardData[y][m].find((item) => item.title === title);
+        if (match) return match.desc;
+      }
+    }
+  }
+
   // If it's further maths, return the default subtopic descriptions
   if (course === "further") {
     const t = title.toLowerCase();
