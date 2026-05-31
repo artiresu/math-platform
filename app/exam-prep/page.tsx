@@ -6,7 +6,6 @@ import { StudyHub } from "./StudyHub";
 import type { StudySubtopic, StudyTabId } from "./study-types";
 import { PageShell } from "../components/PageShell";
 import { SafeLatex } from "../components/SafeLatex";
-import { GlidingText } from "../components/GlidingText";
 
 type TrackId = "alevel" | "tmua" | "step";
 
@@ -669,11 +668,9 @@ function HubView({ onSelectTrack }: { onSelectTrack: (id: TrackId) => void }) {
   return (
     <div key="hub" className="animate-box-glide space-y-12">
       <header className="max-w-4xl">
-        <GlidingText
-          text="Exam Preparation Hub"
-          className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl"
-          element="h1"
-        />
+        <h1 className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
+          Exam Preparation Hub
+        </h1>
         <p className="mt-4 max-w-2xl text-lg text-slate-600">
           Select a track to enter its practice room, or read the guide below to
           understand how UK admissions tests fit alongside A-Level study.
@@ -965,11 +962,9 @@ function PracticeRoom({
         <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600">
           Practice room
         </p>
-        <GlidingText
-          text={getTrackTitle(track)}
-          className="mt-2 font-serif text-3xl font-semibold text-slate-950 sm:text-4xl"
-          element="h1"
-        />
+        <h1 className="mt-2 font-serif text-3xl font-semibold text-slate-950 sm:text-4xl">
+          {getTrackTitle(track)}
+        </h1>
         <p className="mt-3 text-base text-slate-650 sm:text-lg">
           {track === "step"
             ? "Pick a main topic, choose a subtopic, then study with revision notes, video walkthroughs, and practice problems."

@@ -5,7 +5,6 @@ import { useState } from "react";
 import { CollapsibleReveal } from "./components/CollapsibleReveal";
 import { LatexPanel } from "./components/LatexPanel";
 import { NavBar } from "./components/NavBar";
-import { GlidingText } from "./components/GlidingText";
 
 const EXAM_BADGES = ["TMUA", "STEP", "A-Level"] as const;
 const UNIVERSITIES = [
@@ -77,11 +76,9 @@ export default function Home() {
             Admissions Hub · UK Mathematics
           </p>
 
-          <GlidingText
-            text="The Ultimate University Maths Admissions Hub"
-            className="mt-6 font-sans text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl md:text-6xl"
-            element="h1"
-          />
+          <h1 className="mt-6 font-sans text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 sm:text-5xl md:text-6xl">
+            The Ultimate University Maths Admissions Hub
+          </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
             Master advanced problem-solving depth to ace competitive admission tests including the{" "}

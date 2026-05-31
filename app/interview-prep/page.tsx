@@ -5,7 +5,6 @@ import { CollapsibleReveal } from "../components/CollapsibleReveal";
 import type { InterviewBlock } from "../components/InterviewContent";
 import { InterviewContent } from "../components/InterviewContent";
 import { PageShell } from "../components/PageShell";
-import { GlidingText } from "../components/GlidingText";
 
 const INTERVIEW_QUESTIONS: {
   id: number;
@@ -268,11 +267,9 @@ export default function InterviewPrepPage() {
         <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600">
           Oxbridge & top UK universities
         </p>
-        <GlidingText
-          text="University Interview Prep"
-          className="mt-3 font-serif text-4xl font-semibold text-slate-950 sm:text-5xl"
-          element="h1"
-        />
+        <h1 className="animate-box-glide mt-3 font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
+          University Interview Prep
+        </h1>
         <p className="mt-4 max-w-2xl text-lg text-slate-600">
           Master mathematical problem-solving and practise talking through your
           thinking out loud — the way admissions interviews expect.

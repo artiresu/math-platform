@@ -3,7 +3,6 @@ import { PageShell } from "../components/PageShell";
 import { GAME_TYPES } from "@/lib/db/game-types";
 import { getLeaderboard } from "@/lib/db/scores";
 import { LeaderboardTabs, type LeaderboardBoard } from "./LeaderboardTabs";
-import { GlidingText } from "../components/GlidingText";
 
 export const dynamic = "force-dynamic";
 
@@ -43,11 +42,9 @@ export default async function LeaderboardsPage() {
         <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600">
           Rankings
         </p>
-        <GlidingText
-          text="Global Leaderboard"
-          className="mt-2 font-serif text-4xl font-semibold text-slate-950 sm:text-5xl"
-          element="h1"
-        />
+        <h1 className="animate-box-glide mt-2 font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
+          Global Leaderboard
+        </h1>
         <p className="mt-4 text-base text-slate-600 sm:text-lg">
           Top single-player scores across Speed Arithmetic, Integrals, and
           Olympiad. Switch tabs to view each game mode.

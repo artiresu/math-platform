@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PageShell } from "../components/PageShell";
 import { SafeLatex } from "../components/SafeLatex";
-import { GlidingText } from "../components/GlidingText";
 import {
   buildRaceQuestionSet,
   generateArithmeticQuestion,
@@ -470,11 +469,9 @@ export default function GamesPage() {
     <PageShell>
       <div className="mx-auto max-w-4xl">
         <header>
-          <GlidingText
-            text="Maths Games"
-            className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl"
-            element="h1"
-          />
+          <h1 className="animate-box-glide font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
+            Maths Games
+          </h1>
           <p className="mt-3 max-w-2xl text-base text-slate-650 sm:text-lg">
             Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
             3-question races — solo for time, multiplayer first to 2 points.
