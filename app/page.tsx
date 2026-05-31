@@ -71,7 +71,7 @@ export default function Home() {
 
       <main className="relative mx-auto max-w-5xl px-4 pb-24 pt-16 text-slate-900 sm:px-8 sm:pt-20 lg:pt-24">
         {/* Hero Section */}
-        <section className="animate-box-glide mx-auto max-w-3xl text-center">
+        <section className="mx-auto max-w-3xl text-center">
           <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-600">
             Admissions Hub · UK Mathematics
           </p>
@@ -120,8 +120,7 @@ export default function Home() {
         >
           {/* Pristine, Flat Glass Card Container */}
           <article
-            className="animate-box-glide relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-md backdrop-blur-2xl sm:p-10 transition duration-300 hover:border-violet-500/20 hover:shadow-lg"
-            style={{ animationDelay: "150ms" }}
+            className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-md backdrop-blur-2xl sm:p-10 transition duration-300 hover:border-violet-500/20 hover:shadow-lg"
           >
             <div className="mb-6 flex flex-wrap items-start justify-between gap-4 sm:mb-8">
               <div className="text-left">

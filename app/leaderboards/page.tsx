@@ -42,7 +42,7 @@ export default async function LeaderboardsPage() {
         <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600">
           Rankings
         </p>
-        <h1 className="animate-box-glide mt-2 font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
+        <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
           Global Leaderboard
         </h1>
         <p className="mt-4 text-base text-slate-600 sm:text-lg">

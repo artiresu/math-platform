@@ -95,8 +95,7 @@ export function LeaderboardTabs({
       </div>
 
       <div
-        key={active}
-        className="animate-box-glide mt-6 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-md"
+        className="mt-6 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-md"
         role="tabpanel"
       >
         {loadError ? (

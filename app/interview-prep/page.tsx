@@ -267,7 +267,7 @@ export default function InterviewPrepPage() {
         <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600">
           Oxbridge & top UK universities
         </p>
-        <h1 className="animate-box-glide mt-3 font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
+        <h1 className="mt-3 font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
           University Interview Prep
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-slate-600">
@@ -295,15 +295,14 @@ export default function InterviewPrepPage() {
       </nav>
 
       {activeTab === "questions" ? (
-        <div key="questions" className="animate-box-glide mt-8 w-full min-w-0 max-w-4xl space-y-6">
+        <div className="mt-8 w-full min-w-0 max-w-4xl space-y-6">
           <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-900">
             Sample prompts
           </p>
           {INTERVIEW_QUESTIONS.map((q, qIndex) => (
             <article
               key={q.id}
-              className="animate-box-glide relative w-full min-w-0 overflow-x-hidden rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-md backdrop-blur-md sm:p-8"
-              style={{ animationDelay: `${qIndex * 60}ms` }}
+              className="relative w-full min-w-0 overflow-x-hidden rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-md backdrop-blur-md sm:p-8"
             >
               <h2 className="font-serif text-xl font-semibold text-slate-950 sm:text-2xl">
                 {q.title}
@@ -359,8 +358,7 @@ export default function InterviewPrepPage() {
         </div>
       ) : (
         <section
-          key="tips"
-          className="animate-box-glide mt-8 w-full min-w-0 max-w-4xl overflow-x-hidden rounded-2xl border border-slate-200/80 bg-white/80 p-6 sm:p-8 shadow-md"
+          className="mt-8 w-full min-w-0 max-w-4xl overflow-x-hidden rounded-2xl border border-slate-200/80 bg-white/80 p-6 sm:p-8 shadow-md"
           aria-labelledby="interview-tips-title"
         >
           <h2

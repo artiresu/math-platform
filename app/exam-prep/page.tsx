@@ -666,7 +666,7 @@ function AdmissionsGuide() {
 
 function HubView({ onSelectTrack }: { onSelectTrack: (id: TrackId) => void }) {
   return (
-    <div key="hub" className="animate-box-glide space-y-12">
+    <div className="space-y-12">
       <header className="max-w-4xl">
         <h1 className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
           Exam Preparation Hub
@@ -948,7 +948,7 @@ function PracticeRoom({
   onBack: () => void;
 }) {
   return (
-    <div key={track} className="animate-box-glide">
+    <div>
       <button
         type="button"
         onClick={onBack}

@@ -469,7 +469,7 @@ export default function GamesPage() {
     <PageShell>
       <div className="mx-auto max-w-4xl">
         <header>
-          <h1 className="animate-box-glide font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
+          <h1 className="font-serif text-4xl font-semibold text-slate-950 sm:text-5xl">
             Maths Games
           </h1>
           <p className="mt-3 max-w-2xl text-base text-slate-650 sm:text-lg">
@@ -525,15 +525,14 @@ export default function GamesPage() {
           phase !== "playing" &&
           phase !== "gameover" &&
           !matchmaking && (
-            <div key="multiplayer-lobby" className="animate-box-glide">
+            <div>
               <MultiplayerLobby onStartMatch={startMultiplayerMatch} />
             </div>
           )}
 
         {matchmaking && (
           <section
-            key="matchmaking"
-            className="animate-box-glide mt-10 rounded-2xl border border-slate-200/80 bg-white/80 p-10 text-center shadow-md backdrop-blur-md"
+            className="mt-10 rounded-2xl border border-slate-200/80 bg-white/80 p-10 text-center shadow-md backdrop-blur-md"
           >
             <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" />
             <p className="mt-4 font-serif text-xl font-semibold text-slate-950">
@@ -547,8 +546,7 @@ export default function GamesPage() {
 
         {mode === "single" && phase === "menu" && (
           <section
-            key="single-menu"
-            className="animate-box-glide mt-10"
+            className="mt-10"
             aria-labelledby="topic-heading"
           >
             <h2
@@ -582,8 +580,7 @@ export default function GamesPage() {
 
         {phase === "playing" && question && topic && (
           <section
-            key={`playing-${topic}-${roundIndex}`}
-            className="animate-box-glide mt-10 rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-md backdrop-blur-md sm:p-8"
+            className="mt-10 rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-md backdrop-blur-md sm:p-8"
             aria-live="polite"
           >
             <div className="flex flex-wrap items-start justify-between gap-4">
@@ -788,7 +785,7 @@ export default function GamesPage() {
         )}
 
         {phase === "gameover" && (
-          <div key="gameover" className="animate-box-glide">
+          <div>
             <GameOverPanel
               gameOverReason={gameOverReason}
               mode={mode}

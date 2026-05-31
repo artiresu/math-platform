@@ -176,7 +176,7 @@ export function StudyHub({
 
   return (
     <section
-      className="animate-box-glide min-w-0 flex-1 rounded-2xl border border-slate-200/80 bg-white/80 shadow-md"
+      className="min-w-0 flex-1 rounded-2xl border border-slate-200/80 bg-white/80 shadow-md"
       aria-labelledby="study-hub-title"
     >
       <div className="border-b border-slate-200/60 px-5 py-5 sm:px-6">
