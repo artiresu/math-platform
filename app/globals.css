@@ -16,10 +16,10 @@ html[data-theme="light"] {
 }
 
 html[data-theme="dark"] {
-  --background: #020617;
-  --foreground: #ffffff;
+  --background: #030712;
+  --foreground: #f8fafc;
   --surface: #0f172a;
-  --border: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.08);
   color-scheme: dark;
 }
 
@@ -42,14 +42,102 @@ body {
   color: var(--foreground);
 }
 
-html[data-theme="dark"] .page-shell {
-  background-color: #020617;
-  color: #ffffff;
+/* ==========================================
+   PREMIUM DOCK-ALIGN DARK MODE STYLING OVERRIDES
+   ========================================== */
+
+/* Universal Background Overrides */
+html[data-theme="dark"] .bg-white,
+html[data-theme="dark"] .bg-white\/80 {
+  background-color: rgba(15, 23, 42, 0.85) !important; /* Premium Slate-900 with alpha */
+}
+html[data-theme="dark"] .bg-slate-50,
+html[data-theme="dark"] .bg-slate-50\/50,
+html[data-theme="dark"] .bg-slate-50\/70 {
+  background-color: rgba(30, 41, 59, 0.6) !important; /* Premium Slate-800 with alpha */
+}
+html[data-theme="dark"] .bg-slate-100 {
+  background-color: rgba(30, 41, 59, 0.8) !important;
 }
 
+/* Universal Text Contrast Overrides */
+html[data-theme="dark"] .text-slate-950,
+html[data-theme="dark"] .text-slate-900,
+html[data-theme="dark"] .text-slate-800,
 html[data-theme="dark"] .page-shell .text-slate-900,
 html[data-theme="dark"] .page-shell .text-slate-950 {
-  color: #ffffff;
+  color: #f8fafc !important; /* High contrast Slate-50 */
+}
+html[data-theme="dark"] .text-slate-700,
+html[data-theme="dark"] .text-slate-600 {
+  color: #cbd5e1 !important; /* Soft, highly readable Slate-300 */
+}
+html[data-theme="dark"] .text-slate-500 {
+  color: #94a3b8 !important; /* Muted Slate-400 */
+}
+html[data-theme="dark"] .text-slate-400 {
+  color: #64748b !important;
+}
+
+/* Universal Border Visibility Overrides */
+html[data-theme="dark"] .border-slate-200,
+html[data-theme="dark"] .border-slate-200\/80,
+html[data-theme="dark"] .border-slate-200\/60,
+html[data-theme="dark"] .border-slate-100 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Page Shell & Base Layouts */
+html[data-theme="dark"] .page-shell {
+  background-color: #030712;
+  color: #f8fafc;
+}
+
+/* Header & Navigation Bar Styling */
+html[data-theme="dark"] header {
+  background-color: rgba(3, 7, 18, 0.8) !important; /* Translucent slate-950 */
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] header .text-slate-800 {
+  color: #f8fafc !important;
+}
+html[data-theme="dark"] header .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+html[data-theme="dark"] header .bg-slate-100 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Ticker & Activity Banner Customizations */
+html[data-theme="dark"] .bg-slate-50\/70.border-t.border-slate-200\/60 {
+  background-color: rgba(15, 23, 42, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Target Optimizer Range Input Styling */
+html[data-theme="dark"] input[type="range"] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Custom Interactive Widgets & Badges (Streak/Score Optimizer) */
+html[data-theme="dark"] .bg-orange-50 {
+  background-color: rgba(249, 115, 22, 0.1) !important; /* Translucent orange-500 */
+  border-color: rgba(249, 115, 22, 0.2) !important;
+}
+html[data-theme="dark"] .text-orange-700 {
+  color: #fdba74 !important; /* Warm, highly visible orange-300 */
+}
+html[data-theme="dark"] .bg-violet-500\/5 {
+  background-color: rgba(139, 92, 246, 0.1) !important;
+}
+html[data-theme="dark"] .text-violet-650,
+html[data-theme="dark"] .text-violet-750 {
+  color: #c084fc !important; /* Luminous violet-400 */
+}
+html[data-theme="dark"] .border-violet-500\/20,
+html[data-theme="dark"] .border-orange-500\/20 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 .font-serif {
