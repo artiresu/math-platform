@@ -24,24 +24,24 @@ const TRACKS: Track[] = [
     title: "A level Maths & Further Maths",
     subtext:
       "Master pure mathematics, calculus, matrices, complex numbers, and advanced mechanics.",
-    badgeClass: "bg-violet-500/5 border-violet-500/10 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400 group-hover:bg-violet-500/10 dark:group-hover:bg-violet-500/20",
-    cardClass: "hover:border-violet-500/30 hover:bg-violet-500/[0.02] hover:shadow-violet-200/20 dark:hover:border-violet-500/30 dark:hover:bg-violet-500/[0.02]",
+    badgeClass: "bg-violet-50 border-violet-100 text-violet-750 dark:bg-violet-500/10 dark:border-violet-500/20 dark:text-violet-400 group-hover:bg-violet-100 dark:group-hover:bg-violet-500/20",
+    cardClass: "hover:border-violet-400/40 hover:bg-violet-50/20 hover:shadow-lg hover:shadow-violet-100/50 dark:hover:border-violet-500/30 dark:hover:bg-violet-500/[0.02]",
   },
   {
     id: "tmua",
     title: "TMUA",
     subtext:
       "Test of Mathematics for University Admission. Focus on formal logical reasoning and mathematical thinking.",
-    badgeClass: "bg-cyan-500/5 border-cyan-500/10 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400 group-hover:bg-cyan-500/10 dark:group-hover:bg-cyan-500/20",
-    cardClass: "hover:border-cyan-500/30 hover:bg-cyan-500/[0.02] hover:shadow-cyan-200/20 dark:hover:border-cyan-500/30 dark:hover:bg-cyan-500/[0.02]",
+    badgeClass: "bg-cyan-50 border-cyan-100 text-cyan-750 dark:bg-cyan-500/10 dark:border-cyan-500/20 dark:text-cyan-400 group-hover:bg-cyan-100 dark:group-hover:bg-cyan-500/20",
+    cardClass: "hover:border-cyan-400/40 hover:bg-cyan-50/20 hover:shadow-lg hover:shadow-cyan-100/50 dark:hover:border-cyan-500/30 dark:hover:bg-cyan-500/[0.02]",
   },
   {
     id: "step",
     title: "STEP",
     subtext:
       "Sixth Term Examination Paper. Advanced, unstructured problem-solving challenges for top-tier universities.",
-    badgeClass: "bg-rose-500/5 border-rose-500/10 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400 group-hover:bg-rose-500/10 dark:group-hover:bg-rose-500/20",
-    cardClass: "hover:border-rose-500/30 hover:bg-rose-500/[0.02] hover:shadow-rose-200/20 dark:hover:border-rose-500/30 dark:hover:bg-rose-500/[0.02]",
+    badgeClass: "bg-rose-50 border-rose-100 text-rose-750 dark:bg-rose-500/10 dark:border-rose-500/20 dark:text-rose-400 group-hover:bg-rose-100 dark:group-hover:bg-rose-500/20",
+    cardClass: "hover:border-rose-400/40 hover:bg-rose-50/20 hover:shadow-lg hover:shadow-rose-100/50 dark:hover:border-rose-500/30 dark:hover:bg-rose-500/[0.02]",
   },
 ];
 
@@ -717,8 +717,8 @@ function StepMainTopicNav({
             aria-current={isActive ? "true" : undefined}
             className={`shrink-0 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
               isActive
-                ? "border-violet-500/30 bg-violet-500/5 text-violet-700 shadow-sm font-semibold"
-                : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100"
+                ? "border-violet-200 bg-violet-50 text-violet-750 shadow-sm font-semibold dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400"
+                : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100 dark:border-white/10 dark:bg-slate-900/50 dark:text-slate-300"
             }`}
           >
             {topic.label}
@@ -755,8 +755,8 @@ function StepSubtopicList({
             aria-current={isActive ? "true" : undefined}
             className={`rounded-xl border px-4 py-3 text-left text-sm transition ${
               isActive
-                ? "border-violet-500/35 bg-violet-500/5 text-violet-700 font-semibold shadow-sm"
-                : "border-slate-200 bg-slate-50/50 text-slate-750 hover:border-slate-350 hover:bg-slate-100"
+                ? "border-violet-200 bg-violet-50 text-violet-750 font-semibold shadow-sm dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400"
+                : "border-slate-200 bg-slate-50/50 text-slate-750 hover:border-slate-350 hover:bg-slate-100 dark:border-white/10 dark:bg-slate-900/50 dark:text-slate-300"
             }`}
           >
             {sub.title}
