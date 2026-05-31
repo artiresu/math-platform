@@ -33,10 +33,10 @@ export function NavBar() {
           className="group flex min-w-0 items-center gap-2.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 text-sm font-bold text-white shadow-lg shadow-violet-200/50">
-            C
+            M
           </span>
           <span className="truncate font-serif text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
-            Convexity
+            Maxima Maths
           </span>
         </Link>
 
@@ -97,15 +97,12 @@ export function NavBar() {
               </button>
             </>
           ) : (
-            <>
-              <UserAccountMenu />
-              <Link
-                href="/auth"
-                className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
-              >
-                Sign In
-              </Link>
-            </>
+            <Link
+              href="/auth"
+              className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800"
+            >
+              Sign In
+            </Link>
           )}
         </div>
       </div>
