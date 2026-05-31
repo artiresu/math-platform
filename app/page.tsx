@@ -105,10 +105,10 @@ export default function Home() {
               {/* Animated Abstract Vector SVG */}
               <svg
                 viewBox="0 0 400 300"
-                className="w-full h-full max-w-[380px] drop-shadow-xl select-none"
+                className="w-full h-full max-w-[390px] drop-shadow-xl select-none"
               >
                 <defs>
-                  {/* Linear & Radial Gradients for 2D Abstract Color Shading */}
+                  {/* Linear & Radial Gradients for 2D Abstract Color Shading (No Orange) */}
                   <linearGradient id="violetPinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#c084fc" />
                     <stop offset="50%" stopColor="#8b5cf6" />
@@ -121,33 +121,23 @@ export default function Home() {
                     <stop offset="100%" stopColor="#10b981" />
                   </linearGradient>
 
-                  <linearGradient id="orangeGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#fed7aa" />
-                    <stop offset="50%" stopColor="#f97316" />
-                    <stop offset="100%" stopColor="#eab308" />
-                  </linearGradient>
-
                   <radialGradient id="neonGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.3" />
+                    <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.25" />
                     <stop offset="70%" stopColor="#8b5cf6" stopOpacity="0.05" />
                     <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
                   </radialGradient>
 
                   <radialGradient id="meshGlow" cx="40%" cy="40%" r="60%">
-                    <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.25" />
+                    <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.2" />
                     <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
                   </radialGradient>
                 </defs>
 
                 {/* SVG Internal Premium 2D Animations stylesheet */}
                 <style>{`
-                  @keyframes rotate-2d {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                  }
                   @keyframes float-2d-y {
                     0% { transform: translateY(0px); }
-                    50% { transform: translateY(-10px); }
+                    50% { transform: translateY(-12px); }
                     100% { transform: translateY(0px); }
                   }
                   @keyframes float-2d-x {
@@ -157,27 +147,23 @@ export default function Home() {
                   }
                   @keyframes scale-2d {
                     0% { transform: scale(1); }
-                    50% { transform: scale(1.05); }
+                    50% { transform: scale(1.04); }
                     100% { transform: scale(1); }
                   }
                   @keyframes dash {
                     to { stroke-dashoffset: -40; }
                   }
-                  .anim-rotate {
-                    animation: rotate-2d 28s infinite linear;
-                    transform-origin: 200px 150px;
-                  }
                   .anim-float-y {
-                    animation: float-2d-y 7s infinite ease-in-out;
-                    transform-origin: 220px 130px;
+                    animation: float-2d-y 8s infinite ease-in-out;
+                    transform-origin: 265px 155px;
                   }
                   .anim-float-x {
-                    animation: float-2d-x 9s infinite ease-in-out;
-                    transform-origin: 180px 145px;
+                    animation: float-2d-x 10s infinite ease-in-out;
+                    transform-origin: 200px 150px;
                   }
                   .anim-scale {
-                    animation: scale-2d 8s infinite ease-in-out;
-                    transform-origin: 150px 190px;
+                    animation: scale-2d 9s infinite ease-in-out;
+                    transform-origin: 130px 130px;
                   }
                   .pulse-wave {
                     stroke-dasharray: 8 4;
@@ -186,192 +172,158 @@ export default function Home() {
                 `}</style>
 
                 {/* Background Ambient Color Glows */}
-                <circle cx="200" cy="150" r="150" fill="url(#neonGlow)" />
-                <circle cx="150" cy="180" r="120" fill="url(#meshGlow)" />
+                <circle cx="200" cy="150" r="160" fill="url(#neonGlow)" />
+                <circle cx="150" cy="180" r="130" fill="url(#meshGlow)" />
 
                 {/* 1. Large 2D Math Coordinate Grid (Fills the entire box) */}
-                <g stroke="currentColor" strokeWidth="0.5" className="text-slate-200 dark:text-slate-800" opacity="0.6">
-                  {/* Grid Lines */}
-                  <line x1="50" y1="20" x2="50" y2="280" />
-                  <line x1="100" y1="20" x2="100" y2="280" />
-                  <line x1="150" y1="20" x2="150" y2="280" strokeWidth="0.75" />
-                  <line x1="200" y1="20" x2="200" y2="280" />
-                  <line x1="250" y1="20" x2="250" y2="280" />
-                  <line x1="300" y1="20" x2="300" y2="280" strokeWidth="0.75" />
-                  <line x1="350" y1="20" x2="350" y2="280" />
+                <g stroke="currentColor" strokeWidth="0.5" className="text-slate-200 dark:text-slate-800" opacity="0.65">
+                  {/* Grid Lines spanning to the margins */}
+                  <line x1="40" y1="15" x2="40" y2="285" />
+                  <line x1="90" y1="15" x2="90" y2="285" />
+                  <line x1="140" y1="15" x2="140" y2="285" strokeWidth="0.75" />
+                  <line x1="190" y1="15" x2="190" y2="285" />
+                  <line x1="240" y1="15" x2="240" y2="285" />
+                  <line x1="290" y1="15" x2="290" y2="285" strokeWidth="0.75" />
+                  <line x1="340" y1="15" x2="340" y2="285" />
 
-                  <line x1="20" y1="50" x2="380" y2="50" />
-                  <line x1="20" y1="100" x2="380" y2="100" />
-                  <line x1="20" y1="150" x2="380" y2="150" strokeWidth="0.75" />
-                  <line x1="20" y1="200" x2="380" y2="200" />
-                  <line x1="20" y1="250" x2="380" y2="250" />
-                </g>
-
-                {/* Concentric Polar Coordinate Circles (Background Details) */}
-                <g stroke="currentColor" strokeWidth="0.75" fill="none" className="text-slate-300 dark:text-slate-700" opacity="0.3">
-                  <circle cx="150" cy="150" r="70" strokeDasharray="3 3" />
-                  <circle cx="150" cy="150" r="120" strokeDasharray="4 6" />
-                  <circle cx="150" cy="150" r="170" strokeDasharray="2 4" />
+                  <line x1="15" y1="40" x2="385" y2="40" />
+                  <line x1="15" y1="90" x2="385" y2="90" />
+                  <line x1="15" y1="140" x2="385" y2="140" strokeWidth="0.75" />
+                  <line x1="15" y1="190" x2="385" y2="190" />
+                  <line x1="15" y1="240" x2="385" y2="240" />
                 </g>
 
                 {/* 2. Primary 2D Axis Lines with Arrows */}
-                <g stroke="currentColor" strokeWidth="1.25" className="text-slate-400 dark:text-slate-600" opacity="0.8">
+                <g stroke="currentColor" strokeWidth="1.5" className="text-slate-400 dark:text-slate-600" opacity="0.8">
                   {/* X-Axis */}
-                  <line x1="20" y1="150" x2="375" y2="150" />
-                  <polygon points="380,150 372,146 372,154" fill="currentColor" />
+                  <line x1="15" y1="140" x2="380" y2="140" />
+                  <polygon points="385,140 376,136 376,144" fill="currentColor" />
                   {/* Y-Axis */}
-                  <line x1="150" y1="280" x2="150" y2="25" />
-                  <polygon points="150,20 146,28 154,28" fill="currentColor" />
+                  <line x1="140" y1="285" x2="140" y2="20" />
+                  <polygon points="140,15 136,24 144,24" fill="currentColor" />
                 </g>
 
-                {/* 3. Mathematical Wave Functions (Smooth Curves) */}
+                {/* 3. Mathematical Wave Functions (Traversing the entire width) */}
                 {/* Dotted Fuchsia Wave */}
                 <path
-                  d="M 20,150 Q 85,30 150,150 T 280,150 T 380,150"
+                  d="M 15,140 Q 80,10 140,140 T 260,140 T 385,140"
                   fill="none"
                   stroke="url(#violetPinkGrad)"
-                  strokeWidth="2.5"
+                  strokeWidth="3"
                   className="pulse-wave"
                   opacity="0.85"
                 />
-                {/* Solid/Dashed Cyan Wave */}
+                {/* Dashed Cyan Wave */}
                 <path
-                  d="M 20,150 Q 85,270 150,150 T 280,150 T 380,150"
+                  d="M 15,140 Q 80,270 140,140 T 260,140 T 385,140"
                   fill="none"
                   stroke="url(#cyanGreenGrad)"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeDasharray="6 3"
                   className="pulse-wave"
                   style={{ animationDelay: "-3s", animationDuration: "8s" }}
-                  opacity="0.75"
+                  opacity="0.8"
                 />
 
-                {/* 4. Large Overlapping 2D Geometric Shapes (Filled and Stroked) */}
+                {/* 4. Large Bold 2D Geometric Shapes (Simplified to cover the box) */}
                 
-                {/* Shape A: Large Rotated Glassmorphic Square (Slow Rotation Background) */}
-                <g className="anim-rotate" opacity="0.25">
-                  <rect
-                    x="135"
-                    y="85"
-                    width="130"
-                    height="130"
-                    rx="20"
-                    fill="url(#violetPinkGrad)"
-                    stroke="url(#violetPinkGrad)"
-                    strokeWidth="1.5"
-                  />
-                  <rect
-                    x="145"
-                    y="95"
-                    width="110"
-                    height="110"
-                    rx="12"
-                    fill="none"
-                    stroke="#ffffff"
-                    strokeWidth="1"
-                    opacity="0.5"
-                  />
-                </g>
-
-                {/* Shape B: Huge Translucent Circle (Vertical Float) */}
-                <g className="anim-float-y">
+                {/* Shape A: Massive Translucent Fuchsia Circle (Scaling Pulse) */}
+                <g className="anim-scale">
                   <circle
-                    cx="230"
+                    cx="130"
+                    cy="130"
+                    r="105"
+                    fill="url(#violetPinkGrad)"
+                    opacity="0.35"
+                  />
+                  {/* Structural grid highlight inside circle */}
+                  <circle
+                    cx="130"
                     cy="130"
                     r="75"
-                    fill="url(#violetPinkGrad)"
-                    opacity="0.45"
-                  />
-                  {/* Subtle 2D inner concentric outline for a complex blueprint style */}
-                  <circle
-                    cx="230"
-                    cy="130"
-                    r="55"
                     fill="none"
-                    stroke="rgba(255,255,255,0.3)"
-                    strokeWidth="1.5"
-                    strokeDasharray="4 2"
+                    stroke="rgba(255,255,255,0.25)"
+                    strokeWidth="1"
+                    strokeDasharray="3 3"
                   />
                 </g>
 
-                {/* Shape C: Large Minimalist 2D Triangle (Horizontal Float) */}
-                <g className="anim-float-x">
-                  <polygon
-                    points="110,60 270,210 90,230"
-                    fill="url(#orangeGoldGrad)"
-                    opacity="0.65"
-                  />
-                  {/* Geometric bisector line */}
-                  <line
-                    x1="110"
-                    y1="60"
-                    x2="180"
-                    y2="220"
-                    stroke="rgba(255,255,255,0.4)"
-                    strokeWidth="1.5"
-                    strokeDasharray="4 4"
-                  />
-                </g>
-
-                {/* Shape D: Massive 2D Cyan Ring (Pulsing Scale) */}
-                <g className="anim-scale">
+                {/* Shape B: Massive Cyan Ring (Vertical Float) */}
+                <g className="anim-float-y">
                   {/* Outlined thick ring */}
                   <circle
-                    cx="150"
-                    cy="190"
-                    r="60"
+                    cx="265"
+                    cy="155"
+                    r="95"
                     fill="none"
                     stroke="url(#cyanGreenGrad)"
-                    strokeWidth="8"
-                    opacity="0.8"
+                    strokeWidth="12"
+                    opacity="0.75"
                   />
                   {/* Translucent solid core */}
                   <circle
-                    cx="150"
-                    cy="190"
-                    r="40"
+                    cx="265"
+                    cy="155"
+                    r="60"
                     fill="url(#cyanGreenGrad)"
-                    opacity="0.25"
+                    opacity="0.12"
                   />
                 </g>
 
-                {/* 5. Mathematical Vector Elements (Lines, Angle Indicators, Arrows) */}
-                <g strokeWidth="2" opacity="0.95">
-                  {/* Orange Primary Vector Arrow */}
-                  <line x1="150" y1="150" x2="245" y2="85" stroke="#f97316" />
-                  <polygon points="250,82 240,84 244,91" fill="#f97316" />
-
-                  {/* Cyan Dotted Secondary Vector Arrow */}
-                  <line x1="150" y1="150" x2="75" y2="85" stroke="#22d3ee" strokeDasharray="3 2" />
-                  <polygon points="70,80 75,89 80,84" fill="#22d3ee" />
+                {/* Shape C: Large Geometric Triangle Outline (Horizontal Float) */}
+                <g className="anim-float-x">
+                  <polygon
+                    points="90,40 320,220 50,240"
+                    fill="none"
+                    stroke="url(#violetPinkGrad)"
+                    strokeWidth="2.5"
+                    strokeDasharray="6 4"
+                    opacity="0.5"
+                  />
+                  <polygon
+                    points="90,40 320,220 50,240"
+                    fill="url(#cyanGreenGrad)"
+                    opacity="0.06"
+                  />
                 </g>
 
-                {/* Geometric Angle Arc Indicator */}
+                {/* 5. Mathematical Vector Elements (No Orange!) */}
+                <g strokeWidth="2.5" opacity="0.95">
+                  {/* Fuchsia Primary Vector Arrow */}
+                  <line x1="140" y1="140" x2="255" y2="65" stroke="#ec4899" />
+                  <polygon points="260,62 250,65 254,72" fill="#ec4899" />
+
+                  {/* Cyan Dotted Secondary Vector Arrow */}
+                  <line x1="140" y1="140" x2="55" y2="65" stroke="#22d3ee" strokeDasharray="3 2" />
+                  <polygon points="50,60 55,69 60,64" fill="#22d3ee" />
+                </g>
+
+                {/* Geometric Angle Arc Indicator in Fuchsia */}
                 <path
-                  d="M 180,150 A 30,30 0 0,0 206,130"
+                  d="M 170,140 A 30,30 0 0,0 196,120"
                   fill="none"
-                  stroke="#f97316"
+                  stroke="#ec4899"
                   strokeWidth="1.5"
                   strokeDasharray="3 3"
-                  opacity="0.9"
+                  opacity="0.95"
                 />
                 
-                {/* 6. Dynamic High-Tech Labelling & Typography */}
-                <text x="210" y="145" fill="#f97316" className="font-mono text-[10px] font-semibold opacity-90 select-none">θ</text>
+                {/* 6. Dynamic High-Tech Labelling & Typography (No Orange!) */}
+                <text x="202" y="135" fill="#ec4899" className="font-mono text-[10px] font-semibold opacity-90 select-none">θ</text>
                 
-                {/* Coordinates annotations */}
-                <text x="255" y="80" fill="#f97316" className="font-mono text-[9px] font-medium opacity-85 select-none">(x₁, y₁)</text>
-                <text x="40" y="75" fill="#22d3ee" className="font-mono text-[9px] font-medium opacity-85 select-none">(x₂, y₂)</text>
+                {/* Coordinates annotations in Fuchsia and Cyan */}
+                <text x="265" y="60" fill="#ec4899" className="font-mono text-[9px] font-medium opacity-90 select-none">(x₁, y₁)</text>
+                <text x="20" y="55" fill="#22d3ee" className="font-mono text-[9px] font-medium opacity-90 select-none">(x₂, y₂)</text>
                 
-                {/* Sine Function indicators */}
-                <text x="340" y="125" fill="#c084fc" className="font-mono text-[9px] font-semibold opacity-80 select-none">f(x)</text>
-                <text x="340" y="185" fill="#22d3ee" className="font-mono text-[9px] font-semibold opacity-80 select-none">g(x)</text>
+                {/* Function indicators */}
+                <text x="350" y="115" fill="#c084fc" className="font-mono text-[9px] font-semibold opacity-85 select-none">f(x)</text>
+                <text x="350" y="175" fill="#22d3ee" className="font-mono text-[9px] font-semibold opacity-85 select-none">g(x)</text>
 
                 {/* Minimalist Floating Math Points */}
-                <circle cx="250" cy="82" r="3.5" fill="#ffffff" stroke="#f97316" strokeWidth="1.5" />
-                <circle cx="70" cy="80" r="3.5" fill="#ffffff" stroke="#22d3ee" strokeWidth="1.5" />
-                <circle cx="200" cy="240" r="2.5" fill="#ec4899" />
-                <circle cx="310" cy="100" r="3" fill="#22d3ee" />
+                <circle cx="260" cy="62" r="3.5" fill="#ffffff" stroke="#ec4899" strokeWidth="1.5" />
+                <circle cx="50" cy="60" r="3.5" fill="#ffffff" stroke="#22d3ee" strokeWidth="1.5" />
+                <circle cx="190" cy="230" r="3" fill="#ec4899" />
+                <circle cx="300" cy="90" r="3.5" fill="#22d3ee" />
 
               </svg>
 
