@@ -35,7 +35,7 @@ export default async function GamesHubPage() {
 
   return (
     <PageShell>
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
         {/* Left Column: Games Navigation */}
         <div className="space-y-8 lg:col-span-5">
           <header className="max-w-xl">
@@ -126,24 +126,26 @@ export default async function GamesHubPage() {
         {/* Right Column: Open Live Leaderboard */}
         <div className="lg:col-span-7">
           <section className="rounded-3xl border border-slate-200/80 bg-slate-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/20">
-            <header className="flex items-center justify-between">
-              <div>
+            <header className="flex items-center justify-between gap-4 pb-4">
+              <div className="min-w-0">
                 <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
                   Live rankings
                 </p>
-                <h2 className="mt-1 font-serif text-3xl font-semibold text-slate-900 dark:text-slate-50">
-                  Leaderboard Standing
+                <h2 className="mt-1 font-serif text-2xl font-semibold text-slate-900 dark:text-slate-50">
+                  Leaderboard Standings
                 </h2>
               </div>
               <Link
                 href="/games/leaderboards"
-                className="text-xs font-semibold text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300"
+                className="shrink-0 text-sm font-semibold text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300 whitespace-nowrap"
               >
-                View all boards →
+                View all →
               </Link>
             </header>
 
-            <LeaderboardTabs boards={boards} loadError={loadError} />
+            <div className="mt-4 border-t border-slate-200/50 dark:border-white/5">
+              <LeaderboardTabs boards={boards} loadError={loadError} compact />
+            </div>
           </section>
         </div>
       </div>
