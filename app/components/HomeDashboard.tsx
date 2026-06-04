@@ -67,7 +67,7 @@ function MostUsedCard({ section }: { section: SectionUsage }) {
   return (
     <Link
       href={section.href}
-      className="flex h-full min-h-[170px] w-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-violet-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/40"
+      className="flex h-full min-h-[170px] w-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-violet-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/40 dark:hover:border-violet-500/40"
     >
       <div className="space-y-3">
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400">
@@ -96,10 +96,12 @@ function YourProgressPanel({
   progressSections,
   resumeHref,
   mounted,
+  topGameStats,
 }: {
   progressSections: SectionUsage[];
   resumeHref: string;
   mounted: boolean;
+  topGameStats?: { label: string; userScore: number; globalAverage: number };
 }) {
   return (
     <section className="flex h-full w-full min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-slate-900/40 sm:p-6">
@@ -121,10 +123,34 @@ function YourProgressPanel({
                 />
               );
             })}
+          {mounted && topGameStats && (
+            <div className="space-y-1 pt-2 border-t border-slate-200 dark:border-slate-700">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-medium text-slate-600 dark:text-slate-350">
+                  {topGameStats.label} vs Global Avg
+                </span>
+                <span className="font-mono font-bold text-violet-700 dark:text-violet-400">
+                  {topGameStats.userScore > topGameStats.globalAverage ? "+" : ""}
+                  {Math.round(((topGameStats.userScore - topGameStats.globalAverage) / topGameStats.globalAverage) * 100)}%
+                </span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800">
+                <div
+                  className="h-full rounded-full bg-violet-600"
+                  style={{
+                    width: `${Math.min(
+                      100,
+                      Math.max(0, (topGameStats.userScore / Math.max(topGameStats.globalAverage, 1)) * 100)
+                    )}%`,
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
         <Link
           href={resumeHref}
-          className="mt-auto inline-flex w-full shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900 dark:text-slate-300"
+          className="mt-auto inline-flex w-full shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-200 dark:hover:bg-slate-900/60"
         >
           Resume last lesson
         </Link>
@@ -139,10 +165,12 @@ function HomeHero({
   progressSections,
   resumeHref,
   mounted,
+  topGameStats,
 }: {
   progressSections: SectionUsage[];
   resumeHref: string;
   mounted: boolean;
+  topGameStats?: { label: string; userScore: number; globalAverage: number };
 }) {
   return (
     <section
@@ -160,14 +188,14 @@ function HomeHero({
         <div className="flex flex-wrap items-center gap-3 pt-0.5 sm:gap-4">
           <Link
             href="/exam-prep"
-            className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
+            className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 dark:bg-white dark:text-slate-950"
           >
             Get Started
             <span aria-hidden>→</span>
           </Link>
           <Link
             href="/exam-prep/a-levels/maths"
-            className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/50 px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/30 dark:text-slate-300"
+            className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/50 px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-200"
           >
             View Curriculum
           </Link>
@@ -178,6 +206,7 @@ function HomeHero({
           progressSections={progressSections}
           resumeHref={resumeHref}
           mounted={mounted}
+          topGameStats={topGameStats}
         />
       </div>
     </section>
@@ -195,6 +224,7 @@ export function HomeDashboard({
   const [mounted, setMounted] = useState(false);
   const [topSections, setTopSections] = useState<SectionUsage[]>([]);
   const [topGame, setTopGame] = useState<SectionUsage | null>(null);
+  const [correctAnswerShown, setCorrectAnswerShown] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -223,16 +253,34 @@ export function HomeDashboard({
     (e) => user && e.userId === user.id,
   );
 
+  // Calculate global average and game stats
+  const globalAverage =
+    gameBoard && gameBoard.entries.length > 0
+      ? Math.round(
+          gameBoard.entries.reduce((sum, e) => sum + e.score, 0) /
+            gameBoard.entries.length
+        )
+      : 0;
+
+  const topGameStats = mounted && userScore && hasGameHistory
+    ? {
+        label: topGame?.label ?? GAME_TYPE_LABELS[gameType],
+        userScore: userScore.score,
+        globalAverage,
+      }
+    : undefined;
+
   const progressSections = mounted ? getHomeProgressSections() : [];
   const resumeHref = topSections[0]?.href ?? "/exam-prep/admissions";
 
   return (
     <PageShell mainClassName="relative mx-auto max-w-7xl px-4 pt-8 pb-12 text-slate-900 sm:px-8 sm:pt-9 sm:pb-16">
-      <div className="space-y-10 sm:space-y-12">
+      <div className="space-y-8 sm:space-y-10">
         <HomeHero
           progressSections={progressSections}
           resumeHref={resumeHref}
           mounted={mounted}
+          topGameStats={topGameStats}
         />
 
         <section className="space-y-4">
@@ -258,7 +306,7 @@ export function HomeDashboard({
               hasGameHistory ? "min-h-[280px] sm:min-h-[300px]" : ""
             }`}
           >
-            <div className="group relative flex flex-[5] flex-col gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-violet-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/40 sm:min-h-0">
+            <div className="group relative flex flex-[5] flex-col gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-violet-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/40 dark:hover:border-violet-500/40">
               <div className="absolute -right-4 -bottom-6 select-none font-serif text-[100px] font-extralight text-slate-100 dark:text-slate-800/30">
                 {hasGameHistory ? "∫" : "?"}
               </div>
@@ -280,17 +328,36 @@ export function HomeDashboard({
                 </div>
                 {mounted &&
                   (hasGameHistory ? (
-                    <HomeGameCardSample mode="most-played" gameType={gameType} />
+                    <HomeGameCardSample 
+                      mode="most-played" 
+                      gameType={gameType}
+                      onCorrectAnswer={() => setCorrectAnswerShown(true)}
+                      showPlayGameButton={correctAnswerShown}
+                    />
                   ) : (
-                    <HomeGameCardSample mode="mind-teasers" />
+                    <HomeGameCardSample 
+                      mode="mind-teasers"
+                      onCorrectAnswer={() => setCorrectAnswerShown(true)}
+                      showPlayGameButton={correctAnswerShown}
+                    />
                   ))}
               </div>
-              <Link
-                href={playHref}
-                className="relative z-10 inline-flex text-sm font-semibold text-violet-700 group-hover:text-violet-900 dark:text-violet-400"
-              >
-                Play now →
-              </Link>
+              {correctAnswerShown ? (
+                <Link
+                  href={playHref}
+                  className="relative z-10 inline-flex items-center gap-2 text-sm font-semibold text-white bg-violet-700 hover:bg-violet-800 px-4 py-2 rounded-lg transition dark:bg-violet-600 dark:hover:bg-violet-700"
+                >
+                  Play Game
+                  <span aria-hidden>→</span>
+                </Link>
+              ) : (
+                <button
+                  onClick={() => setCorrectAnswerShown(false)}
+                  className="relative z-10 inline-flex text-sm font-semibold text-violet-700 group-hover:text-violet-900 dark:text-violet-400 dark:group-hover:text-violet-300 transition"
+                >
+                  Shuffle →
+                </button>
+              )}
             </div>
 
             <div className="flex min-h-[240px] min-w-0 flex-[2] flex-col rounded-2xl border border-slate-200 bg-slate-50/50 p-4 shadow-sm dark:border-white/10 dark:bg-slate-900/20 sm:min-h-0">
@@ -321,7 +388,7 @@ export function HomeDashboard({
               <span className="font-serif text-base font-bold text-slate-950 dark:text-white">
                 Convexity
               </span>
-              <p className="text-xs text-slate-400">© 2026 Convexity. Designed for Intellectual Calm.</p>
+              <p className="text-xs text-slate-400">© 2026 Convexity.</p>
             </div>
             <div className="flex flex-wrap gap-4 text-xs font-semibold text-slate-500">
               <Link href="/exam-prep" className="hover:text-slate-950 dark:hover:text-white">
