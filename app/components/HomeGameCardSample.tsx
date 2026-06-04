@@ -186,7 +186,7 @@ export function HomeGameCardSample(props: Props) {
               onClick={() => setShowSolution(!showSolution)}
               className="flex-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
             >
-              {showSolution ? "Hide" : "View"} Solution
+              {showSolution ? "Hide" : "View"} Hint
             </button>
             <button
               type="button"
@@ -210,7 +210,7 @@ export function HomeGameCardSample(props: Props) {
               onClick={() => setShowSolution(!showSolution)}
               className="flex-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
             >
-              {showSolution ? "Hide" : "View"} Solution
+              {showSolution ? "Hide" : "View"} Hint
             </button>
             <button
               type="button"
@@ -232,13 +232,13 @@ export function HomeGameCardSample(props: Props) {
         </div>
       )}
 
-      {showSolution && question.solution && (
-        <div className="rounded-lg border border-violet-200 bg-violet-50 p-3 dark:border-violet-500/30 dark:bg-violet-500/10">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-violet-700 dark:text-violet-400">
-            Solution
+      {showSolution && question.hint && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 dark:border-amber-500/30 dark:bg-amber-500/10">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+            Hint
           </p>
-          <div className="mt-2 text-xs text-violet-900 dark:text-violet-200">
-            <SafeLatex tex={question.solution} displayMode className="text-xs" />
+          <div className="mt-2 text-xs text-amber-900 dark:text-amber-200">
+            {question.hint}
           </div>
         </div>
       )}
