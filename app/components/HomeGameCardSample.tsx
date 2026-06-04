@@ -37,6 +37,7 @@ export function HomeGameCardSample(props: Props) {
   const [answer, setAnswer] = useState("");
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
+  const [showSolution, setShowSolution] = useState(false);
 
   const showQuestion = useCallback(
     (index: number) => {
@@ -44,6 +45,7 @@ export function HomeGameCardSample(props: Props) {
       setAnswer("");
       setFeedback(null);
       setIsAnswered(false);
+      setShowSolution(false);
     },
     [source],
   );
@@ -62,22 +64,30 @@ export function HomeGameCardSample(props: Props) {
     const ok = isCorrectAnswer(answer, question.acceptableAnswers);
     setFeedback(ok ? "correct" : "wrong");
     setIsAnswered(ok);
+    setShowSolution(false);
 
     if (ok && props.onCorrectAnswer) {
       window.setTimeout(() => {
         props.onCorrectAnswer?.();
       }, 800);
-    } else {
-      window.setTimeout(() => {
-        const nextIndex = advanceHomeQuestionAfterAnswer(source);
-        showQuestion(nextIndex);
-      }, 1200);
     }
+  };
+
+  const handleNextQuestion = () => {
+    const nextIndex = advanceHomeQuestionAfterAnswer(source);
+    showQuestion(nextIndex);
   };
 
   const handleShuffle = () => {
     const nextIndex = advanceHomeQuestionAfterAnswer(source);
     showQuestion(nextIndex);
+  };
+
+  const handleRetry = () => {
+    setFeedback(null);
+    setIsAnswered(false);
+    setShowSolution(false);
+    setAnswer("");
   };
 
   // If the user answered correctly and showPlayGameButton is true, show a minimal state
@@ -129,49 +139,108 @@ export function HomeGameCardSample(props: Props) {
         />
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-2 sm:flex-row sm:items-center"
-      >
-        <input
-          type="text"
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
-          disabled={feedback !== null}
-          placeholder={placeholder}
-          className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:outline-none focus:ring-1 focus:ring-violet-400 disabled:bg-slate-50 disabled:text-slate-500 dark:border-white/10 dark:bg-slate-900/40 dark:text-white dark:placeholder:text-slate-500"
-          autoComplete="off"
-        />
-        <button
-          type="submit"
-          disabled={!answer.trim() || feedback !== null}
-          className="shrink-0 rounded-lg border border-violet-200 bg-violet-50 px-3 py-1.5 text-xs font-semibold text-violet-800 transition hover:bg-violet-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400 dark:hover:bg-violet-500/20 dark:disabled:bg-slate-800 dark:disabled:text-slate-500"
+      {!isAnswered ? (
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
         >
-          Check
-        </button>
-        {isMindTeaser && feedback === null && (
+          <input
+            type="text"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            disabled={feedback !== null}
+            placeholder={placeholder}
+            className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:outline-none focus:ring-1 focus:ring-violet-400 disabled:bg-slate-50 disabled:text-slate-500 dark:border-white/10 dark:bg-slate-900/40 dark:text-white dark:placeholder:text-slate-500"
+            autoComplete="off"
+          />
           <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              handleShuffle();
-            }}
-            className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-800"
+            type="submit"
+            disabled={!answer.trim() || feedback !== null}
+            className="shrink-0 rounded-lg border border-violet-200 bg-violet-50 px-3 py-1.5 text-xs font-semibold text-violet-800 transition hover:bg-violet-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400 dark:hover:bg-violet-500/20 dark:disabled:bg-slate-800 dark:disabled:text-slate-500"
           >
-            Shuffle
+            Check
           </button>
-        )}
-      </form>
+          {isMindTeaser && feedback === null && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                handleShuffle();
+              }}
+              className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              Shuffle
+            </button>
+          )}
+        </form>
+      ) : null}
 
       {feedback === "correct" && !props.showPlayGameButton && (
-        <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
-          Correct — next puzzle loading…
-        </p>
+        <div className="space-y-2">
+          <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            ✓ Correct!
+          </p>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button
+              type="button"
+              onClick={() => setShowSolution(!showSolution)}
+              className="flex-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
+            >
+              {showSolution ? "Hide" : "View"} Solution
+            </button>
+            <button
+              type="button"
+              onClick={handleNextQuestion}
+              className="flex-1 rounded-lg border border-violet-200 bg-violet-50 px-3 py-1.5 text-xs font-semibold text-violet-800 transition hover:bg-violet-100 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400 dark:hover:bg-violet-500/20"
+            >
+              Next Question
+            </button>
+          </div>
+        </div>
       )}
+
       {feedback === "wrong" && (
-        <p className="text-xs text-amber-700 dark:text-amber-400">
-          Not quite{question.hint ? ` — ${question.hint}` : ""}.
-        </p>
+        <div className="space-y-2">
+          <p className="text-xs text-amber-700 dark:text-amber-400">
+            Not quite{question.hint ? ` — ${question.hint}` : ""}.
+          </p>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button
+              type="button"
+              onClick={() => setShowSolution(!showSolution)}
+              className="flex-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
+            >
+              {showSolution ? "Hide" : "View"} Solution
+            </button>
+            <button
+              type="button"
+              onClick={handleRetry}
+              className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              Try Again
+            </button>
+            {isMindTeaser && (
+              <button
+                type="button"
+                onClick={handleShuffle}
+                className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-800"
+              >
+                Shuffle
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {showSolution && question.solution && (
+        <div className="rounded-lg border border-violet-200 bg-violet-50 p-3 dark:border-violet-500/30 dark:bg-violet-500/10">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-violet-700 dark:text-violet-400">
+            Solution
+          </p>
+          <div className="mt-2 text-xs text-violet-900 dark:text-violet-200">
+            <SafeLatex tex={question.solution} displayMode className="text-xs" />
+          </div>
+        </div>
       )}
     </div>
   );
