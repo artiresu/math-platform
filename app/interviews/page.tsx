@@ -49,8 +49,8 @@ export default function InterviewsPage() {
   return (
     <PageShell>
       <div className="mx-auto max-w-5xl space-y-8">
-        {/* Navigation Breadcrumb */}
-        <div className="flex items-center justify-between">
+        {/* Navigation Breadcrumb - Sticky */}
+        <div className="sticky top-0 z-40 -mx-4 -mt-8 bg-white/80 dark:bg-slate-950/80 px-4 py-3 backdrop-blur-md border-b border-slate-200/50 dark:border-white/10 flex items-center justify-between">
           <Link
             href="/interview-prep"
             className="inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-350 transition hover:border-slate-355 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none"
@@ -82,7 +82,7 @@ export default function InterviewsPage() {
             Oxbridge Pathway to Success
           </h1>
           <p className="mt-4 max-w-3xl text-base text-slate-700 dark:text-slate-300">
-            A linear progression roadmap engineered for admissions excellence. You can only unlock and access the next whiteboard challenge by successfully completing the level before it. Start at Level 1 and climb to Level 100!
+            A linear progression roadmap engineered for admissions excellence. You can only unlock and access the next whiteboard challenge by successfully completing the level before it. Start at level 1 and work your way up.
           </p>
         </header>
 
@@ -125,7 +125,7 @@ export default function InterviewsPage() {
                 <Link
                   key={level}
                   href={`/interviews/${level}`}
-                  className={`group relative flex aspect-square items-center justify-center rounded-xl border font-mono text-sm font-bold shadow-sm transition-all duration-200 hover:scale-[1.08] active:scale-95 cursor-pointer ${bgClass}`}
+                  className={`group relative flex aspect-square items-center justify-center rounded-xl border font-mono text-sm font-bold shadow-sm transition-all duration-200 hover:scale-[1.08] ${bgClass}`}
                   title={isCompleted ? `Review Level ${level} (Completed)` : `Solve Level ${level} (Active)`}
                 >
                   <span className="relative z-10 flex flex-col items-center justify-center">
