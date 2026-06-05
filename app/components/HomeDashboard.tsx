@@ -67,7 +67,7 @@ function MostUsedCard({ section }: { section: SectionUsage }) {
   return (
     <Link
       href={section.href}
-      className="flex h-full min-h-[170px] w-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-violet-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/40 dark:hover:border-violet-500/40"
+      className="premium-flashy-card flex h-full min-h-[170px] w-full flex-col justify-between rounded-2xl bg-white p-5 shadow-sm dark:bg-slate-900/40"
     >
       <div className="space-y-3">
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400">
@@ -306,7 +306,7 @@ export function HomeDashboard({
               hasGameHistory ? "min-h-[280px] sm:min-h-[300px]" : ""
             }`}
           >
-            <div className="group relative flex flex-[5] flex-col gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-violet-300 hover:shadow-md dark:border-white/10 dark:bg-slate-900/40 dark:hover:border-violet-500/40">
+            <div className="premium-flashy-card group relative flex flex-[5] flex-col gap-3 overflow-hidden rounded-2xl bg-white p-6 shadow-sm dark:bg-slate-900/40">
               <div className="absolute -right-4 -bottom-6 select-none font-serif text-[100px] font-extralight text-slate-100 dark:text-slate-800/30">
                 {hasGameHistory ? "∫" : "?"}
               </div>

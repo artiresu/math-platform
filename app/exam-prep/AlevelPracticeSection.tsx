@@ -257,7 +257,7 @@ function ExaminationArchivesPanel({
                 href={`/past-papers/${paper.filename}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white/70 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-violet-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-violet-800"
+                className="premium-flashy-card group flex flex-col justify-between rounded-2xl bg-white/70 p-5 shadow-sm dark:bg-slate-900/40"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-950/40 dark:text-violet-400">
@@ -534,7 +534,7 @@ export function AlevelPracticeSection({ subject }: { subject: AlevelSubject }) {
                       setSelectedSubtopicId(sub.id);
                       setIsStudying(true);
                     }}
-                    className="group flex cursor-pointer flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:scale-[1.01] hover:shadow-md dark:border-slate-800 dark:bg-slate-900/50"
+                    className="premium-flashy-card group flex cursor-pointer flex-col justify-between rounded-2xl bg-white p-6 shadow-sm dark:bg-slate-900/50"
                   >
                     <div>
                       <h4 className="font-serif text-lg font-bold text-slate-900 group-hover:text-violet-600 dark:text-white dark:group-hover:text-violet-400">
