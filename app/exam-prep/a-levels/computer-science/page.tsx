@@ -1,10 +1,5 @@
-import { Suspense } from "react";
-import { AlevelPracticeSection } from "../../AlevelPracticeSection";
+import { redirect } from "next/navigation";
 
-export default function ALevelComputerSciencePage() {
-  return (
-    <Suspense fallback={<p className="text-slate-600">Loading curriculum…</p>}>
-      <AlevelPracticeSection subject="computer-science" />
-    </Suspense>
-  );
+export default function ALevelComputerScienceRedirectPage() {
+  redirect("/archives?tab=alevel&subject=computer-science");
 }

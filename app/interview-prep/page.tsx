@@ -3,7 +3,7 @@ import { PageShell } from "../components/PageShell";
 
 export default function InterviewPrepHubPage() {
   return (
-    <PageShell>
+    <PageShell noScroll={true}>
       <BranchSelector
         title="Interview Prep"
         description="Choose your interview track. Each branch has tailored prompts, hints, and guidance for how interviewers expect you to think out loud."

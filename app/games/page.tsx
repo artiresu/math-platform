@@ -33,7 +33,7 @@ export default async function GamesHubPage() {
   const { boards, loadError } = await loadLeaderboards();
 
   return (
-    <PageShell>
+    <PageShell noScroll={true}>
       <div className="space-y-8">
         {/* Row 1: Header + Leaderboard Standings Card */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">

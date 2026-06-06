@@ -37,22 +37,22 @@ export default async function GamesLeaderboardsPage() {
     <PageShell>
       <div className="mx-auto max-w-4xl space-y-6">
         {/* Navigation Breadcrumb & Header Row */}
-        <div className="flex flex-col md:flex-row gap-4 items-start">
+        <div className="relative">
           <Link
             href="/games"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+            className="mb-4 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 md:absolute md:-left-14 md:top-2"
             title="All games"
           >
             ←
           </Link>
-          <header className="flex-1">
+          <header className="max-w-3xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
               Rankings
             </p>
             <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
               Leaderboards
             </h1>
-            <p className="mt-3 text-base text-slate-650 dark:text-slate-350">
+            <p className="mt-3 text-base text-slate-655 dark:text-slate-350">
               One leaderboard per game. Filter by time period and region. Scores are
               included only when players opt in via account settings.
             </p>

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function ALevelsHubPage() {
-  redirect("/exam-prep/a-levels/maths");
+export default function AlevelsRedirectPage() {
+  redirect("/archives?tab=alevel");
 }

@@ -3,11 +3,22 @@ import { SiteHeader } from "./SiteHeader";
 type PageShellProps = {
   children: React.ReactNode;
   mainClassName?: string;
+  noScroll?: boolean;
 };
 
-export function PageShell({ children, mainClassName }: PageShellProps) {
+export function PageShell({ children, mainClassName, noScroll }: PageShellProps) {
+  const rootClass = noScroll
+    ? "page-shell relative h-screen overflow-hidden flex flex-col bg-white text-slate-900 font-sans"
+    : "page-shell relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans";
+
+  const defaultMainClass = noScroll
+    ? "relative mx-auto w-full max-w-7xl px-4 pt-6 pb-6 text-slate-900 sm:px-8 sm:pt-8 sm:pb-8 flex-1 overflow-hidden"
+    : "relative mx-auto max-w-7xl px-4 pt-6 pb-12 text-slate-900 sm:px-8 sm:pt-8 sm:pb-16";
+
+  const mainClass = mainClassName || defaultMainClass;
+
   return (
-    <div className="page-shell relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans">
+    <div className={rootClass}>
       <div
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.018)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_40%,transparent_85%)]"
         aria-hidden
@@ -41,7 +52,7 @@ export function PageShell({ children, mainClassName }: PageShellProps) {
       />
 
       <SiteHeader />
-      <main className={mainClassName || "relative mx-auto max-w-7xl px-4 py-16 text-slate-900 sm:px-8 sm:py-20"}>
+      <main className={mainClass}>
         {children}
       </main>
     </div>

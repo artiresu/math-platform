@@ -825,7 +825,11 @@ const ADMISSIONS_TESTS = [
   { id: "step" as const, label: "STEP", href: "/exam-prep/admissions?track=step" },
 ];
 
-export default function ExamPrepClient() {
+export default function ExamPrepClient({
+  urlPrefix = "/exam-prep/admissions",
+}: {
+  urlPrefix?: string;
+}) {
   const searchParams = useSearchParams();
   const trackParam = searchParams.get("track");
   const activeTrack: TrackId | null =
@@ -839,12 +843,18 @@ export default function ExamPrepClient() {
             Test
           </p>
           <nav className="flex flex-col gap-1.5" aria-label="Admissions test">
-            {ADMISSIONS_TESTS.map((test) => {
+            {[
+              { id: "tmua" as const, label: "TMUA" },
+              { id: "step" as const, label: "STEP" },
+            ].map((test) => {
               const active = activeTrack === test.id;
+              const linkHref = urlPrefix.includes("?")
+                ? `${urlPrefix}&track=${test.id}`
+                : `${urlPrefix}?track=${test.id}`;
               return (
                 <Link
                   key={test.id}
-                  href={test.href}
+                  href={linkHref}
                   className={`rounded-lg border px-3 py-2 text-sm font-medium transition ${
                     active
                       ? "border-violet-500/30 bg-violet-500/5 text-violet-700 dark:text-violet-300 font-semibold"

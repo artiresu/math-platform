@@ -187,17 +187,17 @@ function HomeHero({
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-0.5 sm:gap-4">
           <Link
-            href="/exam-prep"
+            href="/archives?tab=alevel"
             className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 dark:bg-white dark:text-slate-950"
           >
             Get Started
             <span aria-hidden>→</span>
           </Link>
           <Link
-            href="/exam-prep/a-levels/maths"
+            href="/archives?tab=alevel&subject=maths"
             className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/50 px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-200"
           >
-            View Curriculum
+            View Archives
           </Link>
         </div>
       </div>
@@ -270,10 +270,10 @@ export function HomeDashboard({
     : undefined;
 
   const progressSections = mounted ? getHomeProgressSections() : [];
-  const resumeHref = topSections[0]?.href ?? "/exam-prep/admissions";
+  const resumeHref = topSections[0]?.href ?? "/archives?tab=admissions";
 
   return (
-    <PageShell mainClassName="relative mx-auto max-w-7xl px-4 pt-4 pb-12 text-slate-900 sm:px-8 sm:pt-5 sm:pb-16">
+    <PageShell>
       <div className="space-y-8 sm:space-y-10">
         <HomeHero
           progressSections={progressSections}
@@ -373,11 +373,8 @@ export function HomeDashboard({
               <p className="text-xs text-slate-400">© 2026 Convexity.</p>
             </div>
             <div className="flex flex-wrap gap-4 text-xs font-semibold text-slate-500">
-              <Link href="/exam-prep" className="hover:text-slate-950 dark:hover:text-white">
-                Exam Hub
-              </Link>
-              <Link href="/resources" className="hover:text-slate-950 dark:hover:text-white">
-                Resources
+              <Link href="/archives" className="hover:text-slate-950 dark:hover:text-white">
+                Archives
               </Link>
               <Link href="/games" className="hover:text-slate-950 dark:hover:text-white">
                 Games

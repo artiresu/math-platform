@@ -6,7 +6,7 @@ export function PromoBanner() {
       <p className="px-4 py-2 leading-snug">
         Preparing for your next admissions test?{" "}
         <Link
-          href="/exam-prep/admissions"
+          href="/archives?tab=admissions"
           className="font-semibold text-violet-200 underline-offset-2 hover:text-white hover:underline"
         >
           Practice here!

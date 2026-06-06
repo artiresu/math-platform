@@ -49,15 +49,15 @@ export default function InterviewsPage() {
   return (
     <PageShell>
       <div className="mx-auto max-w-5xl space-y-8">
-        <div className="flex flex-col md:flex-row gap-4 items-start">
+        <div className="relative">
           <Link
             href="/interview-prep"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+            className="mb-4 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 md:absolute md:-left-14 md:top-6"
             title="All Interview Tracks"
           >
             ←
           </Link>
-          <header className="flex-1 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 p-6 md:p-8 shadow-sm backdrop-blur-md">
+          <header className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 p-6 md:p-8 shadow-sm backdrop-blur-md">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
                 Admissions Progression Pathway

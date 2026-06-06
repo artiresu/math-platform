@@ -1,10 +1,5 @@
-import { Suspense } from "react";
-import { AlevelPracticeSection } from "../../AlevelPracticeSection";
+import { redirect } from "next/navigation";
 
-export default function ALevelFurtherMathsPage() {
-  return (
-    <Suspense fallback={<p className="text-slate-600">Loading curriculum…</p>}>
-      <AlevelPracticeSection subject="further" />
-    </Suspense>
-  );
+export default function ALevelFurtherMathsRedirectPage() {
+  redirect("/archives?tab=alevel&subject=further");
 }

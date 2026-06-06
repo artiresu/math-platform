@@ -13,27 +13,21 @@ export const SITE_SECTIONS: SiteSection[] = [
     keywords: ["home", "convexity", "landing", "dashboard"],
   },
   {
-    id: "exam-prep",
-    label: "Exam Hub",
-    href: "/exam-prep",
-    keywords: ["exam", "hub", "study", "a-level"],
-  },
-  {
-    id: "resources",
-    label: "Resources",
-    href: "/resources",
-    keywords: ["resources", "library", "past papers", "formula", "problem sets"],
+    id: "archives",
+    label: "Archives",
+    href: "/archives",
+    keywords: ["archives", "past papers", "exam", "hub", "study", "a-level", "step", "tmua", "resources", "library"],
   },
   {
     id: "a-levels",
     label: "A-Levels",
-    href: "/exam-prep/a-levels",
+    href: "/archives?tab=alevel",
     keywords: ["a-level", "maths", "further maths", "computer science"],
   },
   {
     id: "admissions",
     label: "Admissions Tests (TMUA & STEP)",
-    href: "/exam-prep/admissions",
+    href: "/archives?tab=admissions",
     keywords: ["tmua", "step", "admissions", "test"],
   },
   {

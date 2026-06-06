@@ -28,14 +28,14 @@ const DEFAULT_SECTIONS: SectionUsage[] = [
   {
     id: "alevel-pure",
     label: "A-Level Pure Math",
-    href: "/exam-prep/a-levels/maths",
+    href: "/archives?tab=alevel&subject=maths",
     visits: 0,
     progress: 0,
   },
   {
     id: "tmua",
     label: "TMUA Strategy",
-    href: "/exam-prep/admissions?track=tmua",
+    href: "/archives?tab=admissions&track=tmua",
     visits: 0,
     progress: 0,
   },
@@ -49,7 +49,7 @@ const DEFAULT_SECTIONS: SectionUsage[] = [
   {
     id: "admissions",
     label: "Admissions Tests",
-    href: "/exam-prep/admissions",
+    href: "/archives?tab=admissions",
     visits: 0,
     progress: 0,
   },
