@@ -85,12 +85,14 @@ export function LeaderboardTabs({
   viewerCountry = "United Kingdom",
   viewerContinent = "Europe",
   compact = false,
+  showGameTabs = false,
 }: {
   boards: LeaderboardBoard[];
   loadError?: boolean;
   viewerCountry?: string;
   viewerContinent?: string;
   compact?: boolean;
+  showGameTabs?: boolean;
 }) {
   const [active, setActive] = useState<GameType>(boards[0]?.gameType ?? "speed-arithmetic");
   const [period, setPeriod] = useState<TimePeriod>("all-time");
@@ -117,9 +119,9 @@ export function LeaderboardTabs({
 
   return (
     <div className={compact ? "mt-0" : "mt-10"}>
-      {!compact && (
-      <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-4">
-        <p className="w-full font-mono text-[10px] font-medium uppercase tracking-widest text-slate-500">
+      {(!compact || showGameTabs) && (
+      <div className={`flex flex-wrap gap-1.5 border-b border-slate-200 dark:border-white/5 ${compact ? "pb-2" : "pb-4"}`}>
+        <p className="w-full font-mono text-[9px] font-medium uppercase tracking-widest text-slate-500">
           Game
         </p>
         {GAME_TYPES.map((type) => {
@@ -131,10 +133,10 @@ export function LeaderboardTabs({
               role="tab"
               aria-selected={isActive}
               onClick={() => setActive(type)}
-              className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
+              className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition ${
                 isActive
-                  ? "border-violet-500/30 bg-violet-500/5 text-violet-700"
-                  : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-300"
+                  ? "border-violet-500/30 bg-violet-500/5 text-violet-750 dark:text-violet-300 dark:bg-violet-500/10"
+                  : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300"
               }`}
             >
               {GAME_TYPE_LABELS[type]}

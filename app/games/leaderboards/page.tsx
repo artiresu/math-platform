@@ -35,27 +35,34 @@ export default async function GamesLeaderboardsPage() {
 
   return (
     <PageShell>
-      <Link
-        href="/games"
-        className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/10"
-      >
-        ← All games
-      </Link>
+      <div className="mx-auto max-w-4xl space-y-6">
+        {/* Navigation Breadcrumb & Header Row */}
+        <div className="flex flex-col md:flex-row gap-4 items-start">
+          <Link
+            href="/games"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+            title="All games"
+          >
+            ←
+          </Link>
+          <header className="flex-1">
+            <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
+              Rankings
+            </p>
+            <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
+              Leaderboards
+            </h1>
+            <p className="mt-3 text-base text-slate-650 dark:text-slate-350">
+              One leaderboard per game. Filter by time period and region. Scores are
+              included only when players opt in via account settings.
+            </p>
+          </header>
+        </div>
 
-      <header className="mt-6 max-w-3xl">
-        <p className="font-mono text-xs font-medium uppercase tracking-widest text-white/90">
-          Rankings
-        </p>
-        <h1 className="mt-2 font-serif text-4xl font-semibold text-white sm:text-5xl">
-          Leaderboards
-        </h1>
-        <p className="mt-4 text-base text-white/85 sm:text-lg">
-          One leaderboard per game. Filter by time period and region. Scores are
-          included only when players opt in via account settings.
-        </p>
-      </header>
-
-      <LeaderboardTabs boards={boards} loadError={loadError} />
+        <div className="mt-6">
+          <LeaderboardTabs boards={boards} loadError={loadError} />
+        </div>
+      </div>
     </PageShell>
   );
 }

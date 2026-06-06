@@ -224,7 +224,6 @@ export function HomeDashboard({
   const [mounted, setMounted] = useState(false);
   const [topSections, setTopSections] = useState<SectionUsage[]>([]);
   const [topGame, setTopGame] = useState<SectionUsage | null>(null);
-  const [correctAnswerShown, setCorrectAnswerShown] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -274,7 +273,7 @@ export function HomeDashboard({
   const resumeHref = topSections[0]?.href ?? "/exam-prep/admissions";
 
   return (
-    <PageShell mainClassName="relative mx-auto max-w-7xl px-4 pt-8 pb-12 text-slate-900 sm:px-8 sm:pt-9 sm:pb-16">
+    <PageShell mainClassName="relative mx-auto max-w-7xl px-4 pt-4 pb-12 text-slate-900 sm:px-8 sm:pt-5 sm:pb-16">
       <div className="space-y-8 sm:space-y-10">
         <HomeHero
           progressSections={progressSections}
@@ -331,33 +330,15 @@ export function HomeDashboard({
                     <HomeGameCardSample 
                       mode="most-played" 
                       gameType={gameType}
-                      onCorrectAnswer={() => setCorrectAnswerShown(true)}
-                      showPlayGameButton={correctAnswerShown}
+                      playHref={playHref}
                     />
                   ) : (
                     <HomeGameCardSample 
                       mode="mind-teasers"
-                      onCorrectAnswer={() => setCorrectAnswerShown(true)}
-                      showPlayGameButton={correctAnswerShown}
+                      playHref={playHref}
                     />
                   ))}
               </div>
-              {correctAnswerShown ? (
-                <Link
-                  href={playHref}
-                  className="relative z-10 inline-flex items-center gap-2 text-sm font-semibold text-white bg-violet-700 hover:bg-violet-800 px-4 py-2 rounded-lg transition dark:bg-violet-600 dark:hover:bg-violet-700"
-                >
-                  Play Game
-                  <span aria-hidden>→</span>
-                </Link>
-              ) : (
-                <button
-                  onClick={() => setCorrectAnswerShown(false)}
-                  className="relative z-10 inline-flex text-sm font-semibold text-violet-700 group-hover:text-violet-900 dark:text-violet-400 dark:group-hover:text-violet-300 transition"
-                >
-                  Shuffle →
-                </button>
-              )}
             </div>
 
             <div className="flex min-h-[240px] min-w-0 flex-[2] flex-col rounded-2xl border border-slate-200 bg-slate-50/50 p-4 shadow-sm dark:border-white/10 dark:bg-slate-900/20 sm:min-h-0">
@@ -373,9 +354,10 @@ export function HomeDashboard({
               </div>
               <div className="min-h-0 flex-1 overflow-auto">
                 <LeaderboardTabs
-                  boards={gameBoard ? [gameBoard] : boards.slice(0, 1)}
+                  boards={boards}
                   loadError={loadError}
                   compact
+                  showGameTabs
                 />
               </div>
             </div>

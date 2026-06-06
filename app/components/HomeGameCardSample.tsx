@@ -15,10 +15,12 @@ import {
   readHomeQuestionState,
 } from "@/lib/home-game-question";
 import { SafeLatex } from "./SafeLatex";
+import Link from "next/link";
+import { recordVisit, type UsageSectionId } from "@/lib/user-usage";
 
 type Props =
-  | { mode: "mind-teasers"; onCorrectAnswer?: () => void; showPlayGameButton?: boolean }
-  | { mode: "most-played"; gameType: GameType; onCorrectAnswer?: () => void; showPlayGameButton?: boolean };
+  | { mode: "mind-teasers"; playHref: string }
+  | { mode: "most-played"; gameType: GameType; playHref: string };
 
 function getSource(props: Props): HomeSampleSource {
   return props.mode === "mind-teasers" ? "mind-teasers" : props.gameType;
@@ -59,18 +61,11 @@ export function HomeGameCardSample(props: Props) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!question || feedback) return;
+    if (!question || isAnswered) return;
 
     const ok = isCorrectAnswer(answer, question.acceptableAnswers);
     setFeedback(ok ? "correct" : "wrong");
     setIsAnswered(ok);
-    setShowSolution(false);
-
-    if (ok && props.onCorrectAnswer) {
-      window.setTimeout(() => {
-        props.onCorrectAnswer?.();
-      }, 800);
-    }
   };
 
   const handleNextQuestion = () => {
@@ -83,25 +78,21 @@ export function HomeGameCardSample(props: Props) {
     showQuestion(nextIndex);
   };
 
-  const handleRetry = () => {
-    setFeedback(null);
-    setIsAnswered(false);
-    setShowSolution(false);
-    setAnswer("");
+  const handleRecordVisit = () => {
+    if (props.mode === "most-played") {
+      const type = props.gameType;
+      const sectionId = (
+        type === "speed-arithmetic"
+          ? "games-arithmetic"
+          : type === "integrals"
+            ? "games-integrals"
+            : "games-olympiad"
+      ) as UsageSectionId;
+      recordVisit(sectionId);
+    } else {
+      recordVisit("games-arithmetic");
+    }
   };
-
-  // If the user answered correctly and showPlayGameButton is true, show a minimal state
-  if (mounted && props.showPlayGameButton && isAnswered) {
-    return (
-      <div className="space-y-2">
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-3 dark:border-emerald-900 dark:bg-emerald-950/30">
-          <p className="text-sm font-medium text-emerald-700 dark:text-emerald-400">
-            ✓ Correct answer! Ready to play the full game?
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   if (!mounted || !question) {
     return (
@@ -121,7 +112,7 @@ export function HomeGameCardSample(props: Props) {
 
   return (
     <div
-      className="space-y-2"
+      className="space-y-4"
       onClick={(e) => e.stopPropagation()}
       onKeyDown={(e) => e.stopPropagation()}
     >
@@ -140,94 +131,85 @@ export function HomeGameCardSample(props: Props) {
       </div>
 
       {!isAnswered ? (
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-2 sm:flex-row sm:items-center"
-        >
-          <input
-            type="text"
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-            disabled={feedback !== null}
-            placeholder={placeholder}
-            className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:outline-none focus:ring-1 focus:ring-violet-400 disabled:bg-slate-50 disabled:text-slate-500 dark:border-white/10 dark:bg-slate-900/40 dark:text-white dark:placeholder:text-slate-500"
-            autoComplete="off"
-          />
-          <button
-            type="submit"
-            disabled={!answer.trim() || feedback !== null}
-            className="shrink-0 rounded-lg border border-violet-200 bg-violet-50 px-3 py-1.5 text-xs font-semibold text-violet-800 transition hover:bg-violet-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400 dark:hover:bg-violet-500/20 dark:disabled:bg-slate-800 dark:disabled:text-slate-500"
+        <div className="space-y-3">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-2 sm:flex-row sm:items-center"
           >
-            Check
-          </button>
-          {isMindTeaser && feedback === null && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                handleShuffle();
+            <input
+              type="text"
+              value={answer}
+              onChange={(e) => {
+                setAnswer(e.target.value);
+                if (feedback === "wrong") setFeedback(null);
               }}
-              className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-800"
+              placeholder={placeholder}
+              className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:outline-none focus:ring-1 focus:ring-violet-400 dark:border-white/10 dark:bg-slate-900/40 dark:text-white dark:placeholder:text-slate-500"
+              autoComplete="off"
+            />
+            <button
+              type="submit"
+              disabled={!answer.trim()}
+              className="shrink-0 rounded-lg border border-violet-200 bg-violet-50 px-3.5 py-1.5 text-xs font-semibold text-violet-800 transition hover:bg-violet-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400 dark:hover:bg-violet-500/20 dark:disabled:bg-slate-800 dark:disabled:text-slate-500"
             >
-              Shuffle
+              Check
             </button>
-          )}
-        </form>
-      ) : null}
+          </form>
 
-      {feedback === "correct" && !props.showPlayGameButton && (
-        <div className="space-y-2">
-          <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
-            ✓ Correct!
-          </p>
-          <div className="flex flex-col gap-2 sm:flex-row">
+          {feedback === "wrong" && (
+            <p className="text-xs font-medium text-rose-600 dark:text-rose-450 animate-pulse">
+              ❌ Incorrect. Try again!
+            </p>
+          )}
+
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={() => setShowSolution(!showSolution)}
-              className="flex-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
+              className="rounded-lg border border-amber-250 bg-amber-50/50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100/50 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
             >
-              {showSolution ? "Hide" : "View"} Hint
+              {showSolution ? "Hide Hint" : "Hint"}
+            </button>
+            <button
+              type="button"
+              onClick={handleShuffle}
+              className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-350 dark:hover:bg-slate-800"
+            >
+              Shuffle →
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 px-3.5 py-3 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+            <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">
+              ✓ Correct!
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowSolution(!showSolution)}
+              className="rounded-lg border border-amber-250 bg-amber-50/50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100/50 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
+            >
+              {showSolution ? "Hide Solution" : "View Solution"}
             </button>
             <button
               type="button"
               onClick={handleNextQuestion}
-              className="flex-1 rounded-lg border border-violet-200 bg-violet-50 px-3 py-1.5 text-xs font-semibold text-violet-800 transition hover:bg-violet-100 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400 dark:hover:bg-violet-500/20"
+              className="rounded-lg border border-violet-200 bg-violet-50 px-3 py-1.5 text-xs font-semibold text-violet-850 transition hover:bg-violet-100 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-400 dark:hover:bg-violet-500/20"
             >
               Next Question
             </button>
-          </div>
-        </div>
-      )}
-
-      {feedback === "wrong" && (
-        <div className="space-y-2">
-          <p className="text-xs text-amber-700 dark:text-amber-400">
-            Not quite{question.hint ? ` — ${question.hint}` : ""}.
-          </p>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <button
-              type="button"
-              onClick={() => setShowSolution(!showSolution)}
-              className="flex-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 transition hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20"
+            <Link
+              href={props.playHref}
+              onClick={handleRecordVisit}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-violet-650 hover:bg-violet-700 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition dark:bg-violet-600 dark:hover:bg-violet-700"
             >
-              {showSolution ? "Hide" : "View"} Hint
-            </button>
-            <button
-              type="button"
-              onClick={handleRetry}
-              className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-800"
-            >
-              Try Again
-            </button>
-            {isMindTeaser && (
-              <button
-                type="button"
-                onClick={handleShuffle}
-                className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-800"
-              >
-                Shuffle
-              </button>
-            )}
+              Play Full Game
+              <span aria-hidden>→</span>
+            </Link>
           </div>
         </div>
       )}
@@ -235,7 +217,7 @@ export function HomeGameCardSample(props: Props) {
       {showSolution && question.hint && (
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 dark:border-amber-500/30 dark:bg-amber-500/10">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400">
-            Hint
+            Hint / Solution
           </p>
           <div className="mt-2 text-xs text-amber-900 dark:text-amber-200">
             {question.hint}

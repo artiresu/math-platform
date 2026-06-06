@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function PromoBanner() {
   return (
-    <div className="border-b border-white/10 bg-violet-600/20 text-center text-sm text-white">
+    <div className="border-b border-violet-850 dark:border-white/10 bg-violet-700 dark:bg-violet-950 text-center text-sm text-white">
       <p className="px-4 py-2 leading-snug">
         Preparing for your next admissions test?{" "}
         <Link
