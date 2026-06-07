@@ -188,7 +188,7 @@ function HomeHero({
         <div className="flex flex-wrap items-center gap-3 pt-0.5 sm:gap-4">
           <Link
             href="/archives?tab=alevel"
-            className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 dark:bg-white dark:text-slate-950"
+            className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 dark:bg-[#b5beff] dark:text-[#111116] dark:hover:bg-[#c6cbff]"
           >
             Get Started
             <span aria-hidden>→</span>
@@ -305,7 +305,7 @@ export function HomeDashboard({
               hasGameHistory ? "min-h-[280px] sm:min-h-[300px]" : ""
             }`}
           >
-            <div className="premium-flashy-card group relative flex flex-[5] flex-col gap-3 overflow-hidden rounded-2xl bg-white p-6 shadow-sm dark:bg-[#161719]/70">
+            <div className="premium-flashy-card group relative flex flex-[5] flex-col gap-3 overflow-hidden rounded-2xl bg-white p-6 shadow-sm dark:bg-[#181924]/70">
               <div className="absolute -right-4 -bottom-6 select-none font-serif text-[100px] font-extralight text-slate-100 dark:text-slate-800/30">
                 {hasGameHistory ? "∫" : "?"}
               </div>
@@ -341,7 +341,7 @@ export function HomeDashboard({
               </div>
             </div>
 
-            <div className="flex min-h-[240px] min-w-0 flex-[2] flex-col rounded-2xl border border-slate-200 bg-slate-50/50 p-4 shadow-sm dark:border-white/10 dark:bg-[#161719]/40 sm:min-h-0">
+            <div className="flex min-h-[240px] min-w-0 flex-[2] flex-col rounded-2xl border border-slate-200 bg-slate-50/50 p-4 shadow-sm dark:border-white/10 dark:bg-[#181924]/40 sm:min-h-0">
               <div className="mb-2 flex shrink-0 items-center justify-between gap-2">
                 <p className="font-mono text-[9px] font-semibold uppercase tracking-widest text-cyan-600">
                   Leaderboard

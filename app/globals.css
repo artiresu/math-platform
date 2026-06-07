@@ -18,9 +18,9 @@ html[data-theme="light"] {
 }
 
 html[data-theme="dark"] {
-  --background: #0f1011;
+  --background: #121218;
   --foreground: #ffffff;
-  --surface: #161719;
+  --surface: #181924;
   --border: rgba(255, 255, 255, 0.08);
   color-scheme: dark;
 }
@@ -52,15 +52,15 @@ body {
 html[data-theme="dark"] .bg-white,
 html[data-theme="dark"] .bg-white\/80,
 html[data-theme="dark"] .bg-white\/70 {
-  background-color: rgba(22, 23, 25, 0.85) !important; /* Premium Charcoal-900 with alpha */
+  background-color: rgba(24, 25, 36, 0.85) !important; /* Premium Indigo-Charcoal-900 with alpha */
 }
 html[data-theme="dark"] .bg-slate-50,
 html[data-theme="dark"] .bg-slate-50\/50,
 html[data-theme="dark"] .bg-slate-50\/70 {
-  background-color: rgba(34, 35, 38, 0.6) !important; /* Premium Charcoal-800 with alpha */
+  background-color: rgba(36, 37, 50, 0.6) !important; /* Premium Indigo-Charcoal-800 with alpha */
 }
 html[data-theme="dark"] .bg-slate-100 {
-  background-color: rgba(34, 35, 38, 0.8) !important;
+  background-color: rgba(36, 37, 50, 0.8) !important;
 }
 
 /* Universal Text Contrast Overrides */
@@ -74,13 +74,13 @@ html[data-theme="dark"] .page-shell .text-slate-950 {
 html[data-theme="dark"] .text-slate-700,
 html[data-theme="dark"] .text-slate-650,
 html[data-theme="dark"] .text-slate-600 {
-  color: #a0a0a0 !important; /* Soft, highly readable neutral gray, matching reference body text */
+  color: #b2bbd6 !important; /* Soft, highly readable lavender-grey, matching reference body text */
 }
 html[data-theme="dark"] .text-slate-500 {
-  color: #707070 !important; /* Muted neutral gray */
+  color: #7a7d90 !important; /* Muted lavender-grey */
 }
 html[data-theme="dark"] .text-slate-400 {
-  color: #555555 !important;
+  color: #5d6075 !important;
 }
 
 /* Universal Border Visibility Overrides */
@@ -93,13 +93,13 @@ html[data-theme="dark"] .border-slate-100 {
 
 /* Page Shell & Base Layouts */
 html[data-theme="dark"] .page-shell {
-  background-color: #0f1011;
+  background-color: #121218;
   color: #ffffff;
 }
 
 /* Header & Navigation Bar Styling */
 html[data-theme="dark"] header.site-navbar {
-  background-color: rgba(15, 16, 17, 0.8) !important; /* Translucent charcoal grey navbar */
+  background-color: rgba(18, 18, 24, 0.8) !important; /* Translucent deep indigo-slate navbar */
   border-color: rgba(255, 255, 255, 0.06) !important;
 }
 html[data-theme="dark"] header.site-navbar .text-slate-800 {
@@ -130,13 +130,13 @@ html[data-theme="dark"] header.site-navbar button:focus-visible {
   box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5) !important; /* Soft glowing violet outline */
 }
 html[data-theme="dark"] header.site-navbar nav[aria-label="Main navigation mobile"] {
-  background-color: rgba(22, 23, 25, 0.95) !important; /* Translucent charcoal mobile nav tray */
+  background-color: rgba(24, 25, 36, 0.95) !important; /* Translucent deep indigo-charcoal mobile nav tray */
   border-color: rgba(255, 255, 255, 0.06) !important;
 }
 
 /* Ticker & Activity Banner Customizations */
 html[data-theme="dark"] .bg-slate-50\/70.border-t.border-slate-200\/60 {
-  background-color: rgba(22, 23, 25, 0.9) !important;
+  background-color: rgba(24, 25, 36, 0.9) !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
