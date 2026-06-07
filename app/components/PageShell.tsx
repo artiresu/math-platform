@@ -53,6 +53,34 @@ export function PageShell({ children, mainClassName, noScroll }: PageShellProps)
 
 
 
+      {/* Dark Mode Wave Mesh Background (Thomsoon Design Style) */}
+      <svg
+        className="pointer-events-none fixed inset-0 w-full h-full opacity-[0.06] dark:block hidden text-slate-400"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+      >
+        {/* A group of parallel wave lines flowing from top-left to middle-right */}
+        <g fill="none" stroke="currentColor" strokeWidth="0.6">
+          {Array.from({ length: 15 }).map((_, i) => (
+            <path
+              key={`wave-1-${i}`}
+              d={`M -100,${100 + i * 8} C 300,${300 + i * 2} 700,${-50 + i * 6} 1100,${200 + i * 12} S 1300,${500 + i * 4} 1600,${400 + i * 15}`}
+            />
+          ))}
+        </g>
+        
+        {/* A second group flowing from bottom-left to top-right, intersecting subtly */}
+        <g fill="none" stroke="currentColor" strokeWidth="0.6">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <path
+              key={`wave-2-${i}`}
+              d={`M -50,${700 + i * 6} C 400,${500 - i * 4} 800,${850 + i * 3} 1200,${450 - i * 8} S 1400,${200 - i * 10} 1500,${100 - i * 12}`}
+            />
+          ))}
+        </g>
+      </svg>
+
       <SiteHeader />
       <main className={mainClass}>
         {children}

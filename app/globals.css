@@ -18,9 +18,9 @@ html[data-theme="light"] {
 }
 
 html[data-theme="dark"] {
-  --background: #262626;
-  --foreground: #f8fafc;
-  --surface: #0f172a;
+  --background: #0f1011;
+  --foreground: #ffffff;
+  --surface: #161719;
   --border: rgba(255, 255, 255, 0.08);
   color-scheme: dark;
 }
@@ -52,15 +52,15 @@ body {
 html[data-theme="dark"] .bg-white,
 html[data-theme="dark"] .bg-white\/80,
 html[data-theme="dark"] .bg-white\/70 {
-  background-color: rgba(15, 23, 42, 0.85) !important; /* Premium Slate-900 with alpha */
+  background-color: rgba(22, 23, 25, 0.85) !important; /* Premium Charcoal-900 with alpha */
 }
 html[data-theme="dark"] .bg-slate-50,
 html[data-theme="dark"] .bg-slate-50\/50,
 html[data-theme="dark"] .bg-slate-50\/70 {
-  background-color: rgba(30, 41, 59, 0.6) !important; /* Premium Slate-800 with alpha */
+  background-color: rgba(34, 35, 38, 0.6) !important; /* Premium Charcoal-800 with alpha */
 }
 html[data-theme="dark"] .bg-slate-100 {
-  background-color: rgba(30, 41, 59, 0.8) !important;
+  background-color: rgba(34, 35, 38, 0.8) !important;
 }
 
 /* Universal Text Contrast Overrides */
@@ -69,18 +69,18 @@ html[data-theme="dark"] .text-slate-900,
 html[data-theme="dark"] .text-slate-800,
 html[data-theme="dark"] .page-shell .text-slate-900,
 html[data-theme="dark"] .page-shell .text-slate-950 {
-  color: #f8fafc !important; /* High contrast Slate-50 */
+  color: #ffffff !important; /* Pure White, matching reference image headings */
 }
 html[data-theme="dark"] .text-slate-700,
 html[data-theme="dark"] .text-slate-650,
 html[data-theme="dark"] .text-slate-600 {
-  color: #cbd5e1 !important; /* Soft, highly readable Slate-300 */
+  color: #a0a0a0 !important; /* Soft, highly readable neutral gray, matching reference body text */
 }
 html[data-theme="dark"] .text-slate-500 {
-  color: #94a3b8 !important; /* Muted Slate-400 */
+  color: #707070 !important; /* Muted neutral gray */
 }
 html[data-theme="dark"] .text-slate-400 {
-  color: #64748b !important;
+  color: #555555 !important;
 }
 
 /* Universal Border Visibility Overrides */
@@ -93,13 +93,13 @@ html[data-theme="dark"] .border-slate-100 {
 
 /* Page Shell & Base Layouts */
 html[data-theme="dark"] .page-shell {
-  background-color: #262626;
-  color: #f8fafc;
+  background-color: #0f1011;
+  color: #ffffff;
 }
 
 /* Header & Navigation Bar Styling */
 html[data-theme="dark"] header.site-navbar {
-  background-color: rgba(38, 38, 38, 0.8) !important; /* Translucent slate-950/charcoal grey */
+  background-color: rgba(15, 16, 17, 0.8) !important; /* Translucent charcoal grey navbar */
   border-color: rgba(255, 255, 255, 0.06) !important;
 }
 html[data-theme="dark"] header.site-navbar .text-slate-800 {
@@ -130,13 +130,13 @@ html[data-theme="dark"] header.site-navbar button:focus-visible {
   box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5) !important; /* Soft glowing violet outline */
 }
 html[data-theme="dark"] header.site-navbar nav[aria-label="Main navigation mobile"] {
-  background-color: rgba(15, 23, 42, 0.6) !important; /* Translucent slate mobile nav tray */
+  background-color: rgba(22, 23, 25, 0.95) !important; /* Translucent charcoal mobile nav tray */
   border-color: rgba(255, 255, 255, 0.06) !important;
 }
 
 /* Ticker & Activity Banner Customizations */
 html[data-theme="dark"] .bg-slate-50\/70.border-t.border-slate-200\/60 {
-  background-color: rgba(15, 23, 42, 0.9) !important;
+  background-color: rgba(22, 23, 25, 0.9) !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
