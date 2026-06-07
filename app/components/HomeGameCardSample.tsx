@@ -117,7 +117,7 @@ export function HomeGameCardSample(props: Props) {
       onKeyDown={(e) => e.stopPropagation()}
     >
       <div
-        className={`overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/90 dark:border-white/5 dark:bg-slate-950/50 ${
+        className={`overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/90 dark:border-white/5 dark:bg-black/30 ${
           isMindTeaser ? "min-h-[5.5rem] px-3.5 py-3" : "px-3 py-2.5"
         }`}
       >
@@ -144,7 +144,7 @@ export function HomeGameCardSample(props: Props) {
                 if (feedback === "wrong") setFeedback(null);
               }}
               placeholder={placeholder}
-              className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:outline-none focus:ring-1 focus:ring-violet-400 dark:border-white/10 dark:bg-slate-900/40 dark:text-white dark:placeholder:text-slate-500"
+              className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:outline-none focus:ring-1 focus:ring-violet-400 dark:border-white/10 dark:bg-neutral-800/40 dark:text-white dark:placeholder:text-slate-500"
               autoComplete="off"
             />
             <button
@@ -173,7 +173,7 @@ export function HomeGameCardSample(props: Props) {
             <button
               type="button"
               onClick={handleShuffle}
-              className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-350 dark:hover:bg-slate-800"
+              className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-neutral-800/40 dark:text-slate-350 dark:hover:bg-slate-800"
             >
               Shuffle →
             </button>
