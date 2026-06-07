@@ -136,7 +136,7 @@ export function LeaderboardTabs({
               className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition ${
                 isActive
                   ? "border-violet-500/30 bg-violet-500/5 text-violet-750 dark:text-violet-300 dark:bg-violet-500/10"
-                  : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300"
+                  : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-300 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300 dark:hover:bg-slate-800"
               }`}
             >
               {GAME_TYPE_LABELS[type]}

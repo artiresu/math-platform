@@ -1,5 +1,13 @@
 export type ThemeMode = "dark" | "light" | "system";
 
+export type VerifiedAchievement = {
+  id: string;
+  competitionName: string;
+  awardLevel: string;
+  verified: boolean;
+  dateAdded: string;
+};
+
 export type UserProfile = {
   name: string;
   email: string;
@@ -21,6 +29,11 @@ export type UserProfile = {
   emailNotifications: boolean;
   autoBackupInterval: number; // in minutes
   bio?: string;
+
+  // Enhancements for titles & achievements
+  selectedTitle?: string;
+  lastNameChangeDate?: string;
+  achievements?: VerifiedAchievement[];
 };
 
 export type AvatarItem = {
