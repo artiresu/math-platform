@@ -47,7 +47,7 @@ export default async function GamesLeaderboardsPage() {
           </Link>
           <header className="max-w-3xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
-              Rankings
+              live rankings
             </p>
             <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
               Leaderboards

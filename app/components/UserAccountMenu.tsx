@@ -198,21 +198,39 @@ export function UserAccountMenu() {
             <>
               {/* Header Info */}
               <div className="border-b border-slate-200/60 dark:border-white/10 pb-4 flex items-center gap-3">
-                {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
-                  <img
-                    src={profile.avatarCustomUrl}
-                    className={`h-11 w-11 shrink-0 rounded-xl object-cover shadow ${activeBorder.ringClass}`}
-                    alt="Profile Avatar"
+                <label
+                  title="Upload profile picture"
+                  className={`relative block h-11 w-11 shrink-0 rounded-xl cursor-pointer group overflow-hidden shadow active:scale-95 transition-transform ${activeBorder.ringClass}`}
+                >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="sr-only"
                   />
-                ) : (
-                  <div
-                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${activeAvatar.bgGrad} text-lg font-bold text-white shadow ${activeBorder.ringClass}`}
-                  >
-                    <span className="font-serif select-none">
-                      {activeAvatar.id === "initials" ? displayInitials : activeAvatar.symbol}
-                    </span>
+                  {profile.avatarId === "custom" && profile.avatarCustomUrl ? (
+                    <img
+                      src={profile.avatarCustomUrl}
+                      className="h-full w-full object-cover transition duration-200 group-hover:brightness-75 group-hover:scale-105"
+                      alt="Profile Avatar"
+                    />
+                  ) : (
+                    <div
+                      className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${activeAvatar.bgGrad} text-lg font-bold text-white transition duration-200 group-hover:brightness-75`}
+                    >
+                      <span className="font-serif select-none">
+                        {activeAvatar.id === "initials" ? displayInitials : activeAvatar.symbol}
+                      </span>
+                    </div>
+                  )}
+                  {/* Interactive Camera Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <svg className="h-4.5 w-4.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                    </svg>
                   </div>
-                )}
+                </label>
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-slate-900 dark:text-white truncate">
                     {displayName}

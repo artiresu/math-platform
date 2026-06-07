@@ -16,7 +16,7 @@ import {
 } from "@/lib/user-settings";
 import { getTopGame } from "@/lib/user-usage";
 import { useAuth } from "../components/AuthContext";
-import type { LeaderboardBoard, LeaderboardRow } from "../leaderboards/LeaderboardTabs";
+import type { LeaderboardBoard } from "../leaderboards/LeaderboardTabs";
 
 // Elo conversion parameters
 const ELO_BASES: Record<GameType, number> = {
@@ -44,9 +44,6 @@ export function GamesHubClient({
 }) {
   const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfile>(DEFAULT_PROFILE);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [nameInput, setNameInput] = useState("");
-  const [cooldownError, setCooldownError] = useState<string | null>(null);
 
   // Selected game for ELO display in profile widget
   const [selectedEloGame, setSelectedEloGame] = useState<GameType>("speed-arithmetic");
@@ -54,11 +51,6 @@ export function GamesHubClient({
   useEffect(() => {
     setProfile(loadProfile());
   }, []);
-
-  // Sync profile edits
-  useEffect(() => {
-    setNameInput(profile.name);
-  }, [profile.name]);
 
   // Sync profile custom events
   useEffect(() => {
@@ -75,73 +67,6 @@ export function GamesHubClient({
     if (typeof window !== "undefined") {
       window.dispatchEvent(new Event("convexity-profile-sync"));
     }
-  };
-
-  // Cooldown validation for display name change
-  const handleSaveName = () => {
-    if (!nameInput.trim()) return;
-
-    const lastChanged = profile.lastNameChangeDate;
-    if (lastChanged) {
-      const diffMs = Date.now() - new Date(lastChanged).getTime();
-      const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
-      if (diffMs < thirtyDaysMs) {
-        const remainingDays = Math.ceil((thirtyDaysMs - diffMs) / (24 * 60 * 60 * 1000));
-        setCooldownError(`Name change cooled down. Try again in ${remainingDays} days.`);
-        return;
-      }
-    }
-
-    setCooldownError(null);
-    const updated = {
-      ...profile,
-      name: nameInput,
-      lastNameChangeDate: new Date().toISOString(),
-    };
-    persistProfileChanges(updated);
-    setIsEditingName(false);
-  };
-
-  // Reset name cooldown for development testing
-  const handleResetCooldown = () => {
-    const updated = {
-      ...profile,
-      lastNameChangeDate: undefined,
-    };
-    persistProfileChanges(updated);
-    setCooldownError(null);
-  };
-
-  // List of all unlocked titles
-  const availableTitles = useMemo(() => {
-    const list: string[] = [
-      "No Title",
-      "Season 1 Zeta ζ",
-      "Season 1 Omega ω",
-      "Season 1 Alpha α",
-      "Season 1 Sigma σ",
-      "Season 1 Gamma γ",
-      "Season 1 Lambda λ",
-      "Season 1 Beta β",
-    ];
-
-    // Add verified achievements
-    if (profile.achievements && profile.achievements.length > 0) {
-      profile.achievements.forEach((ach) => {
-        list.push(`${ach.awardLevel} ${ach.competitionName}`);
-      });
-    }
-    return list;
-  }, [profile.achievements]);
-
-  const activeTitle = profile.selectedTitle || "No Title";
-
-  // Handle active title selection
-  const handleTitleChange = (title: string) => {
-    persistProfileChanges({
-      ...profile,
-      selectedTitle: title,
-    });
   };
 
   // Calculate ELO and rank for user in selected game
@@ -180,6 +105,48 @@ export function GamesHubClient({
     if (remainder === 4) return "Lambda λ (Rank 4)";
     return "Beta β (Rank 5)";
   }, [userRankIndex]);
+
+  // Calculate earned S1 title (S for Season, Greek letter next to rank name)
+  const earnedS1Title = useMemo(() => {
+    if (userRankIndex === -1) return null;
+    if (userRankIndex === 1) return "S1 Zeta ζ";
+    if (userRankIndex <= 50) return "S1 Omega ω";
+    
+    const remainder = userRankIndex % 5;
+    if (remainder === 1) return "S1 Alpha α";
+    if (remainder === 2) return "S1 Sigma σ";
+    if (remainder === 3) return "S1 Gamma γ";
+    if (remainder === 4) return "S1 Lambda λ";
+    return "S1 Beta β";
+  }, [userRankIndex]);
+
+  // List of all unlocked titles
+  const availableTitles = useMemo(() => {
+    const list: string[] = ["No Title"];
+    
+    // Only display S1 rank they actually finished in (season is simulated as ended)
+    if (earnedS1Title) {
+      list.push(earnedS1Title);
+    }
+
+    // Add verified achievements
+    if (profile.achievements && profile.achievements.length > 0) {
+      profile.achievements.forEach((ach) => {
+        list.push(`${ach.awardLevel} ${ach.competitionName}`);
+      });
+    }
+    return list;
+  }, [earnedS1Title, profile.achievements]);
+
+  const activeTitle = profile.selectedTitle || "No Title";
+
+  // Handle active title selection
+  const handleTitleChange = (title: string) => {
+    persistProfileChanges({
+      ...profile,
+      selectedTitle: title,
+    });
+  };
 
   // Today's Standings relocation logic
   // Determine last played game:
@@ -278,65 +245,18 @@ export function GamesHubClient({
           </div>
 
           <div className="flex lg:col-span-5">
-            {/* 👤 Interactive User Profile Widget */}
+            {/* 👤 User Profile Widget */}
             <section className="w-full flex flex-col justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 p-5 shadow-sm backdrop-blur-md">
               <div className="space-y-3.5">
-                {/* Display Name Line */}
+                {/* Static Display Name Line */}
                 <div className="flex items-center justify-between gap-3">
-                  {isEditingName ? (
-                    <div className="flex items-center gap-2 w-full">
-                      <input
-                        type="text"
-                        value={nameInput}
-                        onChange={(e) => setNameInput(e.target.value)}
-                        className="flex-1 rounded-lg border border-slate-200 dark:border-white/15 bg-white dark:bg-slate-950 px-2.5 py-1 text-sm font-semibold text-slate-950 dark:text-white focus:outline-none"
-                      />
-                      <button
-                        onClick={handleSaveName}
-                        className="rounded-lg bg-violet-600 px-3 py-1 text-xs font-bold text-white hover:bg-violet-700"
-                      >
-                        Save
-                      </button>
-                      <button
-                        onClick={() => {
-                          setIsEditingName(false);
-                          setCooldownError(null);
-                        }}
-                        className="text-xs text-slate-400 hover:text-slate-600"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2 group">
-                      <span className="font-serif text-xl font-bold text-slate-950 dark:text-white">
-                        {profile.name}
-                      </span>
-                      <button
-                        onClick={() => setIsEditingName(true)}
-                        className="opacity-0 group-hover:opacity-100 transition p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600"
-                        title="Edit Display Name"
-                      >
-                        ✏️
-                      </button>
-                    </div>
-                  )}
+                  <span className="font-serif text-xl font-bold text-slate-955 dark:text-white">
+                    {profile.name}
+                  </span>
                   <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-cyan-600">
                     Profile Widget
                   </span>
                 </div>
-
-                {cooldownError && (
-                  <div className="text-[11px] text-red-500 font-semibold flex items-center justify-between">
-                    <span>{cooldownError}</span>
-                    <button
-                      onClick={handleResetCooldown}
-                      className="text-[10px] text-violet-600 hover:underline font-bold"
-                    >
-                      (Reset Cooldown)
-                    </button>
-                  </div>
-                )}
 
                 {/* Title Line (Dropdown Selection) */}
                 <div className="flex items-center gap-3">
@@ -347,7 +267,7 @@ export function GamesHubClient({
                     id="widget-title"
                     value={activeTitle}
                     onChange={(e) => handleTitleChange(e.target.value)}
-                    className="flex-1 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-950 px-2.5 py-1 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:outline-none"
+                    className="flex-1 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-950 px-2.5 py-1 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer"
                   >
                     {availableTitles.map((title) => (
                       <option key={title} value={title}>
@@ -367,7 +287,7 @@ export function GamesHubClient({
                       id="widget-game-select"
                       value={selectedEloGame}
                       onChange={(e) => setSelectedEloGame(e.target.value as GameType)}
-                      className="rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-950 px-2 py-0.5 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none"
+                      className="rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-950 px-2 py-0.5 text-xs font-semibold text-slate-750 dark:text-slate-300 focus:outline-none cursor-pointer"
                     >
                       {GAME_TYPES.map((type) => (
                         <option key={type} value={type}>
@@ -409,7 +329,7 @@ export function GamesHubClient({
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </div>
-            <h2 className="mt-4 font-serif text-2xl font-semibold text-slate-950 dark:text-white">
+            <h2 className="mt-4 font-serif text-2xl font-semibold text-slate-955 dark:text-white">
               Maths Games
             </h2>
             <p className="mt-2 text-sm text-slate-650 dark:text-slate-350">
@@ -447,7 +367,7 @@ export function GamesHubClient({
             <h2 className="mt-4 font-serif text-2xl font-semibold text-slate-955 dark:text-white">
               Coding Puzzles
             </h2>
-            <p className="mt-2 text-sm text-slate-650 dark:text-slate-350">
+            <p className="mt-2 text-sm text-slate-655 dark:text-slate-350">
               Algorithm and logic puzzles — starter tracks for Python-style reasoning and interview coding prep.
             </p>
             <div className="mt-6 flex items-center justify-between">
@@ -477,9 +397,9 @@ export function GamesHubClient({
             </div>
             <Link
               href="/games/leaderboards"
-              className="text-xs font-bold text-violet-650 hover:text-violet-755 dark:text-violet-400 dark:hover:text-violet-350 transition shrink-0"
+              className="text-xs font-bold text-violet-655 hover:text-violet-755 dark:text-violet-400 dark:hover:text-violet-350 transition shrink-0"
             >
-              View all standings →
+              View Live Leaderboards →
             </Link>
           </div>
 
