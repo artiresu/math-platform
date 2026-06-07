@@ -18,7 +18,7 @@ html[data-theme="light"] {
 }
 
 html[data-theme="dark"] {
-  --background: #050507;
+  --background: #262626;
   --foreground: #f8fafc;
   --surface: #0f172a;
   --border: rgba(255, 255, 255, 0.08);
@@ -93,13 +93,13 @@ html[data-theme="dark"] .border-slate-100 {
 
 /* Page Shell & Base Layouts */
 html[data-theme="dark"] .page-shell {
-  background-color: #050507;
+  background-color: #262626;
   color: #f8fafc;
 }
 
 /* Header & Navigation Bar Styling */
 html[data-theme="dark"] header.site-navbar {
-  background-color: rgba(5, 5, 7, 0.8) !important; /* Translucent slate-950/deep velvet black */
+  background-color: rgba(38, 38, 38, 0.8) !important; /* Translucent slate-950/charcoal grey */
   border-color: rgba(255, 255, 255, 0.06) !important;
 }
 html[data-theme="dark"] header.site-navbar .text-slate-800 {
