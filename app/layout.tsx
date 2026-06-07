@@ -43,7 +43,7 @@ export default function RootLayout({
       className={`${plusJakarta.variable} ${sourceSerif.variable} ${geistMono.variable} h-full`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-white font-sans text-slate-900 antialiased">
+      <body className="min-h-screen bg-background font-sans text-slate-900 antialiased">
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

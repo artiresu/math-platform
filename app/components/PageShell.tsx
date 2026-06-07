@@ -8,8 +8,8 @@ type PageShellProps = {
 
 export function PageShell({ children, mainClassName, noScroll }: PageShellProps) {
   const rootClass = noScroll
-    ? "page-shell relative h-screen overflow-hidden flex flex-col bg-white text-slate-900 font-sans"
-    : "page-shell relative min-h-screen overflow-x-hidden bg-white text-slate-900 font-sans";
+    ? "page-shell relative h-screen overflow-hidden flex flex-col bg-background text-slate-900 font-sans"
+    : "page-shell relative min-h-screen overflow-x-hidden bg-background text-slate-900 font-sans";
 
   const defaultMainClass = noScroll
     ? "relative mx-auto w-full max-w-7xl px-4 pt-6 pb-6 text-slate-900 sm:px-8 sm:pt-8 sm:pb-8 flex-1 overflow-hidden"
