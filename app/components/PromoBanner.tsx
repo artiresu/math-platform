@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export function PromoBanner() {
   return (
-    <div className="border-b border-violet-850 dark:border-white/10 bg-violet-700 dark:bg-violet-950 text-center text-sm text-white">
-      <p className="px-4 py-2 leading-snug">
+    <div className="border-b border-[#a286f2] dark:border-white/10 bg-[#b59dfb] dark:bg-[#321c35] text-center text-sm text-violet-950 dark:text-white">
+      <p className="px-4 py-2.5 font-medium leading-snug">
         Preparing for your next admissions test?{" "}
         <Link
           href="/archives?tab=admissions"
-          className="font-semibold text-violet-200 underline-offset-2 hover:text-white hover:underline"
+          className="font-bold text-violet-800 dark:text-violet-200 underline underline-offset-4 hover:text-violet-950 dark:hover:text-white"
         >
           Practice here!
         </Link>
