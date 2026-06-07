@@ -100,25 +100,25 @@ export function MessagesPanel() {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 flex w-[min(100vw-2rem,22rem)] flex-col rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl shadow-black/50 backdrop-blur-xl sm:w-96">
-          <div className="border-b border-white/10 px-4 py-3">
-            <p className="font-semibold text-white">Messages</p>
-            <p className="text-xs text-white/60">Chat with friends</p>
+        <div className="absolute right-0 z-50 mt-2 flex w-[min(100vw-2rem,22rem)] flex-col rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/95 dark:shadow-black/50 backdrop-blur-xl sm:w-96 text-slate-900 dark:text-white">
+          <div className="border-b border-slate-100 px-4 py-3 dark:border-white/10">
+            <p className="font-semibold text-slate-900 dark:text-white">Messages</p>
+            <p className="text-xs text-slate-500 dark:text-white/60">Chat with friends</p>
           </div>
 
-          <div className="flex gap-2 border-b border-white/10 p-3">
+          <div className="flex gap-2 border-b border-slate-100 p-3 dark:border-white/10">
             <input
               type="text"
               value={newFriend}
               onChange={(e) => setNewFriend(e.target.value)}
               placeholder="Add friend by name"
-              className="min-w-0 flex-1 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-sm text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+              className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-900 placeholder:text-slate-400 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
               onKeyDown={(e) => e.key === "Enter" && addFriend()}
             />
             <button
               type="button"
               onClick={addFriend}
-              className="shrink-0 rounded-lg bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-violet-500"
+              className="shrink-0 rounded-lg bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-violet-500 cursor-pointer"
             >
               Add
             </button>
@@ -130,20 +130,20 @@ export function MessagesPanel() {
                 <button
                   type="button"
                   onClick={() => setActiveId(friend.id)}
-                  className={`flex w-full items-start gap-3 px-4 py-3 text-left transition hover:bg-white/5 ${
-                    activeId === friend.id ? "bg-white/10" : ""
+                  className={`flex w-full items-start gap-3 px-4 py-3 text-left transition hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer ${
+                    activeId === friend.id ? "bg-slate-100 dark:bg-white/10" : ""
                   }`}
                 >
                   <span
-                    className={`mt-1 h-2 w-2 shrink-0 rounded-full ${
-                      friend.online ? "bg-emerald-400" : "bg-white/30"
+                    className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${
+                      friend.online ? "bg-emerald-500" : "bg-slate-300 dark:bg-white/30"
                     }`}
                   />
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-medium text-white">
+                    <span className="block text-sm font-medium text-slate-900 dark:text-white">
                       {friend.name}
                     </span>
-                    <span className="block truncate text-xs text-white/60">
+                    <span className="block truncate text-xs text-slate-500 dark:text-white/60">
                       {friend.lastMessage}
                     </span>
                   </span>
@@ -153,8 +153,8 @@ export function MessagesPanel() {
           </ul>
 
           {activeFriend && (
-            <div className="border-t border-white/10 p-3">
-              <p className="mb-2 text-xs font-medium text-white/70">
+            <div className="border-t border-slate-100 p-3 dark:border-white/10">
+              <p className="mb-2 text-xs font-medium text-slate-500 dark:text-white/70">
                 Chat with {activeFriend.name}
               </p>
               <div className="flex gap-2">
@@ -163,13 +163,13 @@ export function MessagesPanel() {
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   placeholder="Type a message…"
-                  className="min-w-0 flex-1 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                  className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
                   onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 />
                 <button
                   type="button"
                   onClick={sendMessage}
-                  className="shrink-0 rounded-lg bg-white px-3 py-2 text-xs font-semibold text-slate-900 hover:bg-violet-100"
+                  className="shrink-0 rounded-lg bg-slate-950 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-violet-100 cursor-pointer"
                 >
                   Send
                 </button>
