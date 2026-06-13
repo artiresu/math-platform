@@ -19,7 +19,7 @@ import {
 
 type GameMode = "single" | "multiplayer";
 type GameFormat = "sprint" | "race";
-type Phase = "menu" | "playing" | "gameover";
+type Phase = "menu" | "countdown" | "playing" | "gameover";
 type GameOverReason =
   | "time"
   | "exit"
@@ -29,8 +29,8 @@ type GameOverReason =
   | "race_complete";
 
 const ROUND_SECONDS = 60;
-const CORRECT_POINTS = 10;
-const WRONG_POINTS = 5;
+const CORRECT_POINTS = 1;
+const WRONG_POINTS = 0;
 const OPPONENT_NAMES = ["Player_7f2a", "Player_c91k", "MathWizard", "PrimeHunter"];
 
 function formatElapsed(ms: number) {
@@ -44,6 +44,7 @@ export default function MathsGamesClient() {
   const [mode, setMode] = useState<GameMode>("single");
   const [format, setFormat] = useState<GameFormat>("sprint");
   const [phase, setPhase] = useState<Phase>("menu");
+  const [countdownTime, setCountdownTime] = useState(3000);
   const [topic, setTopic] = useState<TopicId | null>(null);
   const [timeLeft, setTimeLeft] = useState(ROUND_SECONDS);
   const [elapsedMs, setElapsedMs] = useState(0);
@@ -94,7 +95,7 @@ export default function MathsGamesClient() {
       setFormat("sprint");
       setTopic(selectedTopic);
       setMode(gameMode);
-      setPhase("playing");
+      setPhase("countdown");
       setGameOverReason("time");
       setTimeLeft(ROUND_SECONDS);
       setScore(0);
@@ -120,7 +121,7 @@ export default function MathsGamesClient() {
       setFormat("race");
       setTopic(selectedTopic);
       setMode(gameMode);
-      setPhase("playing");
+      setPhase("countdown");
       setGameOverReason("race_complete");
       setScore(0);
       setQuestionsAnswered(0);
@@ -128,7 +129,7 @@ export default function MathsGamesClient() {
       setOpponentPoints(0);
       setQuestionSet(set);
       setElapsedMs(0);
-      setRaceStartedAt(Date.now());
+      setRaceStartedAt(null);
       setAnswer("");
       setFeedback(null);
       setRoundMessage(null);
@@ -330,6 +331,34 @@ export default function MathsGamesClient() {
     finishRaceRoundMultiplayer,
   ]);
 
+  // 3-second animated circular countdown
+  useEffect(() => {
+    if (phase !== "countdown") return;
+    setCountdownTime(3000);
+
+    let start: number | null = null;
+    let animFrameId: number;
+
+    const tick = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+      const remaining = Math.max(0, 3000 - elapsed);
+      setCountdownTime(remaining);
+
+      if (remaining > 0) {
+        animFrameId = requestAnimationFrame(tick);
+      } else {
+        setPhase("playing");
+        if (format === "race") {
+          setRaceStartedAt(Date.now());
+        }
+      }
+    };
+
+    animFrameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animFrameId);
+  }, [phase, format]);
+
   useEffect(() => {
     if (phase !== "playing" || format !== "sprint") return;
 
@@ -469,21 +498,35 @@ export default function MathsGamesClient() {
   return (
     <PageShell>
       <div className="mx-auto max-w-4xl">
-        <Link
-          href="/games"
-          className="inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
-        >
-          ← All games
-        </Link>
-        <header className="mt-6">
-          <h1 className="font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
-            Maths Games
-          </h1>
-          <p className="mt-3 max-w-2xl text-base text-slate-600 dark:text-slate-400 sm:text-lg">
-            Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
-            3-question races — solo for time, multiplayer first to 2 points.
-          </p>
-        </header>
+        <div className="flex flex-col md:flex-row md:items-start gap-4">
+          <Link
+            href={phase === "menu" ? "/games" : "/games/maths"}
+            onClick={(e) => {
+              if (phase !== "menu") {
+                const confirmed = window.confirm(
+                  "Exit this round and return to Maths Games?",
+                );
+                if (!confirmed) {
+                  e.preventDefault();
+                  return;
+                }
+                resetToMenu();
+              }
+            }}
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:border-slate-350 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 mt-1"
+          >
+            ← {phase === "menu" ? "All games" : "Maths Games"}
+          </Link>
+          <header className="flex-1">
+            <h1 className="font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
+              Maths Games
+            </h1>
+            <p className="mt-3 max-w-2xl text-base text-slate-600 dark:text-slate-400 sm:text-lg">
+              Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
+              3-question races — solo for time, multiplayer first to 2 points.
+            </p>
+          </header>
+        </div>
 
         <section className="mt-10" aria-labelledby="mode-heading">
           <h2
@@ -585,7 +628,7 @@ export default function MathsGamesClient() {
           </section>
         )}
 
-        {phase === "playing" && question && topic && (
+        {(phase === "playing" || phase === "countdown") && question && topic && (
           <section
             className="mt-10 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/85 p-6 shadow-md backdrop-blur-md sm:p-8"
             aria-live="polite"
@@ -694,99 +737,135 @@ export default function MathsGamesClient() {
               </p>
             )}
 
-            <div className="mt-10 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-6 sm:p-8">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
-                {isRace ? `Question ${roundIndex + 1}` : "Question"}
-              </p>
-              <div className="mt-4 flex min-h-[4rem] items-center justify-center overflow-x-auto">
-                <SafeLatex
-                  tex={question.promptTex}
-                  displayMode
-                  className="text-lg sm:text-xl [&_.katex]:text-slate-900 dark:[&_.katex]:text-slate-100"
-                />
-              </div>
-              {question.hint && (
-                <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
-                  {question.hint}
-                </p>
-              )}
-            </div>
-
-            <form
-              className="mt-6"
-              onSubmit={(e) => {
-                e.preventDefault();
-                submitAnswer();
-              }}
-            >
-              <label
-                htmlFor="challenge-answer"
-                className="block text-sm font-semibold text-slate-900 dark:text-slate-300"
-              >
-                Your answer
-                {topic === "arithmetic" && isSprint && (
-                  <span className="ml-2 text-xs font-normal text-slate-550 dark:text-slate-400">
-                    (auto-submits when correct)
+            {phase === "countdown" ? (
+              <div className="mt-10 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-10 flex flex-col items-center justify-center min-h-[16rem]">
+                <div className="relative flex items-center justify-center">
+                  <svg className="w-36 h-36 transform -scale-x-100 -rotate-90">
+                    <circle
+                      cx="72"
+                      cy="72"
+                      r="50"
+                      className="stroke-slate-100 dark:stroke-slate-800/80"
+                      strokeWidth="6"
+                      fill="transparent"
+                    />
+                    <circle
+                      cx="72"
+                      cy="72"
+                      r="50"
+                      className="stroke-emerald-500"
+                      strokeWidth="6"
+                      fill="transparent"
+                      strokeDasharray={314.16}
+                      strokeDashoffset={314.16 - (countdownTime / 3000) * 314.16}
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <span className="absolute text-5xl font-extrabold text-slate-900 dark:text-white">
+                    {Math.ceil(countdownTime / 1000)}
                   </span>
-                )}
-              </label>
-              <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-                <input
-                  ref={inputRef}
-                  id="challenge-answer"
-                  type="text"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                  disabled={!!feedback && format === "sprint"}
-                  autoComplete="off"
-                  placeholder={
-                    topic === "integrals"
-                      ? "e.g. x - arctan(x) + C"
-                      : "Enter your answer"
-                  }
-                  className={`flex-1 rounded-xl border bg-slate-50 px-4 py-3 text-slate-950 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 ${
-                    feedback === "correct"
-                      ? "border-emerald-400/60 dark:border-emerald-500/60"
-                      : feedback === "wrong"
-                        ? "border-red-400/60 dark:border-red-500/60"
-                        : "border-slate-200 dark:border-slate-800"
-                  }`}
-                />
-                {!(topic === "arithmetic" && isSprint) && (
-                  <button
-                    type="submit"
-                    disabled={!answer.trim() || !!roundMessage}
-                    className="rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:from-violet-500 hover:to-indigo-500 disabled:opacity-40"
-                  >
-                    Submit
-                  </button>
-                )}
+                </div>
+                <p className="mt-6 text-sm font-semibold tracking-wider uppercase text-slate-450 dark:text-slate-500 animate-pulse">
+                  Get Ready...
+                </p>
               </div>
-              {feedback && isSprint && (
-                <p
-                  className={`mt-3 text-sm font-bold ${
-                    feedback === "correct"
-                      ? "text-emerald-700 dark:text-emerald-400"
-                      : "text-red-700 dark:text-red-400"
-                  }`}
-                >
-                  {feedback === "correct"
-                    ? `+${CORRECT_POINTS} points`
-                    : `−${WRONG_POINTS} points`}
-                </p>
-              )}
-              {feedback && isRace && mode === "single" && feedback === "wrong" && (
-                <p className="mt-3 text-sm font-bold text-red-650 dark:text-red-400">
-                  Not quite — try again
-                </p>
-              )}
-            </form>
+            ) : (
+              <>
+                <div className="mt-10 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 p-6 sm:p-8">
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                    {isRace ? `Question ${roundIndex + 1}` : "Question"}
+                  </p>
+                  <div className="mt-4 flex min-h-[4rem] items-center justify-center overflow-x-auto">
+                    <SafeLatex
+                      tex={question.promptTex}
+                      displayMode
+                      className="text-lg sm:text-xl [&_.katex]:text-slate-900 dark:[&_.katex]:text-slate-100"
+                    />
+                  </div>
+                  {question.hint && (
+                    <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
+                      {question.hint}
+                    </p>
+                  )}
+                </div>
 
-            {isSprint && (
-              <p className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
-                +{CORRECT_POINTS} correct · −{WRONG_POINTS} incorrect ·{" "}
-                {questionsAnswered} answered
-              </p>
+                <form
+                  className="mt-6"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    submitAnswer();
+                  }}
+                >
+                  <label
+                    htmlFor="challenge-answer"
+                    className="block text-sm font-semibold text-slate-900 dark:text-slate-300"
+                  >
+                    Your answer
+                    {topic === "arithmetic" && isSprint && (
+                      <span className="ml-2 text-xs font-normal text-slate-550 dark:text-slate-400">
+                        (auto-submits when correct)
+                      </span>
+                    )}
+                  </label>
+                  <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+                    <input
+                      ref={inputRef}
+                      id="challenge-answer"
+                      type="text"
+                      value={answer}
+                      onChange={(e) => setAnswer(e.target.value)}
+                      disabled={!!feedback && format === "sprint"}
+                      autoComplete="off"
+                      placeholder={
+                        topic === "integrals"
+                          ? "e.g. x - arctan(x) + C"
+                          : "Enter your answer"
+                      }
+                      className={`flex-1 rounded-xl border bg-slate-50 px-4 py-3 text-slate-950 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 ${
+                        feedback === "correct"
+                          ? "border-emerald-400/60 dark:border-emerald-500/60"
+                          : feedback === "wrong"
+                            ? "border-red-400/60 dark:border-red-500/60"
+                            : "border-slate-200 dark:border-slate-800"
+                      }`}
+                    />
+                    {!(topic === "arithmetic" && isSprint) && (
+                      <button
+                        type="submit"
+                        disabled={!answer.trim() || !!roundMessage}
+                        className="rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:from-violet-500 hover:to-indigo-500 disabled:opacity-40"
+                      >
+                        Submit
+                      </button>
+                    )}
+                  </div>
+                  {feedback && isSprint && (
+                    <p
+                      className={`mt-3 text-sm font-bold ${
+                        feedback === "correct"
+                          ? "text-emerald-700 dark:text-emerald-400"
+                          : "text-red-700 dark:text-red-400"
+                      }`}
+                    >
+                      {feedback === "correct"
+                        ? `+${CORRECT_POINTS} point`
+                        : `−${WRONG_POINTS} points`}
+                    </p>
+                  )}
+                  {feedback && isRace && mode === "single" && feedback === "wrong" && (
+                    <p className="mt-3 text-sm font-bold text-red-650 dark:text-red-400">
+                      Not quite — try again
+                    </p>
+                  )}
+                </form>
+
+                {isSprint && (
+                  <p className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
+                    +{CORRECT_POINTS} correct · −{WRONG_POINTS} incorrect ·{" "}
+                    {questionsAnswered} answered
+                  </p>
+                )}
+              </>
             )}
           </section>
         )}

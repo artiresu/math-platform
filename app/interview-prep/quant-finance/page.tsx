@@ -43,15 +43,15 @@ export default function QuantFinanceInterviewPage() {
     <PageShell noScroll={true}>
       <div className="mx-auto max-w-4xl h-full flex flex-col justify-center py-4 sm:py-8 space-y-8">
         {/* Navigation Breadcrumb & Header Row */}
-        <div className="relative">
+        <div className="flex flex-col md:flex-row md:items-start gap-4">
           <Link
             href="/interview-prep"
-            className="mb-4 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 md:absolute md:-left-14 md:top-2"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 mt-1"
             title="All Interview Tracks"
           >
             ←
           </Link>
-          <header className="max-w-3xl">
+          <header className="flex-1 max-w-3xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
               Quant & data interviews
             </p>

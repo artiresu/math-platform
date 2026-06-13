@@ -264,21 +264,17 @@ export default function OxbridgeInterviewPage() {
 
   return (
     <PageShell>
-      <div className="grid grid-cols-1 lg:grid-cols-12 lg:items-start gap-6 lg:gap-8">
-        {/* Left: Back Button as Arrow */}
-        <div className="lg:col-span-1 flex lg:flex-col lg:items-start">
+      <div className="mx-auto max-w-4xl space-y-6">
+        {/* Navigation Breadcrumb & Header Row */}
+        <div className="flex flex-col md:flex-row md:items-start gap-4">
           <Link
             href="/interview-prep"
-            className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-350 transition hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none"
+            className="inline-flex items-center justify-center h-10 w-10 shrink-0 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-350 transition hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none mt-1"
             title="All interview tracks"
           >
             ←
           </Link>
-        </div>
-
-        {/* Right: Main Content */}
-        <div className="lg:col-span-11">
-          <header className="mb-8">
+          <header className="flex-1 max-w-3xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
               Oxbridge & top UK universities
             </p>
@@ -290,116 +286,116 @@ export default function OxbridgeInterviewPage() {
               thinking out loud — the way admissions interviews expect.
             </p>
           </header>
-
-          <nav
-            className="flex flex-wrap gap-2 mb-8"
-            aria-label="Interview prep sections"
-          >
-            <TabButton
-              active={activeTab === "questions"}
-              onClick={() => setActiveTab("questions")}
-            >
-              Mock Interview Prompts
-            </TabButton>
-            <TabButton
-              active={activeTab === "tips"}
-              onClick={() => setActiveTab("tips")}
-            >
-              Whiteboard Tips
-            </TabButton>
-          </nav>
-
-          {activeTab === "questions" ? (
-            <div className="w-full min-w-0 max-w-4xl space-y-6">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
-                Sample prompts
-              </p>
-              {INTERVIEW_QUESTIONS.map((q) => (
-                <article
-                  key={q.id}
-                  className="relative w-full min-w-0 overflow-x-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 p-6 shadow-sm backdrop-blur-md sm:p-8"
-                >
-                  <h2 className="font-serif text-xl font-bold text-slate-950 dark:text-white sm:text-2xl">
-                    {q.title}
-                  </h2>
-                  <div className="mt-5 min-w-0">
-                    <InterviewContent blocks={q.question} boxed />
-                  </div>
-
-                  <div className="mt-6 flex flex-col gap-3 border-t border-slate-200 dark:border-slate-800 pt-6 sm:flex-row sm:flex-wrap sm:items-center">
-                    <button
-                      type="button"
-                      onClick={() => toggleHint(q.id)}
-                      className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:shadow-xl dark:shadow-violet-500/10"
-                      aria-expanded={!!revealedHints[q.id]}
-                    >
-                      {revealedHints[q.id] ? "Hide Hint" : "Reveal Hint"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => toggleApproach(q.id)}
-                      className="inline-flex w-full items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 px-5 py-2.5 text-sm font-semibold shadow-sm transition hover:bg-slate-100 dark:hover:bg-slate-800"
-                      aria-expanded={!!revealedApproaches[q.id]}
-                    >
-                      {revealedApproaches[q.id]
-                        ? "Hide Thinking Process"
-                        : "How to Approach"}
-                    </button>
-                  </div>
-
-                  <CollapsibleReveal open={!!revealedHints[q.id]}>
-                    <div className="min-w-0 overflow-x-hidden rounded-xl border border-amber-400/20 bg-amber-500/[0.04] dark:bg-amber-500/10 p-5 sm:p-6 mt-4">
-                      <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-amber-700 dark:text-amber-400">
-                        Hint
-                      </h3>
-                      <div className="mt-3 min-w-0">
-                        <InterviewContent blocks={q.hint} />
-                      </div>
-                    </div>
-                  </CollapsibleReveal>
-
-                  <CollapsibleReveal open={!!revealedApproaches[q.id]}>
-                    <div className="min-w-0 overflow-x-hidden rounded-xl border border-violet-400/20 bg-violet-500/[0.04] dark:bg-violet-500/10 p-5 sm:p-6 mt-4">
-                      <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-violet-700 dark:text-violet-400">
-                        Interviewer perspective
-                      </h3>
-                      <div className="mt-3 min-w-0">
-                        <InterviewContent blocks={q.approach} />
-                      </div>
-                    </div>
-                  </CollapsibleReveal>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <section
-              className="w-full min-w-0 max-w-4xl overflow-x-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 p-6 shadow-sm sm:p-8"
-              aria-labelledby="interview-tips-title"
-            >
-              <h2
-                id="interview-tips-title"
-                className="font-serif text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl"
-              >
-                How to Ace a Technical Math Interview
-              </h2>
-              <ul className="mt-8 space-y-6">
-                {INTERVIEW_TIPS.map((tip, index) => (
-                  <li key={tip.title} className="flex min-w-0 gap-4">
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-xs font-bold text-slate-700 dark:text-slate-300">
-                      {index + 1}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-slate-950 dark:text-white">{tip.title}</h3>
-                      <div className="mt-2 min-w-0">
-                        <InterviewContent blocks={tip.body} />
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
         </div>
+
+        <nav
+          className="flex flex-wrap gap-2 mb-2"
+          aria-label="Interview prep sections"
+        >
+          <TabButton
+            active={activeTab === "questions"}
+            onClick={() => setActiveTab("questions")}
+          >
+            Mock Interview Prompts
+          </TabButton>
+          <TabButton
+            active={activeTab === "tips"}
+            onClick={() => setActiveTab("tips")}
+          >
+            Whiteboard Tips
+          </TabButton>
+        </nav>
+
+        {activeTab === "questions" ? (
+          <div className="w-full min-w-0 max-w-4xl space-y-6">
+            <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+              Sample prompts
+            </p>
+            {INTERVIEW_QUESTIONS.map((q) => (
+              <article
+                key={q.id}
+                className="relative w-full min-w-0 overflow-x-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 p-6 shadow-sm backdrop-blur-md sm:p-8"
+              >
+                <h2 className="font-serif text-xl font-bold text-slate-950 dark:text-white sm:text-2xl">
+                  {q.title}
+                </h2>
+                <div className="mt-5 min-w-0">
+                  <InterviewContent blocks={q.question} boxed />
+                </div>
+
+                <div className="mt-6 flex flex-col gap-3 border-t border-slate-200 dark:border-slate-800 pt-6 sm:flex-row sm:flex-wrap sm:items-center">
+                  <button
+                    type="button"
+                    onClick={() => toggleHint(q.id)}
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:shadow-xl dark:shadow-violet-500/10"
+                    aria-expanded={!!revealedHints[q.id]}
+                  >
+                    {revealedHints[q.id] ? "Hide Hint" : "Reveal Hint"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => toggleApproach(q.id)}
+                    className="inline-flex w-full items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 px-5 py-2.5 text-sm font-semibold shadow-sm transition hover:bg-slate-100 dark:hover:bg-slate-800"
+                    aria-expanded={!!revealedApproaches[q.id]}
+                  >
+                    {revealedApproaches[q.id]
+                      ? "Hide Thinking Process"
+                      : "How to Approach"}
+                  </button>
+                </div>
+
+                <CollapsibleReveal open={!!revealedHints[q.id]}>
+                  <div className="min-w-0 overflow-x-hidden rounded-xl border border-amber-400/20 bg-amber-500/[0.04] dark:bg-amber-500/10 p-5 sm:p-6 mt-4">
+                    <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-amber-700 dark:text-amber-400">
+                      Hint
+                    </h3>
+                    <div className="mt-3 min-w-0">
+                      <InterviewContent blocks={q.hint} />
+                    </div>
+                  </div>
+                </CollapsibleReveal>
+
+                <CollapsibleReveal open={!!revealedApproaches[q.id]}>
+                  <div className="min-w-0 overflow-x-hidden rounded-xl border border-violet-400/20 bg-violet-500/[0.04] dark:bg-violet-500/10 p-5 sm:p-6 mt-4">
+                    <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-violet-700 dark:text-violet-400">
+                      Interviewer perspective
+                    </h3>
+                    <div className="mt-3 min-w-0">
+                      <InterviewContent blocks={q.approach} />
+                    </div>
+                  </div>
+                </CollapsibleReveal>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <section
+            className="w-full min-w-0 max-w-4xl overflow-x-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 p-6 shadow-sm sm:p-8"
+            aria-labelledby="interview-tips-title"
+          >
+            <h2
+              id="interview-tips-title"
+              className="font-serif text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl"
+            >
+              How to Ace a Technical Math Interview
+            </h2>
+            <ul className="mt-8 space-y-6">
+              {INTERVIEW_TIPS.map((tip, index) => (
+                <li key={tip.title} className="flex min-w-0 gap-4">
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-xs font-bold text-slate-700 dark:text-slate-350">
+                    {index + 1}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-slate-950 dark:text-white">{tip.title}</h3>
+                    <div className="mt-2 min-w-0">
+                      <InterviewContent blocks={tip.body} />
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     </PageShell>
   );

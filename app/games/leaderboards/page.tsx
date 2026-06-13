@@ -37,19 +37,19 @@ export default async function GamesLeaderboardsPage() {
     <PageShell>
       <div className="mx-auto max-w-4xl space-y-6">
         {/* Navigation Breadcrumb & Header Row */}
-        <div className="relative">
+        <div className="flex flex-col md:flex-row md:items-start gap-4">
           <Link
             href="/games"
-            className="mb-4 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 md:absolute md:-left-14 md:top-2"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 mt-1"
             title="All games"
           >
             ←
           </Link>
-          <header className="max-w-3xl">
+          <header className="flex-1 max-w-3xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
               live rankings
             </p>
-            <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
+            <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-955 dark:text-white sm:text-5xl">
               Leaderboards
             </h1>
             <p className="mt-3 text-base text-slate-655 dark:text-slate-350">
