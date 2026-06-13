@@ -45,6 +45,7 @@ export default function MathsGamesClient() {
   const [format, setFormat] = useState<GameFormat>("sprint");
   const [phase, setPhase] = useState<Phase>("menu");
   const [countdownTime, setCountdownTime] = useState(3000);
+  const [region, setRegion] = useState("EU-West");
   const [topic, setTopic] = useState<TopicId | null>(null);
   const [timeLeft, setTimeLeft] = useState(ROUND_SECONDS);
   const [elapsedMs, setElapsedMs] = useState(0);
@@ -494,39 +495,30 @@ export default function MathsGamesClient() {
   const timerPct = (timeLeft / ROUND_SECONDS) * 100;
   const isSprint = format === "sprint";
   const isRace = format === "race";
+  const isPlayingOrCountdown = phase === "playing" || phase === "countdown";
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-4xl">
-        <div className="flex flex-col md:flex-row md:items-start gap-4">
-          <Link
-            href={phase === "menu" ? "/games" : "/games/maths"}
-            onClick={(e) => {
-              if (phase !== "menu") {
-                const confirmed = window.confirm(
-                  "Exit this round and return to Maths Games?",
-                );
-                if (!confirmed) {
-                  e.preventDefault();
-                  return;
-                }
-                resetToMenu();
-              }
-            }}
-            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:border-slate-350 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 mt-1"
-          >
-            ← {phase === "menu" ? "All games" : "Maths Games"}
-          </Link>
-          <header className="flex-1">
-            <h1 className="font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
-              Maths Games
-            </h1>
-            <p className="mt-3 max-w-2xl text-base text-slate-600 dark:text-slate-400 sm:text-lg">
-              Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
-              3-question races — solo for time, multiplayer first to 2 points.
-            </p>
-          </header>
-        </div>
+      <div className={`mx-auto max-w-4xl ${isPlayingOrCountdown ? "min-h-[calc(100vh-160px)] flex flex-col justify-center py-4" : ""}`}>
+        {phase === "menu" && (
+          <div className="space-y-4 mb-6">
+            <Link
+              href="/games"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-slate-855 dark:text-slate-400 dark:hover:text-slate-200"
+            >
+              ← Games Hub
+            </Link>
+            <header className="max-w-3xl">
+              <h1 className="font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
+                Maths Games
+              </h1>
+              <p className="mt-3 max-w-2xl text-base text-slate-600 dark:text-slate-400 sm:text-lg">
+                Speed Arithmetic is a 60-second sprint. Integrals and Olympiad use
+                3-question races — solo for time, multiplayer first to 2 points.
+              </p>
+            </header>
+          </div>
+        )}
 
         <section className="mt-10" aria-labelledby="mode-heading">
           <h2
@@ -576,7 +568,11 @@ export default function MathsGamesClient() {
           phase !== "gameover" &&
           !matchmaking && (
             <div>
-              <MultiplayerLobby onStartMatch={startMultiplayerMatch} />
+              <MultiplayerLobby
+                onStartMatch={startMultiplayerMatch}
+                region={region}
+                onRegionChange={setRegion}
+              />
             </div>
           )}
 
@@ -586,7 +582,7 @@ export default function MathsGamesClient() {
           >
             <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" />
             <p className="mt-4 font-serif text-xl font-semibold text-slate-950 dark:text-white">
-              Finding a match…
+              Finding a match in {region}…
             </p>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
               Pairing you with an opponent in your skill band.
@@ -1030,8 +1026,12 @@ function GameOverPanel({
 
 function MultiplayerLobby({
   onStartMatch,
+  region,
+  onRegionChange,
 }: {
   onStartMatch: (topic: TopicId) => void;
+  region: string;
+  onRegionChange: (val: string) => void;
 }) {
   return (
     <section
@@ -1046,20 +1046,30 @@ function MultiplayerLobby({
           </span>
           <h2
             id="lobby-heading"
-            className="mt-4 font-serif text-2xl font-semibold text-slate-950 dark:text-white sm:text-3xl"
+            className="mt-4 font-serif text-2xl font-semibold text-slate-955 dark:text-white sm:text-3xl"
           >
             Matchmaking lobby
           </h2>
-          <p className="mt-2 max-w-md text-sm text-slate-650 dark:text-slate-400">
+          <p className="mt-2 max-w-md text-sm text-slate-655 dark:text-slate-400">
             Integrals &amp; Olympiad: 3 questions, first correct answer wins each
             round, first to 2 points wins. Arithmetic uses a 60s sprint.
           </p>
         </div>
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 px-4 py-3 text-right">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400">
+          <label htmlFor="lobby-region-select" className="block font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">
             Region
-          </p>
-          <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">EU-West</p>
+          </label>
+          <select
+            id="lobby-region-select"
+            value={region}
+            onChange={(e) => onRegionChange(e.target.value)}
+            className="bg-transparent text-sm font-semibold text-slate-900 dark:text-slate-100 focus:outline-none cursor-pointer"
+          >
+            <option value="EU-West">EU-West</option>
+            <option value="US-East">US-East</option>
+            <option value="US-West">US-West</option>
+            <option value="AP-Southeast">AP-Southeast</option>
+          </select>
         </div>
       </div>
 

@@ -41,21 +41,21 @@ const BRANCHES = [
 export default function QuantFinanceInterviewPage() {
   return (
     <PageShell noScroll={true}>
-      <div className="mx-auto max-w-4xl h-full flex flex-col justify-center py-4 sm:py-8 space-y-8">
+      <div className="mx-auto max-w-4xl space-y-6">
         {/* Navigation Breadcrumb & Header Row */}
-        <div className="flex flex-col md:flex-row md:items-start gap-4">
+        <div className="space-y-4">
           <Link
             href="/interview-prep"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white/70 shadow-sm transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 mt-1"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-slate-850 dark:text-slate-400 dark:hover:text-slate-200"
             title="All Interview Tracks"
           >
-            ←
+            ← Interview Prep
           </Link>
-          <header className="flex-1 max-w-3xl">
+          <header className="max-w-3xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
               Quant & data interviews
             </p>
-            <h1 className="mt-3 font-serif text-4xl font-bold text-slate-950 dark:text-white sm:text-5xl">
+            <h1 className="mt-2 font-serif text-4xl font-bold text-slate-950 dark:text-white sm:text-5xl">
               Quantitative Finance & Data Analysis
             </h1>
             <p className="mt-4 text-base text-slate-700 dark:text-slate-300">

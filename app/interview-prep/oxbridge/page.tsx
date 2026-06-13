@@ -266,19 +266,19 @@ export default function OxbridgeInterviewPage() {
     <PageShell>
       <div className="mx-auto max-w-4xl space-y-6">
         {/* Navigation Breadcrumb & Header Row */}
-        <div className="flex flex-col md:flex-row md:items-start gap-4">
+        <div className="space-y-4">
           <Link
             href="/interview-prep"
-            className="inline-flex items-center justify-center h-10 w-10 shrink-0 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-350 transition hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none mt-1"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-slate-850 dark:text-slate-400 dark:hover:text-slate-200"
             title="All interview tracks"
           >
-            ←
+            ← Interview Prep
           </Link>
-          <header className="flex-1 max-w-3xl">
+          <header className="max-w-3xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">
               Oxbridge & top UK universities
             </p>
-            <h1 className="mt-3 font-serif text-4xl font-bold text-slate-950 dark:text-white sm:text-5xl">
+            <h1 className="mt-2 font-serif text-4xl font-bold text-slate-950 dark:text-white sm:text-5xl">
               Oxbridge Interviews
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-slate-700 dark:text-slate-300">
