@@ -8,7 +8,7 @@ export type GameQuestion = {
 };
 
 export const RACE_QUESTION_COUNT = 3;
-export const RACE_WIN_POINTS = 2;
+export const RACE_WIN_POINTS = 3;
 
 export const TOPICS: {
   id: TopicId;

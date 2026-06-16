@@ -25,6 +25,7 @@ const DEMO_SERVERS: Server[] = [
 const DEMO_CHANNELS: Channel[] = [
   { id: "general", name: "general", kind: "text" },
   { id: "step-help", name: "step-help", kind: "text" },
+  { id: "leaderboard", name: "leaderboard 🏆", kind: "text" },
   { id: "voice-lounge", name: "voice-lounge", kind: "voice" },
 ];
 
@@ -34,6 +35,7 @@ export default function ServersPage() {
   const [activeChannel, setActiveChannel] = useState("general");
   const [newServerName, setNewServerName] = useState("");
   const [message, setMessage] = useState("");
+  const [serverGame, setServerGame] = useState<"arithmetic" | "integrals" | "olympiad">("arithmetic");
   const [messages, setMessages] = useState<
     { id: string; author: string; text: string }[]
   >([
@@ -70,20 +72,39 @@ export default function ServersPage() {
     setMessage("");
   }
 
+  const leaderboardData = {
+    arithmetic: [
+      { name: "MathWizard", score: 2850 },
+      { name: "PrimeHunter", score: 2420 },
+      { name: "You", score: 1950 },
+      { name: "Alex Chen", score: 1810 },
+      { name: "Sam Patel", score: 1750 },
+    ],
+    integrals: [
+      { name: "PrimeHunter", score: 2910 },
+      { name: "MathWizard", score: 2650 },
+      { name: "Alex Chen", score: 2100 },
+      { name: "You", score: 1880 },
+      { name: "Sam Patel", score: 1620 },
+    ],
+    olympiad: [
+      { name: "MathWizard", score: 3200 },
+      { name: "You", score: 2800 },
+      { name: "PrimeHunter", score: 2750 },
+      { name: "Sam Patel", score: 2200 },
+      { name: "Alex Chen", score: 2050 },
+    ],
+  };
+
   return (
     <PageShell>
       <header className="max-w-4xl">
         <h1 className="font-serif text-4xl font-semibold text-white sm:text-5xl">
           Servers
         </h1>
-        <p className="mt-4 text-lg text-white/90">
-          Join or create communities, group chats, and DMs — similar to Discord.
-          Control who can message you in your account privacy settings (coming
-          soon).
-        </p>
       </header>
 
-      <div className="mt-8 flex min-h-[28rem] flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/40 lg:flex-row">
+      <div className="mt-8 flex min-h-[45rem] flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/40 lg:flex-row">
         <aside className="flex w-full shrink-0 flex-col border-b border-white/10 bg-slate-900/80 lg:w-56 lg:border-b-0 lg:border-r">
           <p className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-white/50">
             Your servers
@@ -182,39 +203,85 @@ export default function ServersPage() {
           </div>
         </aside>
 
-        <section className="flex min-w-0 flex-1 flex-col">
+        <section className="flex min-w-0 flex-1 flex-col bg-slate-950/30">
           <div className="border-b border-white/10 px-4 py-3">
             <p className="text-sm font-medium text-white">
               {dmTarget ? `DM · ${dmTarget}` : `# ${activeChannel}`}
             </p>
           </div>
-          <ul className="flex-1 space-y-3 overflow-y-auto p-4">
-            {messages.map((msg) => (
-              <li key={msg.id}>
-                <span className="text-sm font-semibold text-violet-300">
-                  {msg.author}
-                </span>
-                <p className="text-sm text-white/90">{msg.text}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="flex gap-2 border-t border-white/10 p-4">
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Message…"
-              className="min-w-0 flex-1 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40"
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            />
-            <button
-              type="button"
-              onClick={sendMessage}
-              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-900"
-            >
-              Send
-            </button>
-          </div>
+          {activeChannel === "leaderboard" && !dmTarget ? (
+            <div className="flex-1 flex flex-col p-6 overflow-y-auto">
+              <div className="flex border-b border-white/10 pb-3 mb-6 gap-2">
+                {(["arithmetic", "integrals", "olympiad"] as const).map((game) => (
+                  <button
+                    key={game}
+                    type="button"
+                    onClick={() => setServerGame(game)}
+                    className={`rounded-lg px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                      serverGame === game
+                        ? "bg-violet-600 text-white"
+                        : "text-white/60 hover:bg-white/5 hover:text-white"
+                    }`}
+                  >
+                    {game}
+                  </button>
+                ))}
+              </div>
+              
+              <div className="flex-1 overflow-y-auto">
+                <table className="w-full text-left border-collapse text-sm">
+                  <thead>
+                    <tr className="border-b border-white/10 text-white/50 text-xs uppercase tracking-wider">
+                      <th className="py-3 font-semibold w-16">Rank</th>
+                      <th className="py-3 font-semibold">Member</th>
+                      <th className="py-3 font-semibold text-right">Score / ELO</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {leaderboardData[serverGame].map((row, idx) => (
+                      <tr key={row.name} className={row.name === "You" ? "text-violet-300 font-medium bg-violet-500/5" : "text-white/95"}>
+                        <td className="py-4 font-mono">
+                          {idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `  ${idx + 1}`}
+                        </td>
+                        <td className="py-4 font-medium">{row.name}</td>
+                        <td className="py-4 text-right font-mono tabular-nums">{row.score.toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
+            <>
+              <ul className="flex-1 space-y-3 overflow-y-auto p-4">
+                {messages.map((msg) => (
+                  <li key={msg.id}>
+                    <span className="text-sm font-semibold text-violet-300">
+                      {msg.author}
+                    </span>
+                    <p className="text-sm text-white/90">{msg.text}</p>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex gap-2 border-t border-white/10 p-4">
+                <input
+                  type="text"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Message…"
+                  className="min-w-0 flex-1 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 font-sans"
+                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                />
+                <button
+                  type="button"
+                  onClick={sendMessage}
+                  className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-100"
+                >
+                  Send
+                </button>
+              </div>
+            </>
+          )}
         </section>
       </div>
     </PageShell>

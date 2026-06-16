@@ -17,27 +17,35 @@ export default function AiAssistantPage() {
     if (file) setAttachment(file.name);
   }
 
-  function submit() {
+  async function submit() {
     const question = input.trim();
     if (!question && !attachment) return;
 
     setLoading(true);
     setResponse(null);
 
-    window.setTimeout(() => {
-      if (mode === "answer-only") {
-        setResponse(
-          attachment
-            ? `Answer (from ${attachment}): The result is 42. (Demo — connect a real model API for live solving.)`
-            : "Answer: True. (Demo response — wire up your AI backend for real answers.)",
-        );
-      } else {
-        setResponse(
-          `Step 1: Restate the problem in your own words.\nStep 2: Identify knowns and unknowns.\nStep 3: Choose a method (e.g. contrapositive, integration by parts).\nStep 4: Work through algebra carefully.\nStep 5: Sanity-check edge cases.\n\n(Demo walkthrough — connect an AI provider for full solutions.)`,
-        );
-      }
+    try {
+      const res = await fetch("/api/ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question,
+          mode,
+          attachmentName: attachment,
+        }),
+      });
+
+      if (!res.ok) throw new Error("API request failed");
+      const data = await res.json();
+      setResponse(data.result || "No response generated.");
+    } catch (err) {
+      console.error(err);
+      setResponse("Failed to communicate with AI assistant. Please try again.");
+    } finally {
       setLoading(false);
-    }, 900);
+    }
   }
 
   return (

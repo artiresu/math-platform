@@ -70,7 +70,7 @@ export function SiteSearch() {
             placeholder="Search sections…"
             className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
           />
-          <ul className="mt-2 max-h-64 overflow-y-auto">
+          <ul className="mt-2 max-h-64 overflow-y-auto overscroll-contain">
             {results.length === 0 ? (
               <li className="px-2 py-3 text-sm text-white/60">No matches</li>
             ) : (
