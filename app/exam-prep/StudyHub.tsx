@@ -56,7 +56,7 @@ function StudyHubNotes({ subtopic }: { subtopic: StudySubtopic }) {
             </p>
           ))}
           {section.formulaTex && (
-            <div className="mt-4 rounded-lg border border-slate-200/60 bg-slate-50/80 px-4 py-4">
+            <div className="mt-4 rounded-lg border border-slate-200/60 bg-slate-50/80 dark:bg-slate-950/40 dark:border-white/10 px-4 py-4">
               <LatexPanel tex={section.formulaTex} displayMode />
             </div>
           )}
