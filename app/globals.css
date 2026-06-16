@@ -219,69 +219,46 @@ html[data-theme="dark"] .border-orange-500\/20 {
   white-space: normal;
 }
 
-@keyframes neon-drift-1 {
-  0% {
-    transform: translate(0px, 0px) scale(1) rotate(0deg);
-  }
-  25% {
-    transform: translate(160px, -80px) scale(1.15) rotate(45deg);
-  }
-  50% {
-    transform: translate(80px, 140px) scale(0.9) rotate(90deg);
-  }
-  75% {
-    transform: translate(-120px, 60px) scale(1.05) rotate(135deg);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1) rotate(360deg);
-  }
-}
-
-@keyframes neon-drift-2 {
-  0% {
-    transform: translate(0px, 0px) scale(1) rotate(0deg);
+@keyframes stagnant-drift-1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(0.9) rotate(0deg);
   }
   33% {
-    transform: translate(-140px, 100px) scale(1.1) rotate(-60deg);
+    transform: translate(80px, -50px) scale(1.2) rotate(45deg);
   }
   66% {
-    transform: translate(120px, -120px) scale(0.95) rotate(120deg);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1) rotate(360deg);
+    transform: translate(-40px, 60px) scale(0.85) rotate(90deg);
   }
 }
 
-@keyframes neon-drift-3 {
-  0% {
-    transform: translate(0px, 0px) scale(1) rotate(0deg);
+@keyframes stagnant-drift-2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1.1) rotate(0deg);
   }
   50% {
-    transform: translate(100px, -160px) scale(1.2) rotate(180deg);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1) rotate(360deg);
+    transform: translate(-60px, 80px) scale(0.8) rotate(-120deg);
   }
 }
 
-.animate-neon-drift-1 {
-  animation: neon-drift-1 28s infinite ease-in-out;
+@keyframes stagnant-drift-3 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(0.85) rotate(0deg);
+  }
+  50% {
+    transform: translate(90px, -70px) scale(1.3) rotate(120deg);
+  }
 }
 
-.animate-neon-drift-2 {
-  animation: neon-drift-2 32s infinite ease-in-out;
+.animate-stagnant-drift-1 {
+  animation: stagnant-drift-1 50s infinite ease-in-out;
 }
 
-.animate-neon-drift-3 {
-  animation: neon-drift-3 24s infinite ease-in-out;
+.animate-stagnant-drift-2 {
+  animation: stagnant-drift-2 60s infinite ease-in-out;
 }
 
-.animate-drift {
-  animation: neon-drift-1 25s infinite ease-in-out;
-}
-
-.animate-drift-reverse {
-  animation: neon-drift-2 30s infinite ease-in-out;
+.animate-stagnant-drift-3 {
+  animation: stagnant-drift-3 55s infinite ease-in-out;
 }
 
 ::selection {

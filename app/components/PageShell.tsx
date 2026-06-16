@@ -39,15 +39,15 @@ export function PageShell({ children, mainClassName, noScroll }: PageShellProps)
       />
 
       <div
-        className="pointer-events-none absolute -right-48 top-32 h-[550px] w-[550px] rounded-full bg-violet-400/25  blur-[120px] animate-neon-drift-1 dark:hidden"
+        className="pointer-events-none absolute -right-48 top-32 h-[550px] w-[550px] rounded-full bg-violet-400/25 dark:bg-violet-600/10 blur-[120px] dark:blur-[140px] animate-stagnant-drift-1"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -left-48 top-96 h-[500px] w-[500px] rounded-full bg-cyan-400/20 blur-[110px] animate-neon-drift-2 dark:hidden"
+        className="pointer-events-none absolute -left-48 top-96 h-[500px] w-[500px] rounded-full bg-cyan-400/20 dark:bg-cyan-600/8 blur-[110px] dark:blur-[130px] animate-stagnant-drift-2"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -right-24 bottom-32 h-[450px] w-[450px] rounded-full bg-rose-400/15 blur-[110px] animate-neon-drift-3 dark:hidden"
+        className="pointer-events-none absolute -right-24 bottom-32 h-[450px] w-[450px] rounded-full bg-rose-400/15 dark:bg-rose-600/6 blur-[110px] dark:blur-[130px] animate-stagnant-drift-3"
         aria-hidden
       />
 
