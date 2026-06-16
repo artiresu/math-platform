@@ -14,9 +14,9 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     id: "archives",
-    label: "Archives",
+    label: "Preparation",
     href: "/archives",
-    keywords: ["archives", "past papers", "exam", "hub", "study", "a-level", "step", "tmua", "resources", "library"],
+    keywords: ["preparation", "archives", "past papers", "exam", "hub", "study", "a-level", "step", "tmua", "resources", "library"],
   },
   {
     id: "a-levels",

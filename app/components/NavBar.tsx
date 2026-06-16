@@ -10,9 +10,9 @@ import { SettingsMenu } from "./SettingsMenu";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
+  { label: "Preparation", href: "/archives" },
   { label: "Interviews", href: "/interview-prep" },
   { label: "Games", href: "/games" },
-  { label: "Archives", href: "/archives" },
   { label: "Community", href: "/servers" },
 ] as const;
 

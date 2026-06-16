@@ -388,17 +388,17 @@ function ArchivesClient() {
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between border-b border-slate-200 pb-5 dark:border-slate-800">
         <div className="max-w-2xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-widest text-violet-650 dark:text-violet-400">
-            Archives
+            Preparation
           </p>
           <h1 className="mt-2 font-serif text-4xl font-semibold text-slate-950 dark:text-white sm:text-5xl">
-            Examination Archives
+            Examination Preparation
           </h1>
           <p className="mt-3 text-base text-slate-655 dark:text-slate-350">
             Official past papers, solution keys, logic quizzes, and resource booklets all in one place.
           </p>
         </div>
 
-        <div className="flex gap-2" role="tablist" aria-label="Archives branches">
+        <div className="flex gap-2" role="tablist" aria-label="Preparation branches">
           {(
             [
               { id: "alevel", label: "A-Levels" },
@@ -485,7 +485,7 @@ function ArchivesClient() {
 export default function ArchivesPage() {
   return (
     <PageShell>
-      <Suspense fallback={<p className="text-slate-600">Loading Archives…</p>}>
+      <Suspense fallback={<p className="text-slate-600">Loading Preparation…</p>}>
         <ArchivesClient />
       </Suspense>
     </PageShell>

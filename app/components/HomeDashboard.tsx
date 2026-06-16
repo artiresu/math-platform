@@ -197,7 +197,7 @@ function HomeHero({
             href="/archives?tab=alevel&subject=maths"
             className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white/50 px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-200"
           >
-            View Archives
+            View Preparation
           </Link>
         </div>
       </div>
@@ -374,7 +374,7 @@ export function HomeDashboard({
             </div>
             <div className="flex flex-wrap gap-4 text-xs font-semibold text-slate-500">
               <Link href="/archives" className="hover:text-slate-950 dark:hover:text-white">
-                Archives
+                Preparation
               </Link>
               <Link href="/games" className="hover:text-slate-950 dark:hover:text-white">
                 Games
