@@ -438,7 +438,7 @@ export function GamesHubClient({
               </svg>
             </div>
             <h2 className="mt-4 font-serif text-2xl font-semibold text-slate-955 dark:text-white">
-              Blindspot Puzzles
+              Blindspot
             </h2>
             <p className="mt-2 text-sm text-slate-655 dark:text-slate-350">
               Uncover logical traps and tricky mathematical questions. Progressive difficulty scaling based on the day of the week.

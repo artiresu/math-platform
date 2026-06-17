@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   GAME_TYPES,
   GAME_TYPE_LABELS,
@@ -115,6 +115,15 @@ const INITIAL_CUSTOM_BOARDS: CustomBoard[] = [
   },
 ];
 
+const generateRandomCode = (): string => {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let code = "";
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+};
+
 export function LeaderboardTabs({
   boards,
   loadError,
@@ -135,9 +144,12 @@ export function LeaderboardTabs({
   const [period, setPeriod] = useState<TimePeriod>("all-time");
   const [regionScope, setRegionScope] = useState<RegionScope>("global");
 
-  // Custom boards state
-  const [customBoards, setCustomBoards] = useState<CustomBoard[]>(INITIAL_CUSTOM_BOARDS);
-  const [activeCustomBoardId, setActiveCustomBoardId] = useState<string>("cb-1");
+  // Custom boards states
+  const [customBoards, setCustomBoards] = useState<CustomBoard[]>([]);
+  const [activeCustomBoardId, setActiveCustomBoardId] = useState<string>("");
+  const [showCreateJoinModal, setShowCreateJoinModal] = useState(false);
+  const [modalTab, setModalTab] = useState<"create" | "join">("create");
+  const [showInvitePopup, setShowInvitePopup] = useState(false);
 
   // Create board form state
   const [newBoardName, setNewBoardName] = useState("");
@@ -147,6 +159,34 @@ export function LeaderboardTabs({
   // Join board state
   const [joinCode, setJoinCode] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Load custom boards and last viewed from localStorage on mount
+  useEffect(() => {
+    const savedBoards = localStorage.getItem("convexity-custom-boards");
+    let boardsList = INITIAL_CUSTOM_BOARDS;
+    if (savedBoards) {
+      try {
+        boardsList = JSON.parse(savedBoards);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    setCustomBoards(boardsList);
+
+    const lastViewed = localStorage.getItem("convexity-last-viewed-custom-board");
+    if (lastViewed && boardsList.some((b) => b.id === lastViewed)) {
+      setActiveCustomBoardId(lastViewed);
+    } else if (boardsList.length > 0) {
+      setActiveCustomBoardId(boardsList[0].id);
+    }
+  }, []);
+
+  // Save custom boards when state changes
+  useEffect(() => {
+    if (customBoards.length > 0) {
+      localStorage.setItem("convexity-custom-boards", JSON.stringify(customBoards));
+    }
+  }, [customBoards]);
 
   // Unjoined demo public boards to search/join
   const [availableBoards, setAvailableBoards] = useState<CustomBoard[]>([
@@ -183,7 +223,9 @@ export function LeaderboardTabs({
     const alreadyJoined = customBoards.find((b) => b.code === code);
     if (alreadyJoined) {
       setActiveCustomBoardId(alreadyJoined.id);
+      localStorage.setItem("convexity-last-viewed-custom-board", alreadyJoined.id);
       setJoinCode("");
+      setShowCreateJoinModal(false);
       return;
     }
 
@@ -193,7 +235,9 @@ export function LeaderboardTabs({
       setCustomBoards((prev) => [...prev, found]);
       setAvailableBoards((prev) => prev.filter((b) => b.id !== found.id));
       setActiveCustomBoardId(found.id);
+      localStorage.setItem("convexity-last-viewed-custom-board", found.id);
       setJoinCode("");
+      setShowCreateJoinModal(false);
       return;
     }
 
@@ -211,27 +255,25 @@ export function LeaderboardTabs({
     };
     setCustomBoards((prev) => [...prev, newBoard]);
     setActiveCustomBoardId(newBoard.id);
+    localStorage.setItem("convexity-last-viewed-custom-board", newBoard.id);
     setJoinCode("");
+    setShowCreateJoinModal(false);
   };
 
   const handleJoinBoard = (board: CustomBoard) => {
     setCustomBoards((prev) => [...prev, board]);
     setAvailableBoards((prev) => prev.filter((b) => b.id !== board.id));
     setActiveCustomBoardId(board.id);
+    localStorage.setItem("convexity-last-viewed-custom-board", board.id);
     setSearchQuery("");
+    setShowCreateJoinModal(false);
   };
 
   const handleCreateBoard = () => {
     const name = newBoardName.trim();
     if (!name) return;
 
-    // Generate random code
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const randomCode =
-      letters[Math.floor(Math.random() * 26)] +
-      letters[Math.floor(Math.random() * 26)] +
-      letters[Math.floor(Math.random() * 26)] +
-      String(Math.floor(100 + Math.random() * 900));
+    const randomCode = generateRandomCode();
 
     const newBoard: CustomBoard = {
       id: `cb-${Date.now()}`,
@@ -244,8 +286,10 @@ export function LeaderboardTabs({
 
     setCustomBoards((prev) => [...prev, newBoard]);
     setActiveCustomBoardId(newBoard.id);
+    localStorage.setItem("convexity-last-viewed-custom-board", newBoard.id);
     setNewBoardName("");
     setNewBoardPrivate(false);
+    setShowCreateJoinModal(false);
   };
 
   const handleAddScoreToBoard = (boardId: string, name: string, score: number) => {
@@ -302,7 +346,7 @@ export function LeaderboardTabs({
               : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
           }`}
         >
-          {compact ? "Rankings" : "🌐 Global Rankings"}
+          🌐 Global Rankings
         </button>
         <button
           type="button"
@@ -313,7 +357,7 @@ export function LeaderboardTabs({
               : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
           }`}
         >
-          {compact ? "Leaderboards" : "🏆 Custom Leaderboards"}
+          🏆 Custom Leaderboards
         </button>
       </div>
 
@@ -329,10 +373,10 @@ export function LeaderboardTabs({
                   id="game-select"
                   value={active}
                   onChange={(e) => setActive(e.target.value as GameType)}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300 dark:hover:bg-slate-850 dark:hover:border-slate-750 focus:border-violet-500/30 focus:bg-violet-500/5 focus:text-violet-750 focus:outline-none dark:focus:border-violet-500/30 dark:focus:bg-violet-500/10 dark:focus:text-violet-300 cursor-pointer transition-colors pr-10"
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:border-slate-750 focus:border-violet-500/30 focus:bg-violet-500/5 focus:text-violet-750 focus:outline-none dark:focus:border-violet-500/30 dark:focus:bg-violet-500/10 dark:focus:text-violet-300 cursor-pointer transition-colors pr-10"
                 >
                   {GAME_TYPES.map((type) => (
-                    <option key={type} value={type} className="dark:bg-slate-955 dark:text-slate-250">
+                    <option key={type} value={type} className="dark:bg-slate-950 dark:text-slate-250">
                       {GAME_TYPE_LABELS[type]}
                     </option>
                   ))}
@@ -359,7 +403,7 @@ export function LeaderboardTabs({
                     onClick={() => setPeriod(key)}
                     className={`rounded-lg px-3 py-1.5 text-xs font-medium ${
                       period === key
-                        ? "bg-violet-500/10 text-violet-750 dark:bg-violet-550/20 dark:text-violet-300"
+                        ? "bg-violet-500/10 text-violet-705 dark:bg-violet-550/20 dark:text-violet-300"
                         : "text-slate-655 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                     }`}
                   >
@@ -380,8 +424,8 @@ export function LeaderboardTabs({
                     onClick={() => setRegionScope(key)}
                     className={`rounded-lg px-3 py-1.5 text-xs font-medium ${
                       regionScope === key
-                        ? "bg-cyan-500/10 text-cyan-700 dark:bg-cyan-550/20 dark:text-cyan-300"
-                        : "text-slate-655 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-805"
+                        ? "bg-cyan-500/10 text-cyan-705 dark:bg-cyan-550/20 dark:text-cyan-305"
+                        : "text-slate-655 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                     }`}
                   >
                     {REGION_SCOPE_LABELS[key]}
@@ -392,7 +436,7 @@ export function LeaderboardTabs({
           </div>
 
           <div
-            className={`overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-md dark:border-slate-805 dark:bg-slate-900/50 ${compact ? "mt-3" : "mt-6"}`}
+            className={`overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50 ${compact ? "mt-3" : "mt-6"}`}
             role="tabpanel"
           >
             {loadError ? (
@@ -444,7 +488,7 @@ export function LeaderboardTabs({
                         <td className="px-4 py-4 sm:px-6">
                           <RankBadge rank={row.rank} />
                         </td>
-                        <td className="px-4 py-4 font-medium text-slate-900 dark:text-slate-202 sm:px-6">
+                        <td className="px-4 py-4 font-medium text-slate-900 dark:text-slate-200 sm:px-6">
                           {row.name}
                         </td>
                         <td className="hidden px-4 py-4 text-slate-655 dark:text-slate-405 sm:table-cell sm:px-6">
@@ -454,7 +498,7 @@ export function LeaderboardTabs({
                               ? row.country
                               : row.country}
                         </td>
-                        <td className="px-4 py-4 text-right text-lg font-bold tabular-nums text-slate-955 dark:text-white sm:px-6">
+                        <td className="px-4 py-4 text-right text-lg font-bold tabular-nums text-slate-950 dark:text-white sm:px-6">
                           {row.score.toLocaleString()}
                         </td>
                         <td className="hidden px-4 py-4 text-right text-slate-500 md:table-cell sm:px-6">
@@ -469,184 +513,338 @@ export function LeaderboardTabs({
           </div>
 
           {!compact && (
-            <p className="mt-4 text-center text-xs text-slate-555 dark:text-slate-455">
+            <p className="mt-4 text-center text-xs text-slate-550 dark:text-slate-450">
               {GAME_TYPE_LABELS[active]} · {TIME_PERIOD_LABELS[period]} ·{" "}
               {REGION_SCOPE_LABELS[regionScope]} · {filteredEntries.length} results
             </p>
           )}
         </>
       ) : (
-        <div className={`grid grid-cols-1 gap-6 ${compact ? "" : "lg:grid-cols-3"}`}>
-          {/* Right Panel - Active Leaderboard Table (Column 2-3 on desktop, 1st on mobile/compact) */}
-          <div className={compact ? "" : "lg:col-span-2"}>
-            {activeBoard ? (
-              <div className="rounded-2xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50 p-6">
-                <div className="flex flex-wrap items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 gap-2">
-                  <div>
-                    <h2 className="font-serif text-lg font-semibold text-slate-955 dark:text-white">
-                      {activeBoard.name}
-                    </h2>
-                    <p className="text-xs text-slate-500 mt-1">
-                      Track: <span className="font-medium text-slate-700 dark:text-slate-350">{GAME_TYPE_LABELS[activeBoard.gameType]}</span>
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <span className="inline-block rounded-full bg-violet-500/10 px-3 py-1 text-xs font-mono font-semibold text-violet-650 dark:text-violet-400">
-                      CODE: {activeBoard.code}
-                    </span>
-                    <p className="text-[9px] text-slate-400 mt-1 uppercase tracking-widest font-medium">
-                      {activeBoard.isPrivate ? "🔒 Private" : "🌐 Public"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-sm">
-                    <thead>
-                      <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-555 font-mono text-[9px] uppercase tracking-widest">
-                        <th className="py-2.5 px-3 w-16">Rank</th>
-                        <th className="py-2.5 px-3">Player</th>
-                        <th className="py-2.5 px-3 text-right">Score</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {activeBoard.entries.length === 0 ? (
-                        <tr>
-                          <td colSpan={3} className="py-8 text-center text-xs text-slate-500">
-                            No players have submitted scores yet.
-                          </td>
-                        </tr>
-                      ) : (
-                        activeBoard.entries
-                          .slice()
-                          .sort((a, b) => b.score - a.score)
-                          .map((entry, idx) => (
-                            <tr key={entry.name} className="border-b border-slate-100 dark:border-slate-800/40 hover:bg-slate-50/50 dark:hover:bg-slate-800/10">
-                              <td className="py-3 px-3">
-                                <RankBadge rank={idx + 1} />
-                              </td>
-                              <td className="py-3 px-3 font-medium text-slate-900 dark:text-slate-202">
-                                {entry.name}
-                              </td>
-                              <td className="py-3 px-3 text-right text-base font-bold tabular-nums text-slate-955 dark:text-white">
-                                {entry.score.toLocaleString()}
-                              </td>
-                            </tr>
-                          ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="mt-6 border-t border-slate-200 dark:border-slate-800 pt-4">
-                  <h4 className="text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-2">
-                    Simulate Friend Score
-                  </h4>
-                  <div className="flex flex-col gap-2 sm:flex-row sm:max-w-sm">
-                    <input
-                      type="text"
-                      id="mock-friend-name"
-                      placeholder="Friend Name"
-                      className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-202"
-                    />
-                    <div className="flex gap-2">
-                      <input
-                        type="number"
-                        id="mock-friend-score"
-                        placeholder="Score"
-                        className="w-24 rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-805 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-202"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const nameInput = document.getElementById("mock-friend-name") as HTMLInputElement;
-                          const scoreInput = document.getElementById("mock-friend-score") as HTMLInputElement;
-                          const name = nameInput?.value.trim();
-                          const score = parseInt(scoreInput?.value ?? "", 10);
-                          if (name && !isNaN(score)) {
-                            handleAddScoreToBoard(activeBoard.id, name, score);
-                            nameInput.value = "";
-                            scoreInput.value = "";
-                          }
-                        }}
-                        className="rounded-xl border border-slate-200/80 px-4 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition dark:border-slate-850 dark:text-slate-300 dark:hover:bg-slate-800"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  </div>
+        <div className="space-y-6">
+          {/* Dropdown controls & sharing options */}
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 dark:border-white/5 pb-4 mb-6">
+            <div className="flex items-center gap-3">
+              <label htmlFor="custom-board-select" className="text-xs font-semibold text-slate-655 dark:text-slate-300">
+                Leaderboard:
+              </label>
+              <div className="relative min-w-[200px]">
+                <select
+                  id="custom-board-select"
+                  value={activeCustomBoardId}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === "create-join") {
+                      setShowCreateJoinModal(true);
+                    } else {
+                      setActiveCustomBoardId(val);
+                      localStorage.setItem("convexity-last-viewed-custom-board", val);
+                    }
+                  }}
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:border-slate-750 focus:outline-none cursor-pointer pr-10"
+                >
+                  <option value="create-join" className="text-violet-650 dark:text-violet-400 font-bold dark:bg-slate-950">
+                    + Create or Join Leaderboard
+                  </option>
+                  {customBoards.map((cb) => (
+                    <option key={cb.id} value={cb.id} className="dark:bg-slate-950 dark:text-slate-200">
+                      {cb.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-500 dark:text-slate-400">
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
                 </div>
               </div>
-            ) : (
-              <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-8 text-center shadow-md backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50">
-                <p className="text-slate-500 dark:text-slate-400">Select a leaderboard from the list or create a new one.</p>
+            </div>
+
+            {/* Invite & Share Dropdown */}
+            {activeBoard && (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setShowInvitePopup(!showInvitePopup)}
+                  className="rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300 dark:hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer"
+                >
+                  🔗 Invite &amp; Share <span className="text-[10px] text-slate-400 font-normal">▼</span>
+                </button>
+                {showInvitePopup && (
+                  <>
+                    <div className="fixed inset-0 z-30" onClick={() => setShowInvitePopup(false)} />
+                    <div className="absolute right-0 mt-2 z-40 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xl min-w-[240px] text-left animate-in fade-in slide-in-from-top-1 duration-150 space-y-3">
+                      <div>
+                        <p className="text-[9px] font-mono uppercase tracking-widest text-slate-500 font-bold">Invite Code</p>
+                        <div className="flex items-center justify-between gap-2 mt-1">
+                          <span className="font-mono text-xs font-bold text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-950 px-2 py-0.5 rounded">
+                            {activeBoard.code}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(activeBoard.code);
+                              alert("Code copied!");
+                            }}
+                            className="text-xs text-violet-650 dark:text-violet-400 hover:underline font-semibold"
+                          >
+                            Copy
+                          </button>
+                        </div>
+                      </div>
+                      <div className="border-t border-slate-100 dark:border-white/5 pt-2">
+                        <p className="text-[9px] font-mono uppercase tracking-widest text-slate-500 font-bold">Share Link</p>
+                        <div className="flex items-center justify-between gap-2 mt-1">
+                          <span className="text-[9px] truncate text-slate-400 max-w-[140px]">
+                            {`https://convexity.app/join/${activeBoard.code}`}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(`https://convexity.app/join/${activeBoard.code}`);
+                              alert("Link copied!");
+                            }}
+                            className="text-xs text-violet-655 dark:text-violet-400 hover:underline font-semibold"
+                          >
+                            Copy
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>
 
-          {/* Left Panel - Select / Join / Create (Column 1 on desktop, 2nd on mobile/compact) */}
-          <div className={`space-y-6 ${compact ? "" : "lg:col-span-1 lg:order-first"}`}>
-            {/* My Boards */}
-            <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50">
-              <h3 className="font-serif text-base font-semibold text-slate-900 dark:text-white mb-3">
-                My Leaderboards
-              </h3>
-              {customBoards.length === 0 ? (
-                <p className="text-xs text-slate-550">You haven't joined any leaderboards yet.</p>
-              ) : (
-                <ul className="space-y-1.5">
-                  {customBoards.map((cb) => (
-                    <li key={cb.id}>
-                      <button
-                        type="button"
-                        onClick={() => setActiveCustomBoardId(cb.id)}
-                        className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-medium transition ${
-                          activeCustomBoardId === cb.id
-                            ? "bg-violet-500/10 text-violet-755 dark:bg-violet-500/20 dark:text-violet-300"
-                            : "text-slate-700 hover:bg-slate-100/80 dark:text-slate-300 dark:hover:bg-slate-800"
-                        }`}
-                      >
-                        <span className="truncate font-semibold">{cb.name}</span>
-                        <span className="shrink-0 text-[10px] font-mono text-slate-400 dark:text-slate-500 ml-2">
-                          {cb.isPrivate ? "🔒" : "🌐"} {cb.code}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+          {activeBoard ? (
+            <div className="rounded-2xl border border-slate-200/80 bg-white/80 shadow-md backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50 p-6 max-w-4xl mx-auto">
+              <div className="flex flex-wrap items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4 mb-4 gap-2">
+                <div>
+                  <h2 className="font-serif text-lg font-semibold text-slate-955 dark:text-white">
+                    {activeBoard.name}
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Track: <span className="font-medium text-slate-700 dark:text-slate-300">{GAME_TYPE_LABELS[activeBoard.gameType]}</span>
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span className="inline-block rounded-full bg-violet-500/10 px-3 py-1 text-xs font-mono font-semibold text-violet-650 dark:text-violet-400">
+                    CODE: {activeBoard.code}
+                  </span>
+                  <p className="text-[9px] text-slate-400 mt-1 uppercase tracking-widest font-medium">
+                    {activeBoard.isPrivate ? "🔒 Private" : "🌐 Public"}
+                  </p>
+                </div>
+              </div>
 
-            {/* Join Board */}
-            <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50 space-y-4">
-              <h3 className="font-serif text-base font-semibold text-slate-900 dark:text-white">
-                Join Leaderboard
-              </h3>
-              
-              <div className="space-y-1.5">
-                <label className="block text-[9px] font-mono uppercase tracking-widest text-slate-505">
-                  Join by Code
-                </label>
-                <div className="flex flex-col gap-2 sm:flex-row">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-550 font-mono text-[9px] uppercase tracking-widest">
+                      <th className="py-2.5 w-16">Rank</th>
+                      <th className="py-2.5">Player</th>
+                      <th className="py-2.5 text-right">Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {activeBoard.entries.length === 0 ? (
+                      <tr>
+                        <td colSpan={3} className="py-8 text-center text-xs text-slate-500">
+                          No players have submitted scores yet.
+                        </td>
+                      </tr>
+                    ) : (
+                      activeBoard.entries
+                        .slice()
+                        .sort((a, b) => b.score - a.score)
+                        .map((entry, idx) => (
+                          <tr key={entry.name} className="border-b border-slate-100 dark:border-slate-805/40 hover:bg-slate-50/50 dark:hover:bg-slate-800/10">
+                            <td className="py-3">
+                              <RankBadge rank={idx + 1} />
+                            </td>
+                            <td className="py-3 font-medium text-slate-900 dark:text-slate-200">
+                              {entry.name}
+                            </td>
+                            <td className="py-3 text-right text-base font-bold tabular-nums text-slate-950 dark:text-white">
+                              {entry.score.toLocaleString()}
+                            </td>
+                          </tr>
+                        ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="mt-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+                <h4 className="text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-2">
+                  Simulate Friend Score
+                </h4>
+                <div className="flex gap-2 max-w-sm">
                   <input
                     type="text"
-                    placeholder="e.g. STEP26"
-                    value={joinCode}
-                    onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-                    className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-202"
+                    id="mock-friend-name"
+                    placeholder="Friend Name"
+                    className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
+                  />
+                  <input
+                    type="number"
+                    id="mock-friend-score"
+                    placeholder="Score"
+                    className="w-20 rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nameInput = document.getElementById("mock-friend-name") as HTMLInputElement;
+                      const scoreInput = document.getElementById("mock-friend-score") as HTMLInputElement;
+                      const name = nameInput?.value.trim();
+                      const score = parseInt(scoreInput?.value ?? "", 10);
+                      if (name && !isNaN(score)) {
+                        handleAddScoreToBoard(activeBoard.id, name, score);
+                        nameInput.value = "";
+                        scoreInput.value = "";
+                      }
+                    }}
+                    className="rounded-xl border border-slate-200/80 px-3 py-1.5 text-xs font-semibold text-slate-705 hover:bg-slate-100 transition dark:border-slate-850 dark:text-slate-300 dark:hover:bg-slate-800"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-8 text-center shadow-md backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50">
+              <p className="text-slate-500 dark:text-slate-400">Select a leaderboard from the list or create a new one.</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Centered Modal Overlay for Create or Join Board */}
+      {showCreateJoinModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200 relative">
+            <button
+              type="button"
+              onClick={() => {
+                setShowCreateJoinModal(false);
+                // Reset select dropdown visually to active board if modal dismissed
+                const selectEl = document.getElementById("custom-board-select") as HTMLSelectElement;
+                if (selectEl) selectEl.value = activeCustomBoardId;
+              }}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-605 dark:hover:text-slate-200 text-base font-bold cursor-pointer"
+            >
+              ✕
+            </button>
+            
+            {/* Modal Tabs */}
+            <div className="flex border-b border-slate-200 dark:border-white/5 mb-6">
+              <button
+                type="button"
+                onClick={() => setModalTab("create")}
+                className={`flex-1 pb-3 text-sm font-semibold border-b-2 transition-all ${
+                  modalTab === "create"
+                    ? "border-violet-500 text-violet-650 dark:text-violet-400"
+                    : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                }`}
+              >
+                ➕ Create Leaderboard
+              </button>
+              <button
+                type="button"
+                onClick={() => setModalTab("join")}
+                className={`flex-1 pb-3 text-sm font-semibold border-b-2 transition-all ${
+                  modalTab === "join"
+                    ? "border-violet-500 text-violet-650 dark:text-violet-400"
+                    : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                }`}
+              >
+                🔍 Join Leaderboard
+              </button>
+            </div>
+
+            {/* Create Form */}
+            {modalTab === "create" ? (
+              <div className="space-y-4">
+                <div className="space-y-1.5">
+                  <label className="block text-[9px] font-mono uppercase tracking-widest text-slate-500">
+                    Leaderboard Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Cambridge Sprinters"
+                    value={newBoardName}
+                    onChange={(e) => setNewBoardName(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-955 dark:text-slate-200"
+                  />
+                </div>
+                
+                <div className="space-y-1.5">
+                  <label className="block text-[9px] font-mono uppercase tracking-widest text-slate-500">
+                    Game Track
+                  </label>
+                  <select
+                    value={newBoardGame}
+                    onChange={(e) => setNewBoardGame(e.target.value as GameType)}
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
+                  >
+                    {GAME_TYPES.map((type) => (
+                      <option key={type} value={type}>
+                        {GAME_TYPE_LABELS[type]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center gap-2 py-1.5">
+                  <input
+                    type="checkbox"
+                    id="is-private-modal"
+                    checked={newBoardPrivate}
+                    onChange={(e) => setNewBoardPrivate(e.target.checked)}
+                    className="rounded border-slate-300 text-violet-600 focus:ring-violet-500 dark:border-slate-800 dark:bg-slate-950"
+                  />
+                  <label htmlFor="is-private-modal" className="text-xs text-slate-655 dark:text-slate-350 cursor-pointer select-none">
+                    Make Private (invite code required to join)
+                  </label>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleCreateBoard}
+                  className="w-full rounded-xl bg-violet-600 py-3 text-xs font-semibold text-white hover:bg-violet-500 transition shadow-sm"
+                >
+                  Create Board
+                </button>
+              </div>
+            ) : (
+              /* Join Form */
+              <div className="space-y-4">
+                <div className="space-y-1.5">
+                  <label className="block text-[9px] font-mono uppercase tracking-widest text-slate-500">
+                    Join by 6-Digit Code
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="e.g. STEP26"
+                      value={joinCode}
+                      maxLength={6}
+                      onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                      className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:outline-none dark:border-slate-805 dark:bg-slate-950 dark:text-slate-200"
                   />
                   <button
                     type="button"
                     onClick={handleJoinByCode}
-                    className="rounded-xl bg-violet-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-violet-550 transition whitespace-nowrap"
+                    className="rounded-xl bg-violet-600 px-4 py-2 text-xs font-semibold text-white hover:bg-violet-500 transition"
                   >
                     Join
                   </button>
                 </div>
               </div>
 
-              <div className="border-t border-slate-200/60 dark:border-slate-800/60 my-2 pt-3 space-y-2">
-                <label className="block text-[9px] font-mono uppercase tracking-widest text-slate-505">
+              <div className="border-t border-slate-200/60 dark:border-slate-800/60 my-2 pt-4 space-y-2">
+                <label className="block text-[9px] font-mono uppercase tracking-widest text-slate-500">
                   Search Public Boards
                 </label>
                 <input
@@ -654,17 +852,17 @@ export function LeaderboardTabs({
                   placeholder="Search by name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-202"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
                 />
                 
                 {searchQuery && (
-                  <div className="max-h-36 overflow-y-auto space-y-1 mt-1 border border-slate-200/60 dark:border-slate-800/80 rounded-xl p-1.5 bg-slate-50/20">
+                  <div className="max-h-36 overflow-y-auto space-y-1 mt-1 border border-slate-200/60 dark:border-slate-800/80 rounded-xl p-2 bg-slate-50/10">
                     {filteredAvailableBoards.length === 0 ? (
                       <p className="text-[10px] text-slate-400 p-1">No public boards found</p>
                     ) : (
                       filteredAvailableBoards.map((b) => (
                         <div key={b.id} className="flex items-center justify-between p-1.5 rounded hover:bg-slate-100/80 dark:hover:bg-slate-800 text-xs">
-                          <span className="truncate text-slate-700 dark:text-slate-350">{b.name}</span>
+                          <span className="truncate text-slate-700 dark:text-slate-355">{b.name}</span>
                           <button
                             type="button"
                             onClick={() => handleJoinBoard(b)}
@@ -679,67 +877,10 @@ export function LeaderboardTabs({
                 )}
               </div>
             </div>
-
-            {/* Create Board */}
-            <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/50 space-y-4">
-              <h3 className="font-serif text-base font-semibold text-slate-900 dark:text-white">
-                Create Leaderboard
-              </h3>
-              
-              <div className="space-y-1.5">
-                <label className="block text-[9px] font-mono uppercase tracking-widest text-slate-505">
-                  Board Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. School Math Sprint"
-                  value={newBoardName}
-                  onChange={(e) => setNewBoardName(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-202"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="block text-[9px] font-mono uppercase tracking-widest text-slate-550">
-                  Game Track
-                </label>
-                <select
-                  value={newBoardGame}
-                  onChange={(e) => setNewBoardGame(e.target.value as GameType)}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-202 cursor-pointer"
-                >
-                  {GAME_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {GAME_TYPE_LABELS[type]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="flex items-center gap-2 py-1">
-                <input
-                  type="checkbox"
-                  id="is-private"
-                  checked={newBoardPrivate}
-                  onChange={(e) => setNewBoardPrivate(e.target.checked)}
-                  className="rounded border-slate-300 text-violet-600 focus:ring-violet-500 dark:border-slate-800 dark:bg-slate-955"
-                />
-                <label htmlFor="is-private" className="text-xs text-slate-655 dark:text-slate-350 cursor-pointer select-none">
-                  Make Private (code required)
-                </label>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleCreateBoard}
-                className="w-full rounded-xl bg-violet-600 py-2 text-xs font-semibold text-white hover:bg-violet-550 transition"
-              >
-                Create Board
-              </button>
-            </div>
-          </div>
+          )}
         </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 }

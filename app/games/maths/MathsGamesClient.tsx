@@ -51,6 +51,8 @@ export default function MathsGamesClient() {
   const [elapsedMs, setElapsedMs] = useState(0);
   const [raceStartedAt, setRaceStartedAt] = useState<number | null>(null);
   const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [bestTime, setBestTime] = useState<number | null>(null);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
   const [question, setQuestion] = useState<GameQuestion | null>(null);
   const [questionSet, setQuestionSet] = useState<GameQuestion[]>([]);
@@ -98,6 +100,8 @@ export default function MathsGamesClient() {
 
   const startSprint = useCallback(
     (selectedTopic: TopicId, gameMode: GameMode) => {
+      const savedScore = localStorage.getItem(`convexity-best-score-maths-${selectedTopic}`);
+      setBestScore(savedScore ? parseInt(savedScore, 10) : 0);
       setFormat("sprint");
       setTopic(selectedTopic);
       setMode(gameMode);
@@ -123,6 +127,8 @@ export default function MathsGamesClient() {
 
   const startRace = useCallback(
     (selectedTopic: TopicId, gameMode: GameMode) => {
+      const savedTime = localStorage.getItem(`convexity-best-time-maths-${selectedTopic}`);
+      setBestTime(savedTime ? parseInt(savedTime, 10) : null);
       const set = buildRaceQuestionSet(selectedTopic);
       setFormat("race");
       setTopic(selectedTopic);
@@ -204,8 +210,18 @@ export default function MathsGamesClient() {
     (reason: GameOverReason) => {
       setGameOverReason(reason);
       setPhase("gameover");
+      let finalElapsed = elapsedMs;
       if (raceStartedAt !== null) {
-        setElapsedMs(Date.now() - raceStartedAt);
+        finalElapsed = Date.now() - raceStartedAt;
+        setElapsedMs(finalElapsed);
+      }
+      if (format === "race" && (reason === "race_complete" || reason === "race_win")) {
+        const savedTime = localStorage.getItem(`convexity-best-time-maths-${topic}`);
+        const currentBest = savedTime ? parseInt(savedTime, 10) : null;
+        if (currentBest === null || finalElapsed < currentBest) {
+          setBestTime(finalElapsed);
+          localStorage.setItem(`convexity-best-time-maths-${topic}`, String(finalElapsed));
+        }
       }
       if (mode === "multiplayer" && reason !== "opponent_left" && reason !== "exit") {
         window.setTimeout(() => {
@@ -216,7 +232,7 @@ export default function MathsGamesClient() {
         }, 1000);
       }
     },
-    [raceStartedAt, mode, opponentName],
+    [raceStartedAt, mode, opponentName, format, topic, elapsedMs],
   );
 
   const exitGame = useCallback(() => {
@@ -307,7 +323,14 @@ export default function MathsGamesClient() {
 
       if (correct) {
         setQuestionsAnswered((n) => n + 1);
-        setScore((s) => s + CORRECT_POINTS);
+        setScore((s) => {
+          const nextScore = s + CORRECT_POINTS;
+          if (nextScore > bestScore) {
+            setBestScore(nextScore);
+            localStorage.setItem(`convexity-best-score-maths-${topic}`, String(nextScore));
+          }
+          return nextScore;
+        });
         setFeedback("correct");
         window.setTimeout(() => {
           if (phaseRef.current === "playing") nextSprintQuestion();
@@ -714,7 +737,7 @@ export default function MathsGamesClient() {
                       ? `You ${playerPoints} — ${opponentName} ${opponentPoints}`
                       : isRace
                         ? `Question ${roundIndex + 1} of ${RACE_QUESTION_COUNT}`
-                        : `Score: ${score}`}
+                        : `Score: ${score} (Best: ${bestScore})`}
                   </p>
                   {isRace && mode === "single" && (
                     <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -734,7 +757,7 @@ export default function MathsGamesClient() {
                           : "text-slate-900 dark:text-slate-100"
                        }`}
                     >
-                      {isSprint ? `${timeLeft}s` : formatElapsed(elapsedMs)}
+                      {isSprint ? `${timeLeft}s` : `${formatElapsed(elapsedMs)} (Best: ${bestTime !== null ? formatElapsed(bestTime) : "--s"})`}
                     </p>
                   </div>
                   <button

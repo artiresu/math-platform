@@ -116,6 +116,7 @@ export function CodingGamesClient() {
   const [topic, setTopic] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(ROUND_SECONDS);
   const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
   const [questionSet, setQuestionSet] = useState<CodingQuestion[]>([]);
   const [roundIndex, setRoundIndex] = useState(0);
@@ -147,6 +148,8 @@ export function CodingGamesClient() {
 
   const startSinglePlayer = useCallback((selectedTopic: string) => {
     const questions = shuffleQuestions(selectedTopic);
+    const saved = localStorage.getItem(`convexity-best-score-coding-${selectedTopic}`);
+    setBestScore(saved ? parseInt(saved, 10) : 0);
     setTopic(selectedTopic);
     setMode("single");
     setPhase("countdown");
@@ -162,6 +165,8 @@ export function CodingGamesClient() {
   const startMultiplayerMatch = useCallback((selectedTopic: string) => {
     setMatchmaking(true);
     setTopic(selectedTopic);
+    const saved = localStorage.getItem(`convexity-best-score-coding-${selectedTopic}`);
+    setBestScore(saved ? parseInt(saved, 10) : 0);
     setOpponentName(OPPONENT_NAMES[Math.floor(Math.random() * OPPONENT_NAMES.length)]);
     setOpponentConnected(true);
 
@@ -241,7 +246,14 @@ export function CodingGamesClient() {
 
     if (correct) {
       setFeedback("correct");
-      setScore((s) => s + CORRECT_POINTS);
+      setScore((s) => {
+        const nextScore = s + CORRECT_POINTS;
+        if (nextScore > bestScore) {
+          setBestScore(nextScore);
+          localStorage.setItem(`convexity-best-score-coding-${topic}`, String(nextScore));
+        }
+        return nextScore;
+      });
       setQuestionsAnswered((n) => n + 1);
       if (mode === "multiplayer") {
         window.setTimeout(() => {
@@ -581,8 +593,8 @@ export function CodingGamesClient() {
                   </p>
                   <p className="mt-1 text-2xl font-extrabold tabular-nums text-slate-955 dark:text-white">
                     {mode === "multiplayer"
-                      ? `You ${score} — ${opponentName} ${opponentPoints}`
-                      : `Score: ${score}`}
+                      ? `You ${score} (Best: ${bestScore}) — ${opponentName} ${opponentPoints}`
+                      : `Score: ${score} (Best: ${bestScore})`}
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
