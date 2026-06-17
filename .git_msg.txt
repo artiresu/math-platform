@@ -1,0 +1,9 @@
+Home page aesthetic overhaul
+
+- Gradient headline on "Master Maths." (slate to violet)
+- Added eyebrow label above hero (Cambridge, Oxford, Imperial, Warwick)
+- Hero columns shifted from 6/6 to 7/5 split
+- Replaced "Most used" section with Quick Access chip strip
+- Added section eyebrow labels above Games and Quick Access
+- Polished footer with grouped links and tagline
+- Softened background orb opacities in PageShell

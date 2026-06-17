@@ -63,32 +63,64 @@ function ProgressBar({
   );
 }
 
-function MostUsedCard({ section }: { section: SectionUsage }) {
+const QUICK_ACCESS_ITEMS = [
+  {
+    label: "A-Level Prep",
+    href: "/archives?tab=alevel",
+    symbol: "A",
+    hoverClass: "group-hover:border-violet-300 group-hover:bg-violet-50 group-hover:text-violet-700 dark:group-hover:border-violet-500/30 dark:group-hover:bg-violet-500/10 dark:group-hover:text-violet-300",
+  },
+  {
+    label: "STEP",
+    href: "/archives?tab=admissions&track=step",
+    symbol: "∫",
+    hoverClass: "group-hover:border-indigo-300 group-hover:bg-indigo-50 group-hover:text-indigo-700 dark:group-hover:border-indigo-500/30 dark:group-hover:bg-indigo-500/10 dark:group-hover:text-indigo-300",
+  },
+  {
+    label: "TMUA",
+    href: "/archives?tab=admissions&track=tmua",
+    symbol: "T",
+    hoverClass: "group-hover:border-cyan-300 group-hover:bg-cyan-50 group-hover:text-cyan-700 dark:group-hover:border-cyan-500/30 dark:group-hover:bg-cyan-500/10 dark:group-hover:text-cyan-300",
+  },
+  {
+    label: "Games",
+    href: "/games",
+    symbol: "⚡",
+    hoverClass: "group-hover:border-emerald-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 dark:group-hover:border-emerald-500/30 dark:group-hover:bg-emerald-500/10 dark:group-hover:text-emerald-300",
+  },
+  {
+    label: "AI Tutor",
+    href: "/ai",
+    symbol: "✦",
+    hoverClass: "group-hover:border-rose-300 group-hover:bg-rose-50 group-hover:text-rose-700 dark:group-hover:border-rose-500/30 dark:group-hover:bg-rose-500/10 dark:group-hover:text-rose-300",
+  },
+  {
+    label: "Interview Prep",
+    href: "/interview-prep",
+    symbol: "◎",
+    hoverClass: "group-hover:border-amber-300 group-hover:bg-amber-50 group-hover:text-amber-700 dark:group-hover:border-amber-500/30 dark:group-hover:bg-amber-500/10 dark:group-hover:text-amber-300",
+  },
+];
+
+function QuickAccessStrip() {
   return (
-    <Link
-      href={section.href}
-      className="premium-flashy-card flex h-full min-h-[170px] w-full flex-col justify-between rounded-2xl bg-white p-5 shadow-sm dark:bg-slate-900/40"
-    >
-      <div className="space-y-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400">
-          <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-            <path d="M6 12v5c0 2 3 6 3s6-1 6-3v-5" />
-          </svg>
-        </div>
-        <h3 className="font-serif text-lg font-semibold leading-tight text-slate-950 dark:text-white">
-          {section.label}
-        </h3>
-        <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-350">
-          {section.visits > 0
-            ? `Visited ${section.visits} time${section.visits === 1 ? "" : "s"}`
-            : "Recommended starting point"}
-        </p>
-      </div>
-      <p className="pt-3 font-mono text-[9px] font-bold uppercase tracking-wider text-slate-400">
-        Continue →
-      </p>
-    </Link>
+    <div className="flex flex-wrap gap-2.5">
+      {QUICK_ACCESS_ITEMS.map((item) => (
+        <Link
+          key={item.label}
+          href={item.href}
+          className={`group flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 ${item.hoverClass}`}
+        >
+          <span className="font-serif text-base leading-none text-slate-400 transition-colors group-hover:text-inherit dark:text-slate-500">
+            {item.symbol}
+          </span>
+          {item.label}
+          <span className="ml-1 text-slate-300 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-slate-500 dark:text-slate-600 dark:group-hover:text-slate-400">
+            →
+          </span>
+        </Link>
+      ))}
+    </div>
   );
 }
 
@@ -176,9 +208,14 @@ function HomeHero({
     <section
       className={`grid grid-cols-1 ${HOME_GRID_GAP} lg:grid-cols-12 lg:items-stretch`}
     >
-      <div className="flex flex-col space-y-4 text-left lg:col-span-6 lg:space-y-5">
-        <h1 className="font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl">
-          Master Maths.
+      <div className="flex flex-col space-y-5 text-left lg:col-span-7">
+        <p className="font-mono text-[11px] font-semibold uppercase tracking-widest text-violet-650 dark:text-violet-400">
+          Cambridge · Oxford · Imperial · Warwick
+        </p>
+        <h1 className="font-serif text-4xl font-semibold leading-[1.08] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl">
+          <span className="bg-gradient-to-br from-slate-950 via-violet-800 to-violet-600 bg-clip-text text-transparent dark:from-white dark:via-violet-200 dark:to-violet-400">
+            Master Maths.
+          </span>
           <br />
           Ace Admissions.
         </h1>
@@ -201,7 +238,7 @@ function HomeHero({
           </Link>
         </div>
       </div>
-      <div className="flex min-h-0 lg:col-span-6">
+      <div className="flex min-h-0 lg:col-span-5">
         <YourProgressPanel
           progressSections={progressSections}
           resumeHref={resumeHref}
@@ -283,23 +320,22 @@ export function HomeDashboard({
         />
 
         <section className="space-y-4">
-          <h2 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white">
-            Most used
-          </h2>
-          <div className={`grid grid-cols-1 ${HOME_GRID_GAP} lg:grid-cols-12`}>
-            {mounted &&
-              topSections.map((section) => (
-                <div key={section.id} className="flex lg:col-span-6">
-                  <MostUsedCard section={section} />
-                </div>
-              ))}
+          <div>
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-widest text-violet-650 dark:text-violet-400">Navigate</p>
+            <h2 className="mt-1 font-serif text-2xl font-semibold text-slate-950 dark:text-white">
+              Quick Access
+            </h2>
           </div>
+          <QuickAccessStrip />
         </section>
 
         <section className="space-y-4">
-          <h2 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white">
-            Games
-          </h2>
+          <div>
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-widest text-violet-650 dark:text-violet-400">Play</p>
+            <h2 className="mt-1 font-serif text-2xl font-semibold text-slate-950 dark:text-white">
+              Games
+            </h2>
+          </div>
           <div
             className={`flex flex-col gap-4 sm:flex-row sm:items-stretch ${
               hasGameHistory ? "min-h-[280px] sm:min-h-[300px]" : ""
@@ -365,20 +401,31 @@ export function HomeDashboard({
         </section>
 
         <footer className="border-t border-slate-200/50 pt-10 pb-8 dark:border-slate-800">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <span className="font-serif text-base font-bold text-slate-950 dark:text-white">
                 Convexity
               </span>
-              <p className="text-xs text-slate-400">© 2026 Convexity.</p>
+              <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-500">The maths workspace for ambitious students.</p>
+              <p className="mt-1 text-xs text-slate-400">© 2026 Convexity.</p>
             </div>
-            <div className="flex flex-wrap gap-4 text-xs font-semibold text-slate-500">
-              <Link href="/archives" className="hover:text-slate-950 dark:hover:text-white">
-                Preparation
-              </Link>
-              <Link href="/games" className="hover:text-slate-950 dark:hover:text-white">
-                Games
-              </Link>
+            <div className="flex flex-wrap gap-10 text-xs">
+              <div className="space-y-2.5">
+                <p className="font-mono font-semibold uppercase tracking-wider text-slate-400">Prepare</p>
+                <div className="flex flex-col gap-1.5 font-medium text-slate-600 dark:text-slate-400">
+                  <Link href="/archives?tab=alevel" className="transition hover:text-violet-600 dark:hover:text-violet-400">A-Level</Link>
+                  <Link href="/archives?tab=admissions&track=step" className="transition hover:text-violet-600 dark:hover:text-violet-400">STEP</Link>
+                  <Link href="/archives?tab=admissions&track=tmua" className="transition hover:text-violet-600 dark:hover:text-violet-400">TMUA</Link>
+                </div>
+              </div>
+              <div className="space-y-2.5">
+                <p className="font-mono font-semibold uppercase tracking-wider text-slate-400">Explore</p>
+                <div className="flex flex-col gap-1.5 font-medium text-slate-600 dark:text-slate-400">
+                  <Link href="/games" className="transition hover:text-violet-600 dark:hover:text-violet-400">Games</Link>
+                  <Link href="/ai" className="transition hover:text-violet-600 dark:hover:text-violet-400">AI Tutor</Link>
+                  <Link href="/interview-prep" className="transition hover:text-violet-600 dark:hover:text-violet-400">Interviews</Link>
+                </div>
+              </div>
             </div>
           </div>
         </footer>
