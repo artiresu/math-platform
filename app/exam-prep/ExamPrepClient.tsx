@@ -6,6 +6,7 @@ import Link from "next/link";
 import { StudyHub } from "./StudyHub";
 import type { StudySubtopic, StudyTabId } from "./study-types";
 import { SafeLatex } from "../components/SafeLatex";
+import { StepQuestionTracker } from "./StepQuestionTracker";
 
 type TrackId = "tmua" | "step";
 
@@ -641,7 +642,10 @@ function StepSubtopicList({
   );
 }
 
+type StepMode = "practice" | "tracker";
+
 function StepPracticeSection() {
+  const [stepMode, setStepMode] = useState<StepMode>("practice");
   const [selectedStepTopic, setSelectedStepTopic] =
     useState<StepTopicId>("pure");
   const [selectedSubtopicId, setSelectedSubtopicId] = useState("");
@@ -667,40 +671,79 @@ function StepPracticeSection() {
     setActiveStudyTab("notes");
   }
 
+  const STEP_MODES: { id: StepMode; label: string; icon: string }[] = [
+    { id: "practice", label: "Practice", icon: "📖" },
+    { id: "tracker", label: "Question Tracker", icon: "✅" },
+  ];
+
   return (
     <div className="space-y-6">
-      <StepMainTopicNav
-        selectedTopic={selectedStepTopic}
-        onSelect={setSelectedStepTopic}
-      />
-
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        <aside className="lg:w-72 lg:shrink-0">
-          <p className="mb-3 font-mono text-[10px] font-medium uppercase tracking-widest text-slate-900">
-            Subtopics
-          </p>
-          <StepSubtopicList
-            topic={selectedStepTopic}
-            selectedSubtopicId={activeSubtopicId}
-            onSelect={setSelectedSubtopicId}
-          />
-        </aside>
-
-        {subtopic ? (
-          <StudyHub
-            key={activeSubtopicId}
-            subtopic={subtopic}
-            activeStudyTab={activeStudyTab}
-            onTabChange={setActiveStudyTab}
-            videoCaption="Watch standard STEP walkthrough for this module"
-            solutionIdPrefix="step"
-          />
-        ) : (
-          <div className="flex flex-1 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50/50 p-12 text-slate-600">
-            Select a subtopic to open the study hub.
-          </div>
-        )}
+      {/* Mode toggle */}
+      <div
+        className="flex flex-wrap gap-2 border-b border-slate-200 pb-5 dark:border-slate-800"
+        role="tablist"
+        aria-label="STEP mode"
+      >
+        {STEP_MODES.map((mode) => {
+          const isActive = stepMode === mode.id;
+          return (
+            <button
+              key={mode.id}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => setStepMode(mode.id)}
+              className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold transition ${
+                isActive
+                  ? "border-violet-200 bg-violet-50 text-violet-750 shadow-sm dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-300"
+                  : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300"
+              }`}
+            >
+              <span>{mode.icon}</span>
+              <span>{mode.label}</span>
+            </button>
+          );
+        })}
       </div>
+
+      {stepMode === "tracker" ? (
+        <StepQuestionTracker />
+      ) : (
+        <>
+          <StepMainTopicNav
+            selectedTopic={selectedStepTopic}
+            onSelect={setSelectedStepTopic}
+          />
+
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+            <aside className="lg:w-72 lg:shrink-0">
+              <p className="mb-3 font-mono text-[10px] font-medium uppercase tracking-widest text-slate-900">
+                Subtopics
+              </p>
+              <StepSubtopicList
+                topic={selectedStepTopic}
+                selectedSubtopicId={activeSubtopicId}
+                onSelect={setSelectedSubtopicId}
+              />
+            </aside>
+
+            {subtopic ? (
+              <StudyHub
+                key={activeSubtopicId}
+                subtopic={subtopic}
+                activeStudyTab={activeStudyTab}
+                onTabChange={setActiveStudyTab}
+                videoCaption="Watch standard STEP walkthrough for this module"
+                solutionIdPrefix="step"
+              />
+            ) : (
+              <div className="flex flex-1 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50/50 p-12 text-slate-600">
+                Select a subtopic to open the study hub.
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
