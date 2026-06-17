@@ -63,67 +63,6 @@ function ProgressBar({
   );
 }
 
-const QUICK_ACCESS_ITEMS = [
-  {
-    label: "A-Level Prep",
-    href: "/archives?tab=alevel",
-    symbol: "A",
-    hoverClass: "group-hover:border-violet-300 group-hover:bg-violet-50 group-hover:text-violet-700 dark:group-hover:border-violet-500/30 dark:group-hover:bg-violet-500/10 dark:group-hover:text-violet-300",
-  },
-  {
-    label: "STEP",
-    href: "/archives?tab=admissions&track=step",
-    symbol: "∫",
-    hoverClass: "group-hover:border-indigo-300 group-hover:bg-indigo-50 group-hover:text-indigo-700 dark:group-hover:border-indigo-500/30 dark:group-hover:bg-indigo-500/10 dark:group-hover:text-indigo-300",
-  },
-  {
-    label: "TMUA",
-    href: "/archives?tab=admissions&track=tmua",
-    symbol: "T",
-    hoverClass: "group-hover:border-cyan-300 group-hover:bg-cyan-50 group-hover:text-cyan-700 dark:group-hover:border-cyan-500/30 dark:group-hover:bg-cyan-500/10 dark:group-hover:text-cyan-300",
-  },
-  {
-    label: "Games",
-    href: "/games",
-    symbol: "⚡",
-    hoverClass: "group-hover:border-emerald-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 dark:group-hover:border-emerald-500/30 dark:group-hover:bg-emerald-500/10 dark:group-hover:text-emerald-300",
-  },
-  {
-    label: "AI Tutor",
-    href: "/ai",
-    symbol: "✦",
-    hoverClass: "group-hover:border-rose-300 group-hover:bg-rose-50 group-hover:text-rose-700 dark:group-hover:border-rose-500/30 dark:group-hover:bg-rose-500/10 dark:group-hover:text-rose-300",
-  },
-  {
-    label: "Interview Prep",
-    href: "/interview-prep",
-    symbol: "◎",
-    hoverClass: "group-hover:border-amber-300 group-hover:bg-amber-50 group-hover:text-amber-700 dark:group-hover:border-amber-500/30 dark:group-hover:bg-amber-500/10 dark:group-hover:text-amber-300",
-  },
-];
-
-function QuickAccessStrip() {
-  return (
-    <div className="flex flex-wrap gap-2.5">
-      {QUICK_ACCESS_ITEMS.map((item) => (
-        <Link
-          key={item.label}
-          href={item.href}
-          className={`group flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 dark:border-white/10 dark:bg-slate-900/40 dark:text-slate-300 ${item.hoverClass}`}
-        >
-          <span className="font-serif text-base leading-none text-slate-400 transition-colors group-hover:text-inherit dark:text-slate-500">
-            {item.symbol}
-          </span>
-          {item.label}
-          <span className="ml-1 text-slate-300 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-slate-500 dark:text-slate-600 dark:group-hover:text-slate-400">
-            →
-          </span>
-        </Link>
-      ))}
-    </div>
-  );
-}
-
 function YourProgressPanel({
   progressSections,
   resumeHref,
@@ -319,15 +258,6 @@ export function HomeDashboard({
           topGameStats={topGameStats}
         />
 
-        <section className="space-y-4">
-          <div>
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-widest text-violet-650 dark:text-violet-400">Navigate</p>
-            <h2 className="mt-1 font-serif text-2xl font-semibold text-slate-950 dark:text-white">
-              Quick Access
-            </h2>
-          </div>
-          <QuickAccessStrip />
-        </section>
 
         <section className="space-y-4">
           <div>
