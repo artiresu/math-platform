@@ -835,97 +835,76 @@ export default function ExamPrepClient({
   const activeTrack: TrackId | null =
     trackParam === "tmua" || trackParam === "step" ? trackParam : null;
 
-  return (
-    <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-      <aside className="w-full shrink-0 space-y-6 rounded-2xl border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/80 lg:w-64">
-        <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-800 dark:text-slate-400">
-            Test
+  if (activeTrack === null) {
+    return (
+      <div className="mx-auto w-full max-w-4xl py-6">
+        <div className="text-center space-y-3 mb-10">
+          <h2 className="font-serif text-3xl font-semibold text-slate-950 dark:text-white sm:text-4xl">
+            Select Admissions Test
+          </h2>
+          <p className="mx-auto max-w-lg text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+            Choose one of the top-tier mathematical admissions assessments below to enter the practice room.
           </p>
-          <nav className="flex flex-col gap-1.5" aria-label="Admissions test">
-            {[
-              { id: "tmua" as const, label: "TMUA" },
-              { id: "step" as const, label: "STEP" },
-            ].map((test) => {
-              const active = activeTrack === test.id;
-              const linkHref = urlPrefix.includes("?")
-                ? `${urlPrefix}&track=${test.id}`
-                : `${urlPrefix}?track=${test.id}`;
-              return (
-                <Link
-                  key={test.id}
-                  href={linkHref}
-                  className={`rounded-lg border px-3 py-2 text-sm font-medium transition ${
-                    active
-                      ? "border-violet-500/30 bg-violet-500/5 text-violet-700 dark:text-violet-300 font-semibold"
-                      : "border-slate-200 bg-slate-50/50 text-slate-700 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300"
-                  }`}
-                >
-                  {test.label}
-                </Link>
-              );
-            })}
-          </nav>
         </div>
-      </aside>
 
-      <div className="min-w-0 flex-1">
-        {activeTrack === null ? (
-          <div className="space-y-6">
-            <div className="max-w-2xl">
-              <h2 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white">
-                Select Admissions Test
-              </h2>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                Choose one of the top-tier mathematical admissions assessments below to enter the practice room.
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Link
+            href={urlPrefix.includes("?") ? `${urlPrefix}&track=tmua` : `${urlPrefix}?track=tmua`}
+            className="premium-flashy-card group flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-8 shadow-md transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/60"
+          >
+            <div className="space-y-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400 shadow-sm">
+                <span className="font-serif text-xl font-bold">T</span>
+              </div>
+              <h3 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white">
+                TMUA
+              </h3>
+              <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                Test of Mathematics for University Admission. Focuses on mathematical thinking, logic, and reasoning.
               </p>
             </div>
-            
-            <div className="grid gap-4 sm:grid-cols-2 max-w-2xl">
-              <Link
-                href={urlPrefix.includes("?") ? `${urlPrefix}&track=tmua` : `${urlPrefix}?track=tmua`}
-                className="premium-flashy-card group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 dark:border-slate-800 dark:bg-slate-900/60"
-              >
-                <div className="space-y-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400">
-                    <span className="font-serif text-lg font-bold">T</span>
-                  </div>
-                  <h3 className="font-serif text-xl font-semibold text-slate-950 dark:text-white">
-                    TMUA
-                  </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    Test of Mathematics for University Admission. Focuses on mathematical thinking, logic, and reasoning.
-                  </p>
-                </div>
-                <div className="mt-6 flex items-center text-sm font-semibold text-cyan-600 dark:text-cyan-400">
-                  Enter Practice Room <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
-                </div>
-              </Link>
-
-              <Link
-                href={urlPrefix.includes("?") ? `${urlPrefix}&track=step` : `${urlPrefix}?track=step`}
-                className="premium-flashy-card group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 dark:border-slate-800 dark:bg-slate-900/60"
-              >
-                <div className="space-y-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-750 dark:bg-violet-500/10 dark:text-violet-400">
-                    <span className="font-serif text-lg font-bold">S</span>
-                  </div>
-                  <h3 className="font-serif text-xl font-semibold text-slate-950 dark:text-white">
-                    STEP
-                  </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    Sixth Term Examination Paper. Highly challenging unstructured problems for Cambridge, Warwick, and Imperial.
-                  </p>
-                </div>
-                <div className="mt-6 flex items-center text-sm font-semibold text-violet-600 dark:text-violet-400">
-                  Enter Practice Room <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
-                </div>
-              </Link>
+            <div className="mt-8 flex items-center justify-center rounded-xl bg-slate-950 dark:bg-[#b5beff] px-4 py-3.5 text-sm font-semibold text-white dark:text-[#111116] transition hover:bg-slate-800 dark:hover:bg-[#c6cbff]">
+              Enter TMUA Practice <span className="ml-1.5 transition-transform group-hover:translate-x-1">→</span>
             </div>
-          </div>
-        ) : (
-          <PracticeRoom track={activeTrack} />
-        )}
+          </Link>
+
+          <Link
+            href={urlPrefix.includes("?") ? `${urlPrefix}&track=step` : `${urlPrefix}?track=step`}
+            className="premium-flashy-card group flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-8 shadow-md transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/60"
+          >
+            <div className="space-y-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-50 text-violet-750 dark:bg-violet-500/10 dark:text-violet-400 shadow-sm">
+                <span className="font-serif text-xl font-bold">S</span>
+              </div>
+              <h3 className="font-serif text-2xl font-semibold text-slate-950 dark:text-white">
+                STEP
+              </h3>
+              <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                Sixth Term Examination Paper. Highly challenging unstructured problems for Cambridge, Warwick, and Imperial.
+              </p>
+            </div>
+            <div className="mt-8 flex items-center justify-center rounded-xl bg-slate-950 dark:bg-[#b5beff] px-4 py-3.5 text-sm font-semibold text-white dark:text-[#111116] transition hover:bg-slate-800 dark:hover:bg-[#c6cbff]">
+              Enter STEP Practice <span className="ml-1.5 transition-transform group-hover:translate-x-1">→</span>
+            </div>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <Link
+          href={urlPrefix}
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-violet-600 hover:text-violet-500 dark:text-violet-400"
+        >
+          ← Back to Admissions Tests
+        </Link>
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <PracticeRoom track={activeTrack} />
       </div>
     </div>
   );
