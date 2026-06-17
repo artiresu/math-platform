@@ -355,7 +355,7 @@ function ArchivesClient() {
 
   const activeBranch = (searchParams.get("tab") as BranchId) || "alevel";
   const activeSubject = (searchParams.get("subject") as AlevelSubject) || "maths";
-  const activeTrack = searchParams.get("track") || "tmua";
+  const activeTrack = searchParams.get("track");
 
   useEffect(() => {
     // Record user usages based on filters
@@ -367,6 +367,7 @@ function ArchivesClient() {
     } else {
       recordVisit("admissions");
       if (activeTrack === "tmua") recordVisit("tmua");
+      else if (activeTrack === "step") recordVisit("step");
     }
   }, [activeBranch, activeSubject, activeTrack]);
 
@@ -374,7 +375,7 @@ function ArchivesClient() {
     if (branch === "alevel") {
       router.push(`/archives?tab=alevel&subject=${activeSubject}`);
     } else {
-      router.push(`/archives?tab=admissions&track=${activeTrack}`);
+      router.push(`/archives?tab=admissions`);
     }
   };
 
@@ -473,9 +474,11 @@ function ArchivesClient() {
           <ExamPrepClient urlPrefix="/archives?tab=admissions" />
 
           {/* Render resource library under Admissions practice tracks */}
-          <div className="border-t border-slate-200/60 pt-10 dark:border-slate-800">
-            <ResourceLibrarySection subjectFilter={activeTrack as "tmua" | "step"} />
-          </div>
+          {activeTrack && (
+            <div className="border-t border-slate-200/60 pt-10 dark:border-slate-800">
+              <ResourceLibrarySection subjectFilter={activeTrack as "tmua" | "step"} />
+            </div>
+          )}
         </div>
       )}
     </div>
