@@ -47,6 +47,34 @@ const TMUA_OPTIONS = [
   },
 ] as const;
 
+const TMUA_PAPER1_OPTIONS = [
+  {
+    id: "A",
+    label: "-2 < k < 2",
+    correct: true,
+  },
+  {
+    id: "B",
+    label: "k < -2 \\text{ or } k > 2",
+    correct: false,
+  },
+  {
+    id: "C",
+    label: "-1 < k < 1",
+    correct: false,
+  },
+  {
+    id: "D",
+    label: "k = \\pm 2",
+    correct: false,
+  },
+  {
+    id: "E",
+    label: "k \\ge 0",
+    correct: false,
+  },
+] as const;
+
 type StepTopicId = "pure" | "mechanics" | "probability" | "step3";
 
 const STEP_TOPICS: { id: StepTopicId; label: string }[] = [
@@ -678,6 +706,7 @@ function StepPracticeSection() {
 }
 
 function PracticeQuestionCard({ track }: { track: TrackId }) {
+  const [activePaper, setActivePaper] = useState<"paper1" | "paper2">("paper1");
   const [tmuaSelection, setTmuaSelection] = useState<string | null>(null);
   const [tmuaChecked, setTmuaChecked] = useState(false);
 
@@ -686,114 +715,181 @@ function PracticeQuestionCard({ track }: { track: TrackId }) {
     setPrevTrack(track);
     setTmuaSelection(null);
     setTmuaChecked(false);
+    setActivePaper("paper1");
   }
+
+  const handlePaperChange = (paper: "paper1" | "paper2") => {
+    setActivePaper(paper);
+    setTmuaSelection(null);
+    setTmuaChecked(false);
+  };
+
+  const options = activePaper === "paper1" ? TMUA_PAPER1_OPTIONS : TMUA_OPTIONS;
 
   return (
     <section
       className="rounded-2xl border border-slate-200/80 bg-white/80 p-6 sm:p-8 shadow-md"
       aria-labelledby="practice-question-title"
     >
-      <h2
-        id="practice-question-title"
-        className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600"
-      >
-        Practice question
-      </h2>
-
-      {track === "tmua" && (
-        <div className="mt-6 space-y-6 text-slate-800">
-          <p className="text-sm font-semibold text-slate-900">
-            TMUA Paper 2 · Logical reasoning
-          </p>
-          <p className="text-base leading-relaxed text-slate-700 sm:text-lg">
-            Let <em>n</em> be an integer. Consider the statement:{" "}
-            <strong className="font-bold text-slate-900">
-              &ldquo;If n² is divisible by 4, then n is even.&rdquo;
-            </strong>{" "}
-            Which option is{" "}
-            <strong className="font-bold text-slate-900">
-              logically equivalent
-            </strong>{" "}
-            to this statement?
-          </p>
-
-          <div
-            className="space-y-3"
-            role="radiogroup"
-            aria-label="Answer options"
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/60 pb-5 dark:border-slate-800">
+        <div>
+          <h2
+            id="practice-question-title"
+            className="font-mono text-xs font-semibold uppercase tracking-widest text-cyan-600"
           >
-            {TMUA_OPTIONS.map((opt) => {
-              const isSelected = tmuaSelection === opt.id;
-              const isWrongPick = tmuaChecked && isSelected && !opt.correct;
-              const isCorrectOption = tmuaChecked && opt.correct;
-
-              let optionClass =
-                "w-full rounded-xl border px-4 py-3 text-left text-sm transition sm:text-base ";
-
-              if (!tmuaChecked) {
-                optionClass += isSelected
-                  ? "border-violet-500/30 bg-violet-500/5 text-violet-750 font-semibold"
-                  : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100";
-              } else if (isCorrectOption) {
-                optionClass +=
-                  "border-emerald-400 bg-emerald-500/10 text-emerald-800 ring-1 ring-emerald-400/30 font-semibold";
-              } else if (isWrongPick) {
-                optionClass +=
-                  "border-red-400 bg-red-500/10 text-red-800 ring-1 ring-red-400/30 font-semibold";
-              } else {
-                optionClass += "border-slate-100 bg-slate-50/20 text-slate-400";
-              }
-
-              return (
-                <button
-                  key={opt.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={isSelected}
-                  disabled={tmuaChecked}
-                  onClick={() => setTmuaSelection(opt.id)}
-                  className={optionClass}
-                >
-                  <span className="font-bold text-slate-900">{opt.id}.</span>{" "}
-                  <span className="latex-panel min-w-0 flex-1">
-                    <SafeLatex
-                      tex={opt.label}
-                    />
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4">
-            <button
-              type="button"
-              disabled={!tmuaSelection || tmuaChecked}
-              onClick={() => setTmuaChecked(true)}
-              className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition enabled:hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Check answer
-            </button>
-            {tmuaChecked && (
-              <p
-                className={`text-sm font-semibold ${
-                  TMUA_OPTIONS.find((o) => o.id === tmuaSelection)?.correct
-                    ? "text-emerald-700"
-                    : "text-red-650"
-                }`}
-              >
-                {TMUA_OPTIONS.find((o) => o.id === tmuaSelection)?.correct
-                  ? "Correct — this is the contrapositive."
-                  : "Not quite — try the contrapositive form."}
-              </p>
-            )}
-          </div>
+            Practice question
+          </h2>
+          <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-white">
+            TMUA {activePaper === "paper1" ? "Paper 1 · Math Applications" : "Paper 2 · Logical Reasoning"}
+          </p>
         </div>
-      )}
 
+        {/* Paper Toggle Switch */}
+        <div className="flex rounded-xl bg-slate-100 p-1 dark:bg-slate-900 border border-slate-200/50 dark:border-white/5 max-w-xs sm:self-center">
+          <button
+            type="button"
+            onClick={() => handlePaperChange("paper1")}
+            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition ${
+              activePaper === "paper1"
+                ? "bg-white text-slate-955 shadow-sm dark:bg-slate-800 dark:text-white"
+                : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+            }`}
+          >
+            Paper 1
+          </button>
+          <button
+            type="button"
+            onClick={() => handlePaperChange("paper2")}
+            className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition ${
+              activePaper === "paper2"
+                ? "bg-white text-slate-955 shadow-sm dark:bg-slate-800 dark:text-white"
+                : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+            }`}
+          >
+            Paper 2
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-6 space-y-6 text-slate-800">
+        {/* Specification Focus Box */}
+        {activePaper === "paper1" ? (
+          <div className="rounded-xl border border-cyan-500/10 bg-cyan-500/5 p-4 text-xs text-cyan-800 dark:text-cyan-300">
+            <span className="font-bold">Paper 1 (Applications of Mathematical Knowledge):</span> Tests your ability to apply standard A-Level mathematics techniques (Algebra, Functions, Sequences, Geometry, Calculus) to unfamiliar, multi-step problems.
+          </div>
+        ) : (
+          <div className="rounded-xl border border-violet-500/10 bg-violet-500/5 p-4 text-xs text-violet-750 dark:text-violet-300">
+            <span className="font-bold">Paper 2 (Mathematical Reasoning):</span> Tests your understanding of formal logic, implication logic (<SafeLatex tex="\Rightarrow" />), negation, necessity and sufficiency, contrapositives, and proving conjectures or counterexamples.
+          </div>
+        )}
+
+        {/* Question Text */}
+        {activePaper === "paper1" ? (
+          <div className="space-y-4">
+            <p className="text-base leading-relaxed text-slate-700 sm:text-lg">
+              Find the range of values of the constant <strong className="font-bold text-slate-900 dark:text-white">k</strong> for which the cubic equation
+            </p>
+            <div className="py-2">
+              <SafeLatex tex="x^3 - 3x + k = 0" displayMode />
+            </div>
+            <p className="text-base leading-relaxed text-slate-700 sm:text-lg">
+              has three distinct real roots.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="text-base leading-relaxed text-slate-700 sm:text-lg">
+              Let <strong className="font-bold text-slate-900 dark:text-white">n</strong> be an integer. Consider the statement:
+            </p>
+            <div className="py-2">
+              <SafeLatex tex="\text{“If } n^2 \text{ is divisible by } 4\text{, then } n \text{ is even.”}" displayMode />
+            </div>
+            <p className="text-base leading-relaxed text-slate-700 sm:text-lg">
+              Which of the options below is <strong className="font-bold text-slate-900 dark:text-white">logically equivalent</strong> to this statement?
+            </p>
+          </div>
+        )}
+
+        {/* Multiple Choice Options */}
+        <div
+          className="space-y-3"
+          role="radiogroup"
+          aria-label="Answer options"
+        >
+          {options.map((opt) => {
+            const isSelected = tmuaSelection === opt.id;
+            const isWrongPick = tmuaChecked && isSelected && !opt.correct;
+            const isCorrectOption = tmuaChecked && opt.correct;
+
+            let optionClass =
+              "w-full rounded-xl border px-4 py-3 text-left text-sm transition sm:text-base cursor-pointer ";
+
+            if (!tmuaChecked) {
+              optionClass += isSelected
+                ? "border-violet-500/30 bg-violet-500/5 text-violet-750 dark:text-violet-300 font-semibold"
+                : "border-slate-200 bg-slate-50/50 text-slate-700 hover:border-slate-350 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300";
+            } else if (isCorrectOption) {
+              optionClass +=
+                "border-emerald-400 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 ring-1 ring-emerald-400/30 font-semibold";
+            } else if (isWrongPick) {
+              optionClass +=
+                "border-red-400 bg-red-500/10 text-red-800 dark:text-red-300 ring-1 ring-red-400/30 font-semibold";
+            } else {
+              optionClass += "border-slate-100 bg-slate-50/20 text-slate-400 dark:border-slate-800/40 dark:text-slate-600";
+            }
+
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                disabled={tmuaChecked}
+                onClick={() => setTmuaSelection(opt.id)}
+                className={optionClass}
+              >
+                <span className="font-bold text-slate-900 dark:text-slate-100">{opt.id}.</span>{" "}
+                <span className="latex-panel min-w-0 flex-1 ml-2 inline-block align-middle">
+                  <SafeLatex tex={opt.label} />
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Check Action Button */}
+        <div className="flex flex-wrap items-center gap-4 pt-2">
+          <button
+            type="button"
+            disabled={!tmuaSelection || tmuaChecked}
+            onClick={() => setTmuaChecked(true)}
+            className="inline-flex items-center justify-center rounded-xl bg-slate-900 dark:bg-[#b5beff] dark:text-[#111116] px-5 py-2.5 text-sm font-semibold text-white transition enabled:hover:bg-slate-800 dark:enabled:hover:bg-[#c6cbff] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Check answer
+          </button>
+          {tmuaChecked && (
+            <p
+              className={`text-sm font-semibold ${
+                options.find((o) => o.id === tmuaSelection)?.correct
+                  ? "text-emerald-700 dark:text-emerald-400"
+                  : "text-red-650 dark:text-red-400"
+              }`}
+            >
+              {options.find((o) => o.id === tmuaSelection)?.correct
+                ? (activePaper === "paper1" 
+                    ? "Correct! The cubic function has stationary points at x = ±1 with values ±2; k must lie between these bounds to allow three crossings."
+                    : "Correct — this is the contrapositive (not-Q implies not-P) which is logically equivalent.")
+                : (activePaper === "paper1"
+                    ? "Incorrect — analyze the stationary points of f(x) = x³ - 3x and apply the bounds."
+                    : "Not quite — consider the contrapositive form or logical negations.")}
+            </p>
+          )}
+        </div>
+      </div>
     </section>
   );
 }
+
 
 function PracticeRoom({ track }: { track: TrackId }) {
   return (
