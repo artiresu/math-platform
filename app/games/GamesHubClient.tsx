@@ -25,6 +25,7 @@ const ELO_BASES: Record<GameType, number> = {
   olympiad: 1200,
   "dead-end-projection": 1200,
   "dead-end-breakpoint": 1200,
+  "dead-end-arena": 1200,
 };
 
 const ELO_FACTORS: Record<GameType, number> = {
@@ -33,6 +34,7 @@ const ELO_FACTORS: Record<GameType, number> = {
   olympiad: 20,
   "dead-end-projection": 10,
   "dead-end-breakpoint": 10,
+  "dead-end-arena": 10,
 };
 
 function calculateElo(score: number, type: GameType): number {
@@ -192,6 +194,7 @@ export function GamesHubClient({
         olympiad: 42,
         "dead-end-projection": 8,
         "dead-end-breakpoint": 45000,
+        "dead-end-arena": 10,
       };
       const base = baseScores[lastPlayedGame] || 100;
       return [

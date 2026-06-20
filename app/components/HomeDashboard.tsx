@@ -24,6 +24,7 @@ const GAME_USAGE_TO_TYPE: Record<string, GameType> = {
   "games-olympiad": "olympiad",
   "games-dead-end-projection": "dead-end-projection",
   "games-dead-end-breakpoint": "dead-end-breakpoint",
+  "games-dead-end-arena": "dead-end-arena",
 };
 
 const GAME_LINKS: Record<GameType, string> = {
@@ -32,6 +33,7 @@ const GAME_LINKS: Record<GameType, string> = {
   olympiad: "/games/maths",
   "dead-end-projection": "/games/dead-end",
   "dead-end-breakpoint": "/games/dead-end",
+  "dead-end-arena": "/games/dead-end",
 };
 
 const PROGRESS_BAR_STYLES = [

@@ -5,6 +5,7 @@ export const GAME_TYPES = [
   "olympiad",
   "dead-end-projection",
   "dead-end-breakpoint",
+  "dead-end-arena",
 ] as const;
 
 export type GameType = (typeof GAME_TYPES)[number];
@@ -19,4 +20,5 @@ export const GAME_TYPE_LABELS: Record<GameType, string> = {
   olympiad: "Olympiad",
   "dead-end-projection": "Dead End: Projection",
   "dead-end-breakpoint": "Dead End: Breakpoint",
+  "dead-end-arena": "Dead End: Arena",
 };
