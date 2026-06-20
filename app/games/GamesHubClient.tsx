@@ -23,12 +23,16 @@ const ELO_BASES: Record<GameType, number> = {
   "speed-arithmetic": 1200,
   integrals: 1200,
   olympiad: 1200,
+  "dead-end-projection": 1200,
+  "dead-end-breakpoint": 1200,
 };
 
 const ELO_FACTORS: Record<GameType, number> = {
   "speed-arithmetic": 5,
   integrals: 10,
   olympiad: 20,
+  "dead-end-projection": 10,
+  "dead-end-breakpoint": 10,
 };
 
 function calculateElo(score: number, type: GameType): number {
@@ -186,6 +190,8 @@ export function GamesHubClient({
         "speed-arithmetic": 140,
         integrals: 75,
         olympiad: 42,
+        "dead-end-projection": 8,
+        "dead-end-breakpoint": 45000,
       };
       const base = baseScores[lastPlayedGame] || 100;
       return [
@@ -239,7 +245,7 @@ export function GamesHubClient({
                 Games Hub
               </h1>
               <p className="mt-4 text-base text-slate-655 dark:text-slate-350">
-                Pick maths challenges, coding puzzles, or climb the leaderboards. Scores from games appear on leaderboards when you opt in via account settings.
+                Pick maths challenges, Dead End graphing challenges, or climb the leaderboards. Scores from games appear on leaderboards when you opt in via account settings.
               </p>
             </header>
           </div>
@@ -348,7 +354,7 @@ export function GamesHubClient({
             </div>
           </div>
 
-          {/* Coding Game Card */}
+          {/* Dead End Game Card */}
           <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-slate-900/40">
             <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-cyan-500/5 transition-all group-hover:scale-110" />
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-100 text-cyan-755 dark:bg-cyan-500/20 dark:text-cyan-400">
@@ -360,22 +366,23 @@ export function GamesHubClient({
                 stroke="currentColor"
                 strokeWidth="2.5"
               >
-                <polyline points="16 18 22 12 16 6" />
-                <polyline points="8 6 2 12 8 18" />
+                <path d="M3 3v18h18" />
+                <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+                <circle cx="18.7" cy="8" r="1" />
               </svg>
             </div>
             <h2 className="mt-4 font-serif text-2xl font-semibold text-slate-955 dark:text-white">
-              Coding Puzzles
+              Dead End
             </h2>
             <p className="mt-2 text-sm text-slate-655 dark:text-slate-350">
-              Algorithm and logic puzzles — starter tracks for Python-style reasoning and interview coding prep.
+              Maneuver a particle through tight obstacles using mathematical functions. Features Projection (3 graph limits) and Breakpoint (speed races).
             </p>
             <div className="mt-6 flex items-center justify-between">
               <span className="rounded-lg bg-cyan-50 px-2.5 py-1 text-xs font-semibold text-cyan-750 dark:bg-cyan-500/10 dark:text-cyan-400">
-                Coding Mode
+                Graphing Mode
               </span>
               <Link
-                href="/games/coding"
+                href="/games/dead-end"
                 className="inline-flex items-center gap-1.5 rounded-xl bg-cyan-650 px-4.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-cyan-700 active:scale-[0.98]"
               >
                 Play now →

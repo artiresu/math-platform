@@ -28,7 +28,10 @@ function getSource(props: Props): HomeSampleSource {
 
 function loadQuestion(source: HomeSampleSource, index: number): GameQuestion {
   if (source === "mind-teasers") return getMindTeaserQuestion(index);
-  return getHomeGameQuestion(source, index);
+  if (source === "speed-arithmetic" || source === "integrals" || source === "olympiad") {
+    return getHomeGameQuestion(source, index);
+  }
+  return getHomeGameQuestion("speed-arithmetic", index);
 }
 
 export function HomeGameCardSample(props: Props) {

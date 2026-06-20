@@ -22,12 +22,16 @@ const GAME_USAGE_TO_TYPE: Record<string, GameType> = {
   "games-arithmetic": "speed-arithmetic",
   "games-integrals": "integrals",
   "games-olympiad": "olympiad",
+  "games-dead-end-projection": "dead-end-projection",
+  "games-dead-end-breakpoint": "dead-end-breakpoint",
 };
 
 const GAME_LINKS: Record<GameType, string> = {
   "speed-arithmetic": "/games/maths",
   integrals: "/games/maths",
   olympiad: "/games/maths",
+  "dead-end-projection": "/games/dead-end",
+  "dead-end-breakpoint": "/games/dead-end",
 };
 
 const PROGRESS_BAR_STYLES = [
